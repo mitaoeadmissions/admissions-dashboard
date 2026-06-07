@@ -1,9 +1,10 @@
 """
-Watches Masterdata File.xlsx for changes and regenerates dashboard.html automatically.
-Also runs a local web server so the browser always gets the freshest file (no caching).
+Watches Masterdata File.xlsx for changes, regenerates the dashboard,
+and auto-deploys to Netlify so the team always sees the latest data.
 
 Run:  python watch.py
-Then open:  http://localhost:8000
+Local preview:  http://localhost:8000/dashboard.html
+Team URL:       https://mit-admissions-dashboard.netlify.app
 """
 import time
 import threading
@@ -14,19 +15,20 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import generate_dashboard
+import netlify_deploy
 
 WATCH_FILE   = generate_dashboard.EXCEL_FILE
-SERVE_DIR    = generate_dashboard.OUTPUT_HTML.parent   # folder containing dashboard.html
+SERVE_DIR    = generate_dashboard.OUTPUT_HTML.parent
 DASHBOARD    = generate_dashboard.OUTPUT_HTML.name
 VERSION_FILE = SERVE_DIR / "version.json"
 PORT         = 8000
 
+
 def write_version():
-    """Write a version token the browser polls to detect new data."""
     VERSION_FILE.write_text(json.dumps({"v": str(int(time.time()))}), encoding="utf-8")
 
 
-# ── HTTP server with cache disabled ──────────────────────────────────────────
+# ── HTTP server (local preview, no-cache) ─────────────────────────────────────
 
 class NoCacheHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -39,10 +41,10 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
         super().end_headers()
 
     def log_message(self, format, *args):
-        pass  # suppress request logs to keep terminal clean
+        pass  # keep terminal clean
 
 
-# ── Excel file watcher ────────────────────────────────────────────────────────
+# ── Excel watcher ─────────────────────────────────────────────────────────────
 
 class ExcelHandler(FileSystemEventHandler):
     def __init__(self):
@@ -54,49 +56,70 @@ class ExcelHandler(FileSystemEventHandler):
             if now - self._last_trigger < 3:
                 return
             self._last_trigger = now
-            print(f"\n[{time.strftime('%H:%M:%S')}] Change detected -- regenerating dashboard...")
+            print(f"\n[{time.strftime('%H:%M:%S')}] Change detected in {WATCH_FILE.name}")
             time.sleep(1.0)
-            try:
-                generate_dashboard.generate()
-                write_version()
-                print(f"  Done. Browser will reload automatically.")
-            except Exception as e:
-                print(f"  ERROR: {e}")
+            self._run_pipeline()
 
     def on_created(self, event):
         self.on_modified(event)
 
+    def _run_pipeline(self):
+        # Step 1 — regenerate HTML
+        try:
+            print("  [1/3] Regenerating dashboard...")
+            generate_dashboard.generate()
+            write_version()
+            print("  [1/3] Done — local dashboard updated.")
+        except Exception as e:
+            print(f"  [1/3] ERROR generating dashboard: {e}")
+            return
 
-# ── main ──────────────────────────────────────────────────────────────────────
+        # Step 2 — deploy to Netlify in a background thread (non-blocking)
+        print("  [2/3] Deploying to Netlify...")
+        def deploy():
+            try:
+                netlify_deploy.deploy()
+                print("  [3/3] Team URL updated successfully.")
+            except Exception as e:
+                print(f"  [3/3] Netlify deploy error: {e}")
+        threading.Thread(target=deploy, daemon=True).start()
+
+
+# ── startup ───────────────────────────────────────────────────────────────────
 
 def main():
-    print("=" * 60)
-    print("  MIT Admissions Dashboard -- Live Watcher + Server")
-    print("=" * 60)
+    import config
+    print("=" * 62)
+    print("  MIT Admissions Dashboard — Watcher + Auto-Deploy")
+    print("=" * 62)
     print(f"  Watching : {WATCH_FILE.name}")
-    print(f"  Serving  : http://localhost:{PORT}/{DASHBOARD}")
+    print(f"  Local    : http://localhost:{PORT}/{DASHBOARD}")
+    print(f"  Team URL : {config.NETLIFY_SITE_URL}")
     print(f"  Press Ctrl+C to stop.")
-    print("=" * 60)
+    print("=" * 62)
 
-    # Generate once on startup
+    # Generate + deploy on startup
+    print("\n  Starting up — generating and deploying initial dashboard...")
     try:
         generate_dashboard.generate()
         write_version()
-        print(f"\n  Initial dashboard generated OK.")
+        print("  Dashboard generated.")
     except Exception as e:
-        print(f"\n  Warning on startup: {e}")
+        print(f"  Warning on generation: {e}")
 
-    # Start HTTP server in background thread
+    try:
+        netlify_deploy.deploy()
+    except Exception as e:
+        print(f"  Warning on initial deploy: {e}")
+
+    # Start local server
     server = HTTPServer(("localhost", PORT), NoCacheHandler)
-    t = threading.Thread(target=server.serve_forever, daemon=True)
-    t.start()
-    print(f"\n  Server running at http://localhost:{PORT}/{DASHBOARD}")
+    threading.Thread(target=server.serve_forever, daemon=True).start()
 
-    # Open browser automatically
-    url = f"http://localhost:{PORT}/{DASHBOARD}"
-    webbrowser.open(url)
-    print(f"  Browser opened. If it didn't open, go to: {url}")
-    print()
+    # Open local preview in browser
+    webbrowser.open(f"http://localhost:{PORT}/{DASHBOARD}")
+    print(f"\n  Local browser opened.")
+    print(f"  Share this with your team: {config.NETLIFY_SITE_URL}\n")
 
     # Start file watcher
     handler  = ExcelHandler()
