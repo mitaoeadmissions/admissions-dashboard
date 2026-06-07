@@ -510,6 +510,124 @@ def generate():
     # ── Remove hard meta-refresh ──────────────────────────────────────────────
     html = re.sub(r'<meta\s+http-equiv=["\']refresh["\'][^>]*>', '', html)
 
+    # ── Mobile-responsive CSS ─────────────────────────────────────────────────
+    mobile_css = """<style id="mobile-responsive">
+/* ═══════════════════════════════════════════════════
+   MOBILE RESPONSIVE OVERRIDES
+   Breakpoints: 768px (tablet), 480px (phone)
+═══════════════════════════════════════════════════ */
+
+/* ── Tablet (≤900px) ── already partially handled, reinforce ── */
+@media (max-width: 900px) {
+  .page-body { padding: 16px 16px; }
+  .header { padding: 0 16px; }
+  .header-inner { height: auto; min-height: 64px; padding: 10px 0; flex-wrap: wrap; gap: 8px; }
+  .main-nav { padding: 0 12px; top: auto; position: relative; }
+  .main-nav-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; padding-bottom: 2px; }
+  .main-nav-inner::-webkit-scrollbar { height: 3px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .chart-row { grid-template-columns: 1fr; gap: 14px; }
+  .insights-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .io-grid { grid-template-columns: 1fr; gap: 14px; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-wrap table { min-width: 600px; }
+}
+
+/* ── Phone (≤600px) ── */
+@media (max-width: 600px) {
+  /* Header */
+  .header-inner { flex-direction: row; flex-wrap: wrap; height: auto;
+    padding: 10px 0; gap: 6px; justify-content: space-between; }
+  .logo-block { gap: 10px; }
+  .logo-block img { height: 38px; }
+  .report-title { font-size: 15px; }
+  .report-subtitle { font-size: 10px; }
+  .header-divider { display: none; }
+  .header-actions { gap: 6px; }
+  .header-actions .btn { padding: 6px 10px; font-size: 11px; }
+  .badge-live { display: none; }
+
+  /* Nav tabs — horizontal scroll */
+  .main-nav { padding: 0 8px; overflow: hidden; }
+  .main-nav-inner { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap; gap: 0; padding-bottom: 2px; scrollbar-width: none; }
+  .main-nav-inner::-webkit-scrollbar { display: none; }
+  .main-tab { white-space: nowrap; padding: 12px 14px; font-size: 12px; gap: 5px; }
+  .main-tab svg { width: 13px; height: 13px; }
+
+  /* Sub-tabs */
+  .sub-tabs { display: flex; overflow-x: auto; flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch; gap: 6px; padding-bottom: 4px;
+    scrollbar-width: none; }
+  .sub-tabs::-webkit-scrollbar { display: none; }
+  .sub-tab { white-space: nowrap; padding: 6px 12px; font-size: 12px; }
+
+  /* Preset buttons */
+  .preset-btns { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px;
+    -webkit-overflow-scrolling: touch; padding-bottom: 4px; scrollbar-width: none; }
+  .preset-btns::-webkit-scrollbar { display: none; }
+  .preset-btn { white-space: nowrap; font-size: 11px; padding: 5px 10px; }
+
+  /* Filter bar */
+  .filter-bar { flex-direction: column; gap: 10px; align-items: stretch; }
+  .filter-group { flex-direction: column; gap: 6px; align-items: stretch; }
+  .filter-group label { font-size: 11px; }
+  .filter-group input[type="date"] { width: 100%; font-size: 13px; padding: 6px 8px; }
+  .filter-group select { width: 100%; font-size: 13px; padding: 6px 8px; }
+  .btn-apply { width: 100%; justify-content: center; }
+
+  /* KPI cards — 2 columns on phone */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .kpi-card { padding: 14px 12px; }
+  .kpi-value { font-size: 22px; }
+  .kpi-label { font-size: 11px; }
+  .kpi-change { font-size: 10px; }
+
+  /* Charts — single column, constrained height */
+  .chart-row { grid-template-columns: 1fr; gap: 12px; }
+  .chart-card { padding: 14px 12px; overflow: hidden; }
+  .chart-card canvas { max-width: 100% !important; height: auto !important; }
+
+  /* Insights / io grids */
+  .insights-grid { grid-template-columns: 1fr; gap: 10px; }
+  .io-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Section header */
+  .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .section-header h2 { font-size: 16px; }
+
+  /* Tables — horizontal scroll */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
+    border-radius: 8px; }
+  .table-wrap table { min-width: 560px; font-size: 12px; }
+  .table-wrap th, .table-wrap td { padding: 8px 10px; white-space: nowrap; }
+
+  /* Page body */
+  .page-body { padding: 12px 10px; }
+
+  /* Sect tabs (inside sections) */
+  .sect-tabs { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px;
+    -webkit-overflow-scrolling: touch; padding-bottom: 4px;
+    scrollbar-width: none; }
+  .sect-tabs::-webkit-scrollbar { display: none; }
+  .sect-tab { white-space: nowrap; font-size: 12px; padding: 6px 12px; }
+
+  /* Download button repositioned on small screens */
+  #dl-btn { bottom: 14px; right: 14px; padding: 9px 14px; font-size: 12px; }
+}
+
+/* ── Very small phones (≤380px) ── */
+@media (max-width: 380px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .kpi-value { font-size: 19px; }
+  .report-title { font-size: 13px; }
+  .main-tab { padding: 10px 10px; font-size: 11px; }
+}
+</style>"""
+
+    # Inject mobile CSS into both live and share HTML
+    html = html.replace("</head>", mobile_css + "\n</head>", 1)
+
     # ── Build the shareable version first (clean HTML, no poller, no dl btn) ──
     share_html = html  # html already has all data injected + dates fixed
 
