@@ -1,0 +1,8 @@
+config.py
+google_creds.json
+*.xlsx
+dashboard.html
+dashboard_share.html
+version.json
+__pycache__/
+*.pyc

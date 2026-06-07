@@ -5,12 +5,31 @@ Includes a _headers file to force Content-Type: text/html on all browsers/device
 import requests
 import hashlib
 import sys
+import os
 from pathlib import Path
 
+# Load config — from config.py locally, or from environment variables in GitHub Actions
 sys.path.insert(0, str(Path(__file__).parent))
-import config
+try:
+    import config as _config
+    _cfg_token   = _config.NETLIFY_TOKEN
+    _cfg_site_id = _config.NETLIFY_SITE_ID
+    _cfg_site_url = _config.NETLIFY_SITE_URL
+except ImportError:
+    _cfg_token = _cfg_site_id = _cfg_site_url = ""
 
-SHARE_HTML = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard_share.html")
+_IN_CLOUD = os.environ.get("GITHUB_ACTIONS") == "true"
+
+class config:
+    NETLIFY_TOKEN    = os.environ.get("NETLIFY_TOKEN")    or _cfg_token
+    NETLIFY_SITE_ID  = os.environ.get("NETLIFY_SITE_ID")  or _cfg_site_id
+    NETLIFY_SITE_URL = os.environ.get("NETLIFY_SITE_URL") or _cfg_site_url or "https://mit-admissions-dashboard.netlify.app"
+
+SHARE_HTML = (
+    Path("dashboard_share.html")
+    if _IN_CLOUD
+    else Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard_share.html")
+)
 
 # _headers file content — tells Netlify: always serve index.html as text/html
 HEADERS_CONTENT = (

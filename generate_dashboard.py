@@ -11,9 +11,19 @@ import openpyxl
 from pathlib import Path
 from datetime import datetime
 
-EXCEL_FILE    = Path(r"C:\Users\guruv\Dropbox\Admission Dashboard\Masterdata File.xlsx")
-HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\05.06.26\Complete admissions_dashboard.html")
-OUTPUT_HTML   = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard.html")
+import os as _os
+_IN_CLOUD = _os.environ.get("GITHUB_ACTIONS") == "true"
+
+if _IN_CLOUD:
+    # Running in GitHub Actions — paths are relative to repo root
+    EXCEL_FILE    = Path("Masterdata File.xlsx")          # downloaded by dropbox_download.py
+    HTML_TEMPLATE = Path("Complete admissions_dashboard.html")  # committed to repo
+    OUTPUT_HTML   = Path("dashboard.html")
+else:
+    # Running locally
+    EXCEL_FILE    = Path(r"C:\Users\guruv\Dropbox\Admission Dashboard\Masterdata File.xlsx")
+    HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\05.06.26\Complete admissions_dashboard.html")
+    OUTPUT_HTML   = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard.html")
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
