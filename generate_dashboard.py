@@ -1,0 +1,595 @@
+"""
+Reads Masterdata File.xlsx and injects all data into the HTML dashboard template.
+Section boundaries are found dynamically so adding rows never breaks offsets.
+Uses a temp-file copy so Excel is never blocked from saving.
+"""
+import json
+import re
+import shutil
+import tempfile
+import openpyxl
+from pathlib import Path
+from datetime import datetime
+
+EXCEL_FILE    = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\Masterdata File.xlsx")
+HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\05.06.26\Complete admissions_dashboard.html")
+OUTPUT_HTML   = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard.html")
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+def fmt_date(val):
+    if isinstance(val, datetime):
+        return val.strftime("%Y-%m-%d")
+    if isinstance(val, str):
+        s = val.strip().split(" to ")[0].strip().split(" ")[0].strip()
+        for fmt in ("%d-%m-%Y", "%d/%m/%Y", "%Y-%m-%d", "%m/%d/%Y"):
+            try:
+                return datetime.strptime(s, fmt).strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+    return None
+
+def safe_num(v, fallback=0):
+    if v is None:
+        return fallback
+    if isinstance(v, (int, float)):
+        return v
+    s = str(v).strip()
+    if s in ("-", "—", "NA", "N/A", ""):
+        return fallback
+    try:
+        return float(s) if "." in s else int(s)
+    except Exception:
+        return fallback
+
+def safe_str(v, fallback=""):
+    return str(v).strip() if v is not None else fallback
+
+def null_or_num(v):
+    """Return None for blank/NA, else numeric."""
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return v
+    s = str(v).strip()
+    if s in ("-", "—", "NA", "N/A", ""):
+        return None
+    try:
+        return float(s) if "." in s else int(s)
+    except Exception:
+        return None
+
+def title_from_url(url):
+    if not url or not url.startswith("http"):
+        return url or ""
+    name = url.rstrip("/").split("/")[-1]
+    name = name.replace("-", " ").replace("_", " ")
+    if "." in name:
+        name = name.rsplit(".", 1)[0]
+    return name[:80] if name else url[:80]
+
+def to_js(obj):
+    return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
+
+def read_rows():
+    """Copy Excel to temp, read all rows, delete temp. Keeps Excel unlocked."""
+    tmp = Path(tempfile.mktemp(suffix=".xlsx"))
+    try:
+        shutil.copy2(str(EXCEL_FILE), str(tmp))
+        wb = openpyxl.load_workbook(str(tmp), read_only=True, data_only=True)
+        ws = wb["Sheet1"]
+        rows = list(ws.iter_rows(values_only=True))
+        wb.close()
+    finally:
+        if tmp.exists():
+            tmp.unlink()
+    return rows
+
+def find_section(rows, keyword):
+    kw = keyword.lower().strip()
+    for i, r in enumerate(rows):
+        if r[0] and isinstance(r[0], str) and r[0].strip().lower().startswith(kw):
+            return i
+    raise ValueError(f"Section not found: '{keyword}'")
+
+# ── section parsers ───────────────────────────────────────────────────────────
+
+def parse_main(rows, start=0):
+    """Daily admissions.
+    Cols: Date | Eng Leads(daily) | Des Leads(daily) | Total(cumul) |
+          Eng Paid | Des Paid | Total Paid(cumul) |
+          Eng Sign | Des Sign | Total Sign(cumul) |
+          Eng Prov | Des Prov | Total Prov(cumul) |
+          Eng RevPaid | Des RevPaid | Total RevPaid |
+          Eng RevProv | Des RevProv | Total RevProv | Grand Total
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], datetime):
+            break
+        data.append({
+            "d":        fmt_date(r[0]),
+            "eLeads":   safe_num(r[1]),
+            "dLeads":   safe_num(r[2]),
+            "ePaid":    safe_num(r[4]),
+            "dPaid":    safe_num(r[5]),
+            "eSign":    safe_num(r[7]),
+            "dSign":    safe_num(r[8]),
+            "eProv":    safe_num(r[10]),
+            "dProv":    safe_num(r[11]),
+            "eRevPaid": safe_num(r[13]),
+            "dRevPaid": safe_num(r[14]),
+            "eRevProv": safe_num(r[16]),
+            "dRevProv": safe_num(r[17]),
+        })
+    return data
+
+
+def parse_eng_status(rows, start):
+    """Engineering lead status bifurcation.
+    Excel cols: Date | CET Reg | DSY | Follow-ups | Future Prospects |
+                Interested | Junk | Not Interested | Not Reachable | Untouched
+    Template fields: pa=CET Reg, su=DSY, cet=Follow-ups, d2y=FutureProspects,
+                     fu=Interested, fp=Junk, in=NotInterested, jk=NotReachable
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], datetime):
+            break
+        data.append({
+            "d":   fmt_date(r[0]),
+            "pa":  safe_num(r[1]),   # CET Registered
+            "su":  safe_num(r[2]),   # Direct Second Year
+            "cet": safe_num(r[3]),   # Follow-ups
+            "d2y": safe_num(r[4]),   # Future Prospects
+            "fu":  safe_num(r[5]),   # Interested
+            "fp":  safe_num(r[6]),   # Junk
+            "in":  safe_num(r[7]),   # Not Interested
+            "jk":  safe_num(r[8]) if len(r) > 8 and r[8] is not None else 0,  # Not Reachable
+            "ni":  0,
+            "nr":  0,
+        })
+    return data
+
+
+def parse_des_status(rows, start):
+    """Design lead status bifurcation (same column layout as Eng)."""
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], datetime):
+            break
+        data.append({
+            "d":   fmt_date(r[0]),
+            "pa":  safe_num(r[1]),
+            "su":  safe_num(r[2]),
+            "cet": safe_num(r[3]),
+            "d2y": safe_num(r[4]),
+            "fu":  safe_num(r[5]),
+            "fp":  safe_num(r[6]),
+            "in":  safe_num(r[7]),
+            "jk":  safe_num(r[8]) if len(r) > 8 and r[8] is not None else 0,
+            "ni":  0,
+            "nr":  0,
+        })
+    return data
+
+
+def parse_ads(rows, start):
+    """Google Ads (Eng or Des).
+    Excel cols: Date | CTR% | Impressions | Avg CPC | Cost | Google Leads
+    Template stores ctr * 100 (e.g. 16.15 → 1615.0).
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], datetime):
+            break
+        raw_ctr = safe_num(r[1], 0.0)
+        data.append({
+            "d":      fmt_date(r[0]),
+            "ctr":    round(raw_ctr * 100, 2),   # template expects ctr×100
+            "imp":    safe_num(r[2]),
+            "cpc":    round(safe_num(r[3], 0.0), 2),
+            "cost":   round(safe_num(r[4], 0.0), 2),
+            "gLeads": safe_num(r[5]),
+        })
+    return data
+
+
+def parse_walkins(rows, start):
+    """Walk-ins. Cols: Date | Eng Walkins | Design Walkins | Total."""
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], datetime):
+            break
+        data.append({
+            "d":   fmt_date(r[0]),
+            "eng": safe_num(r[1]),
+            "des": safe_num(r[2]),
+        })
+    return data
+
+
+def parse_social(rows, start):
+    """Social media weekly.
+    Cols: Date-range string | Facebook | Instagram | Youtube | Linkedin |
+          Posts/Reels | Paid Campaign | Paid Campaign Amount
+    Template fields: period (full range string), fb, ig, yt, li, posts, paid, paidAmt
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None:
+            break
+        period = safe_str(r[0])
+        if not period:
+            break
+        data.append({
+            "period":  period,
+            "fb":      safe_num(r[1]),
+            "ig":      safe_num(r[2]),
+            "yt":      safe_num(r[3]),
+            "li":      safe_num(r[4]),
+            "posts":   safe_num(r[5]),
+            "paid":    safe_num(r[6]),
+            "paidAmt": safe_num(r[7]),
+        })
+    return data
+
+
+def parse_branding(rows, start):
+    """Branding activities. Skip rows with no type/location/link."""
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None:
+            break
+        btype    = safe_str(r[1])
+        location = safe_str(r[2])
+        link     = safe_str(r[3])
+        if not btype and not location and not link:
+            continue
+        ds = fmt_date(r[0]) or safe_str(r[0])
+        data.append({"d": ds, "type": btype, "location": location, "link": link})
+    return data
+
+
+def parse_counselors(rows, start):
+    """Counselor report — template only needs name, pa, prov.
+    Excel cols: Name | Untouched | NI | Follow-Up | Interested | NR |
+                CET | FP | DSY | New Leads | Junk | UCEED | Paid Apps | Prov
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], str):
+            break
+        name = safe_str(r[0])
+        if not name:
+            break
+        data.append({
+            "name": name,
+            "pa":   safe_num(r[12]),   # Paid Applications
+            "prov": safe_num(r[13]),   # Provisional Admissions
+        })
+    return data
+
+
+def parse_notices(rows, start):
+    """Notices/Circulars. Cols: Date | Category | Programme | Link."""
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None:
+            break
+        ds = fmt_date(r[0]) if isinstance(r[0], datetime) else (fmt_date(r[0]) or safe_str(r[0]))
+        link  = safe_str(r[3])
+        title = title_from_url(link) if link.startswith("http") else link
+        data.append({
+            "d":         ds,
+            "category":  safe_str(r[1]),
+            "programme": safe_str(r[2]),
+            "title":     title,
+            "link":      link,
+        })
+    return data
+
+
+def parse_states(rows, start):
+    """State-wise leads.
+    Excel cols: State | Total | Design | Engineering
+    Template fields: state, total, eng=Design(r[2]), des=Engineering(r[3])
+    (template uses eng/des labels but maps to Design/Engineering columns respectively)
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], str):
+            break
+        state = safe_str(r[0])
+        if not state or state.lower() in ("grand total", "state", "total"):
+            break
+        data.append({
+            "state": state,
+            "total": safe_num(r[1]),
+            "eng":   safe_num(r[2]),   # Design column → template 'eng'
+            "des":   safe_num(r[3]),   # Engineering column → template 'des'
+        })
+    return data
+
+
+def parse_budget(rows, start):
+    """Budget analysis. Extra blank row after header so data starts at start+4.
+    Excel cols: Sr | School | Particulars | Date | Vendor | Budget Head |
+                PO Number | Invoice Number | PO Amount | Advance | This Expenditure | ...
+    Template fields: sr, school, desc, d, vendor, head, poNum, invNum, poAmt, advance, thisExp
+    """
+    data = []
+    for r in rows[start + 4:]:
+        if r[0] is None or not isinstance(r[0], (int, float)):
+            break
+        date_val = r[3]
+        if isinstance(date_val, datetime):
+            ds = fmt_date(date_val)
+        else:
+            ds = fmt_date(date_val) or safe_str(date_val)
+        data.append({
+            "sr":      int(safe_num(r[0])),
+            "school":  safe_str(r[1], "MITAOE"),
+            "desc":    safe_str(r[2]),
+            "d":       ds,
+            "vendor":  safe_str(r[4]),
+            "head":    safe_str(r[5]),
+            "poNum":   safe_str(r[6], ""),
+            "invNum":  safe_str(r[7], ""),
+            "poAmt":   null_or_num(r[8]),
+            "advance": null_or_num(r[9]),
+            "thisExp": null_or_num(r[10]),
+        })
+    return data
+
+
+def parse_transactions(rows, start):
+    """Transaction updates.
+    Excel cols: Sr | Name | UG/PG | Program | Branch | Contact | Parent Contact |
+                Email | Gender | Category | HSC | JEE/UCEED | CET/UCEED/JEE |
+                Caution Fees | Counsellor | Payment Date | Payment Amount |
+                Transaction ID | Mode | Verified Accounts | Admission Status | Refund Status
+    Template fields: sr, name, ugpg, program, branch, gender, category,
+                     cet(via), csl(counsellor), d, amt, txid, mode,
+                     admStatus, refundStatus, hsc, jee
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None or not isinstance(r[0], (int, float)):
+            break
+        date_val = r[15]
+        if isinstance(date_val, datetime):
+            ds = fmt_date(date_val)
+        else:
+            ds = fmt_date(date_val) or safe_str(date_val)
+        data.append({
+            "sr":           safe_str(r[0]),
+            "name":         safe_str(r[1]),
+            "ugpg":         safe_str(r[2]),
+            "program":      safe_str(r[3]),
+            "branch":       safe_str(r[4]),
+            "gender":       safe_str(r[8]),
+            "category":     safe_str(r[9]),
+            "cet":          safe_str(r[12]),   # via: CET / UCEED / JEE
+            "csl":          safe_str(r[14]),   # counsellor
+            "d":            ds,
+            "amt":          safe_num(r[16]),
+            "txid":         safe_str(r[17]),
+            "mode":         safe_str(r[18]),
+            "admStatus":    safe_str(r[20]),
+            "refundStatus": safe_str(r[21]) if len(r) > 21 and r[21] else "",
+            "hsc":          null_or_num(r[10]),
+            "jee":          null_or_num(r[11]),
+        })
+    return data
+
+
+# ── inject helpers ────────────────────────────────────────────────────────────
+
+def js_array(name, records):
+    lines = [f"const {name} = ["]
+    for rec in records:
+        lines.append("  " + to_js(rec) + ",")
+    lines.append("];")
+    return "\n".join(lines)
+
+
+def replace_raw(html, name, records):
+    new_block = js_array(name, records)
+    pattern   = rf"const {re.escape(name)}\s*=\s*\[.*?\];"
+    result, n = re.subn(pattern, new_block, html, count=1, flags=re.DOTALL)
+    status = f"{len(records)} rows" if n else "NOT FOUND IN TEMPLATE"
+    print(f"  {name:<22} {status}")
+    return result
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+def generate():
+    print(f"Reading {EXCEL_FILE.name} (via temp copy)...")
+    rows = read_rows()
+
+    # ── find section boundaries dynamically ──────────────────────────────────
+    print("Locating section boundaries...")
+    s_main    = find_section(rows, "ADMISSION REPORT")
+    s_eng_st  = find_section(rows, "ENGINEERING LEAD STATUS")
+    s_des_st  = find_section(rows, "DESIGN LEADS STATUS")
+    s_eng_ads = find_section(rows, "ENGINEERING GOOGLE ADS")
+    s_des_ads = find_section(rows, "DESIGN GOOGLE ADS")
+    s_walkins = find_section(rows, "Walkins Record")
+    s_social  = find_section(rows, "SOCIAL MEDIA REPORT")
+    s_branding= find_section(rows, "Branding")
+    s_counsel = find_section(rows, "Counselor Report")
+    s_notices = find_section(rows, "Notices/Circulars")
+    s_states  = find_section(rows, "State-wise Leads")
+    s_budget  = find_section(rows, "Budget Analysis")
+    s_txn     = find_section(rows, "Transaction updates")
+
+    print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
+    print(f"  DesAds={s_des_ads}  Walkins={s_walkins}  Social={s_social}  Branding={s_branding}")
+    print(f"  Counselors={s_counsel}  Notices={s_notices}  States={s_states}  Budget={s_budget}  TXN={s_txn}")
+
+    # ── parse ─────────────────────────────────────────────────────────────────
+    print("Parsing sections...")
+    main_data    = parse_main(rows, s_main)
+    eng_status   = parse_eng_status(rows, s_eng_st)
+    des_status   = parse_des_status(rows, s_des_st)
+    eng_ads      = parse_ads(rows, s_eng_ads)
+    des_ads      = parse_ads(rows, s_des_ads)
+    walkins      = parse_walkins(rows, s_walkins)
+    social       = parse_social(rows, s_social)
+    branding     = parse_branding(rows, s_branding)
+    counselors   = parse_counselors(rows, s_counsel)
+    notices      = parse_notices(rows, s_notices)
+    states       = parse_states(rows, s_states)
+    budget       = parse_budget(rows, s_budget)
+    transactions = parse_transactions(rows, s_txn)
+
+    dates        = sorted([r["d"] for r in main_data if r["d"]])
+    data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
+    data_earliest = dates[0]  if dates else "2025-01-01"
+
+    total_leads = sum(r["eLeads"] + r["dLeads"] for r in main_data)
+    total_paid  = sum(r["ePaid"]  + r["dPaid"]  for r in main_data)
+    total_sign  = sum(r["eSign"]  + r["dSign"]  for r in main_data)
+    total_prov  = sum(r["eProv"]  + r["dProv"]  for r in main_data)
+    print(f"  Totals — Leads:{total_leads}  PaidApps:{total_paid}  SignUps:{total_sign}  Prov:{total_prov}")
+    print(f"  Latest date: {data_latest}  |  Main rows: {len(main_data)}")
+
+    # ── read template & inject ────────────────────────────────────────────────
+    print("Reading HTML template...")
+    html = HTML_TEMPLATE.read_text(encoding="utf-8")
+
+    print("Injecting data arrays...")
+    html = replace_raw(html, "RAW_MAIN",       main_data)
+    html = replace_raw(html, "RAW_ENG_STATUS", eng_status)
+    html = replace_raw(html, "RAW_DES_STATUS", des_status)
+    html = replace_raw(html, "RAW_ENG_ADS",    eng_ads)
+    html = replace_raw(html, "RAW_DES_ADS",    des_ads)
+    html = replace_raw(html, "RAW_WALKINS",    walkins)
+    html = replace_raw(html, "RAW_SOCIAL",     social)
+    html = replace_raw(html, "RAW_BRANDING",   branding)
+    html = replace_raw(html, "RAW_COUNSELORS", counselors)
+    html = replace_raw(html, "RAW_NOTICES",    notices)
+    html = replace_raw(html, "RAW_STATES",     states)
+    html = replace_raw(html, "RAW_BUDGET",     budget)
+    html = replace_raw(html, "RAW_TXN",        transactions)
+
+    # Update DATA_LATEST everywhere
+    html = re.sub(
+        r"const DATA_LATEST\s*=\s*'[^']*'",
+        f"const DATA_LATEST = '{data_latest}'",
+        html
+    )
+
+    # ── Fix 1: filters const line (js object on one line) ────────────────────
+    def fix_filters_line(line):
+        line = re.sub(r"to:\s*'[^']*'",   f"to:'{data_latest}'",   line)
+        line = re.sub(r"from:\s*'[^']*'", f"from:'{data_earliest}'", line)
+        return line
+
+    html_lines = html.splitlines()
+    html_lines = [fix_filters_line(l) if l.strip().startswith('const filters') else l
+                  for l in html_lines]
+    html = "\n".join(html_lines)
+
+    # ── Fix 2: DOMContentLoaded block — replaces ALL hardcoded to/from dates ──
+    # e.g.  filters.eng.to = '2026-06-04';  or  to: '2026-06-04'
+    html = re.sub(r"(\.to\s*=\s*)'[^']*'",   lambda m: m.group(1) + f"'{data_latest}'",   html)
+    html = re.sub(r"(\.from\s*=\s*)'[^']*'", lambda m: m.group(1) + f"'{data_earliest}'", html)
+    # Also object-literal form inside DOMContentLoaded: { from: '...', to: '...' }
+    html = re.sub(r"(to:\s*)'([0-9]{4}-[0-9]{2}-[0-9]{2})'",
+                  lambda m: m.group(1) + f"'{data_latest}'", html)
+    html = re.sub(r"(from:\s*)'([0-9]{4}-[0-9]{2}-[0-9]{2})'",
+                  lambda m: m.group(1) + f"'{data_earliest}'", html)
+
+    # ── Fix 3: allFrom constant used in setPreset ─────────────────────────────
+    html = re.sub(r"const allFrom\s*=\s*'[^']*'",
+                  f"const allFrom = '{data_earliest}'", html)
+
+    # ── Remove hard meta-refresh ──────────────────────────────────────────────
+    html = re.sub(r'<meta\s+http-equiv=["\']refresh["\'][^>]*>', '', html)
+
+    # ── Build the shareable version first (clean HTML, no poller, no dl btn) ──
+    share_html = html  # html already has all data injected + dates fixed
+
+    # ── Smart poller for live version ────────────────────────────────────────
+    poller = """<script>
+(function(){
+  var _ver=null;
+  function check(){
+    fetch('/version.json?_='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(_ver===null){_ver=d.v;}
+        else if(d.v!==_ver){location.reload();}
+      }).catch(function(){});
+  }
+  setInterval(check,10000);
+  check();
+})();
+</script>"""
+
+    # ── Download button — fetches dashboard_share.html from server ───────────
+    dl_filename = f"MIT_Admissions_Dashboard_{data_latest}.html"
+    download_btn_css = """<style>
+#dl-btn{position:fixed;bottom:24px;right:24px;z-index:9999;
+  display:flex;align-items:center;gap:8px;
+  background:#1b2a5c;color:#fff;border:none;border-radius:10px;
+  padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 16px rgba(27,42,92,0.35);transition:background 0.18s;}
+#dl-btn:hover{background:#2d3f7c;}
+#dl-btn svg{width:16px;height:16px;flex-shrink:0;}
+</style>"""
+
+    download_btn_html = f"""<button id="dl-btn" title="Download shareable snapshot" onclick="downloadDash()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+  Download Dashboard
+</button>
+<script>
+function downloadDash(){{
+  var btn=document.getElementById('dl-btn');
+  btn.textContent='Preparing...';btn.disabled=true;
+  fetch('/dashboard_share.html?_='+Date.now())
+    .then(function(r){{return r.blob();}})
+    .then(function(blob){{
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='{dl_filename}';
+      document.body.appendChild(a);a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      btn.innerHTML='&#10003; Downloaded';
+      setTimeout(function(){{
+        btn.disabled=false;
+        btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download Dashboard';
+      }},2500);
+    }})
+    .catch(function(){{
+      btn.textContent='Error – try again';btn.disabled=false;
+    }});
+}}
+</script>"""
+
+    # ── Assemble live dashboard (with poller + download button) ──────────────
+    live_html = html
+    live_html = live_html.replace("</head>", download_btn_css + "\n</head>", 1)
+    live_html = live_html.replace("</body>", download_btn_html + "\n" + poller + "\n</body>", 1)
+
+    # ── Write both files ──────────────────────────────────────────────────────
+    print("Writing dashboard files...")
+    OUTPUT_HTML.write_text(live_html, encoding="utf-8")
+    share_path = OUTPUT_HTML.parent / "dashboard_share.html"
+    share_path.write_text(share_html, encoding="utf-8")
+    print(f"  Live   -> {OUTPUT_HTML.name}")
+    print(f"  Share  -> {share_path.name}  (clean standalone, no poller)")
+    print(f"Done -> {OUTPUT_HTML.parent}")
+
+
+if __name__ == "__main__":
+    generate()
