@@ -11,7 +11,7 @@ import openpyxl
 from pathlib import Path
 from datetime import datetime
 
-EXCEL_FILE    = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\Masterdata File.xlsx")
+EXCEL_FILE    = Path(r"C:\Users\guruv\Dropbox\Admission Dashboard\Masterdata File.xlsx")
 HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\05.06.26\Complete admissions_dashboard.html")
 OUTPUT_HTML   = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard.html")
 
