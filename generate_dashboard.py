@@ -394,6 +394,156 @@ def parse_transactions(rows, start):
     return data
 
 
+def parse_score_analysis(rows, start):
+    """Score Analysis of Provisional Admissions (Design).
+    Excel layout:
+      start+0 : section header
+      start+1 : col headers  (Scores | CET & UCEED | Only UCEED | Only CET)
+      start+2 : Above 100
+      start+3 : 75-100
+      start+4 : 50-75
+      start+5 : Below 50
+      start+6 : Total Provisional Admissions
+    """
+    band_rows = rows[start + 2 : start + 6]   # 4 score bands
+    total_row = rows[start + 6] if len(rows) > start + 6 else None
+
+    bands = []
+    for r in band_rows:
+        if r[0] is None:
+            break
+        cu  = safe_num(r[1]) if r[1] not in (None, 'NA', 'N/A') else None
+        uu  = safe_num(r[2]) if r[2] not in (None, 'NA', 'N/A') else None
+        oc  = safe_num(r[3]) if r[3] not in (None, 'NA', 'N/A') else None
+        bands.append({"label": safe_str(r[0]), "cu": cu, "uu": uu, "oc": oc})
+
+    if total_row:
+        kpi_cu    = safe_num(total_row[1])
+        kpi_uu    = safe_num(total_row[2])
+        kpi_oc    = safe_num(total_row[3])
+    else:
+        kpi_cu = sum(b["cu"] or 0 for b in bands)
+        kpi_uu = sum(b["uu"] or 0 for b in bands)
+        kpi_oc = sum(b["oc"] or 0 for b in bands)
+
+    kpi_total = kpi_cu + kpi_uu + kpi_oc
+    return {"kpi": {"cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc, "total": kpi_total},
+            "bands": bands}
+
+
+def patch_score_analysis(html, data):
+    """Replace hardcoded Score Analysis numbers in the static HTML section."""
+    MARKER = "<!-- ============ SCORE ANALYSIS ============ -->"
+    sec_start = html.find(MARKER)
+    if sec_start == -1:
+        print("  [Score Analysis] Section marker not found — skipping patch")
+        return html
+
+    # Find end of section (next HTML comment block or </section>)
+    sec_end = html.find("</section>", sec_start)
+    if sec_end == -1:
+        sec_end = len(html)
+    else:
+        sec_end += len("</section>")
+
+    section = html[sec_start:sec_end]
+    kpi   = data["kpi"]
+    bands = data["bands"]  # [Above100, 75-100, 50-75, Below50]
+
+    # ── KPI cards: each has a unique color on line-height:1; ─────────────────
+    def repl_kpi(color, val, s):
+        pat = rf'(color:{re.escape(color)};line-height:1;">)\d+(<)'
+        return re.sub(pat, lambda m: f"{m.group(1)}{val}{m.group(2)}", s, count=1)
+
+    section = repl_kpi("#1a56db", kpi["cu"],    section)   # CET & UCEED
+    section = repl_kpi("#7c3aed", kpi["uu"],    section)   # Only UCEED
+    section = repl_kpi("#059669", kpi["oc"],    section)   # Only CET
+    section = repl_kpi("#1b2a5c", kpi["total"], section)   # Total
+
+    # ── Table data rows: replace each band in order ──────────────────────────
+    def fmt_val(v):
+        return str(int(v)) if v is not None else "N/A"
+
+    for band in bands:
+        label = band["label"]
+        cu_s  = fmt_val(band["cu"])
+        uu_s  = fmt_val(band["uu"])
+        oc_s  = fmt_val(band["oc"])
+
+        # Find this band's label in the section
+        lbl_idx = section.find(f'>{label}<')
+        if lbl_idx == -1:
+            continue
+
+        # From label position, find the next 3 table cells and replace numbers
+        after = section[lbl_idx:]
+
+        def replace_cell(text, color_hint, new_val, occurrence=1):
+            # Match td with font-size:22px (data cells) or italic N/A cell
+            pat = r'(<td[^>]*>)(<span[^>]*>[^<]*</span>|[^<]+)(</td>)'
+            count = [0]
+            def replacer(m):
+                count[0] += 1
+                if count[0] == occurrence:
+                    inner = m.group(2).strip()
+                    if inner.lstrip('-').isdigit() or inner == 'N/A':
+                        return m.group(1) + new_val + m.group(3)
+                return m.group(0)
+            return re.sub(pat, replacer, text, count=10)
+
+        # Simpler: replace the 3 numeric td's right after the label row
+        # Find the </tr> after the label, then the next <tr>
+        row_end = after.find('</tr>')
+        if row_end == -1:
+            continue
+        next_row_start = after.find('<tr', row_end)
+        if next_row_start == -1:
+            continue
+        next_row_end   = after.find('</tr>', next_row_start) + len('</tr>')
+        row_html = after[next_row_start:next_row_end]
+
+        # Replace values: first numeric td → cu, second → uu, third → oc
+        vals = [cu_s, uu_s, oc_s]
+        val_idx = [0]
+        def cell_replacer(m):
+            inner = m.group(2).strip()
+            if (inner.lstrip('-').isdigit() or inner == 'N/A') and val_idx[0] < 3:
+                new = vals[val_idx[0]]
+                val_idx[0] += 1
+                return m.group(1) + new + m.group(3)
+            return m.group(0)
+
+        new_row = re.sub(r'(<td[^>]*>)([^<]+)(</td>)', cell_replacer, row_html)
+        after = after[:next_row_start] + new_row + after[next_row_end:]
+        section = section[:lbl_idx] + after
+
+    # ── Total row: replace the 3 totals in the last summary row ──────────────
+    total_marker = ">Total Provisional Admissions<"
+    t_idx = section.find(total_marker)
+    if t_idx != -1:
+        after_total = section[t_idx:]
+        t_row_end   = after_total.find('</tr>')
+        if t_row_end != -1:
+            t_next_start = after_total.find('<tr', t_row_end)
+            if t_next_start != -1:
+                t_next_end = after_total.find('</tr>', t_next_start) + len('</tr>')
+                t_row_html = after_total[t_next_start:t_next_end]
+                vals2 = [str(kpi["cu"]), str(kpi["uu"]), str(kpi["oc"])]
+                vi = [0]
+                def total_replacer(m):
+                    inner = m.group(2).strip()
+                    if inner.lstrip('-').isdigit() and vi[0] < 3:
+                        new = vals2[vi[0]]; vi[0] += 1
+                        return m.group(1) + new + m.group(3)
+                    return m.group(0)
+                new_t_row = re.sub(r'(<td[^>]*>)([^<]+)(</td>)', total_replacer, t_row_html)
+                after_total = after_total[:t_next_start] + new_t_row + after_total[t_next_end:]
+                section = section[:t_idx] + after_total
+
+    print(f"  Score Analysis patched — CET+UCEED:{kpi['cu']}  OnlyUCEED:{kpi['uu']}  OnlyCET:{kpi['oc']}  Total:{kpi['total']}")
+    return html[:sec_start] + section + html[sec_end:]
+
+
 # ── inject helpers ────────────────────────────────────────────────────────────
 
 def js_array(name, records):
@@ -434,6 +584,7 @@ def generate():
     s_states  = find_section(rows, "State-wise Leads")
     s_budget  = find_section(rows, "Budget Analysis")
     s_txn     = find_section(rows, "Transaction updates")
+    s_score   = find_section(rows, "Score Analysis of Provisional")
 
     print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
     print(f"  DesAds={s_des_ads}  Walkins={s_walkins}  Social={s_social}  Branding={s_branding}")
@@ -453,7 +604,8 @@ def generate():
     notices      = parse_notices(rows, s_notices)
     states       = parse_states(rows, s_states)
     budget       = parse_budget(rows, s_budget)
-    transactions = parse_transactions(rows, s_txn)
+    transactions  = parse_transactions(rows, s_txn)
+    score_data    = parse_score_analysis(rows, s_score)
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
     data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
@@ -484,6 +636,10 @@ def generate():
     html = replace_raw(html, "RAW_STATES",     states)
     html = replace_raw(html, "RAW_BUDGET",     budget)
     html = replace_raw(html, "RAW_TXN",        transactions)
+
+    # ── Patch static Score Analysis section with live Excel data ─────────────
+    print("Patching Score Analysis...")
+    html = patch_score_analysis(html, score_data)
 
     # Update DATA_LATEST everywhere
     html = re.sub(
