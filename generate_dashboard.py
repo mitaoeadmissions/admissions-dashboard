@@ -398,7 +398,7 @@ def parse_leads_vs_prov(rows, start):
     """Leads vs Provisional Admissions.
     Excel layout:
       start+0 : section header
-      start+1 : col headers (Program | Course | Leads | Provisional admissions)
+      start+1 : col headers (Program | Course | Leads | Provisional admissions | Untouched Leads)
       start+2+ : data rows until blank
     """
     data = []
@@ -406,10 +406,11 @@ def parse_leads_vs_prov(rows, start):
         if r[0] is None:
             break
         data.append({
-            "program": safe_str(r[0]),
-            "course":  safe_str(r[1]),
-            "leads":   safe_num(r[2]),
-            "prov":    safe_num(r[3]) if r[3] is not None else 0,
+            "program":   safe_str(r[0]),
+            "course":    safe_str(r[1]),
+            "leads":     safe_num(r[2]),
+            "prov":      safe_num(r[3]) if r[3] is not None else 0,
+            "untouched": safe_num(r[4]) if len(r) > 4 and r[4] is not None else 0,
         })
     return data
 

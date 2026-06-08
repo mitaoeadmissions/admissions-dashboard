@@ -2511,6 +2511,7 @@ th.th-num { text-align: right; }
               <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:right;">Total Leads</th>
               <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:right;">Provisional</th>
               <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#d97706;text-align:right;">Conversion %</th>
+              <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#64748b;text-align:right;">Untouched</th>
             </tr></thead>
             <tbody id="lvp-tbody"></tbody>
           </table>
@@ -2589,7 +2590,7 @@ th.th-num { text-align: right; }
       var rows=grouped[activeP]||[];
       document.getElementById("lvp-table-title").textContent=activeP+" \u2014 Course-wise Breakdown";
       var tb=document.getElementById("lvp-tbody");tb.innerHTML="";
-      var tL=0,tP=0;
+      var tL=0,tP=0,tU=0;
       rows.forEach(function(r,i){
         var cv=(r.leads||0)>0?((r.prov||0)/(r.leads||1)*100).toFixed(2):"\u2014";
         var cn=parseFloat(cv)||0;
@@ -2599,15 +2600,15 @@ th.th-num { text-align: right; }
           '<td style="padding:12px 18px;font-size:13px;color:#1b2a5c;font-weight:500;">'+r.course+'</td>'+
           '<td style="padding:12px 18px;font-size:14px;font-weight:600;color:#1b2a5c;text-align:right;">'+( r.leads||0).toLocaleString()+'</td>'+
           '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:#059669;text-align:right;">'+( r.prov||0)+'</td>'+
-          '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:'+cc+';text-align:right;">'+( cv==="\u2014"?"\u2014":cv+"%")+'</td></tr>';
-        tL+=(r.leads||0);tP+=(r.prov||0);
+          '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:'+cc+';text-align:right;">'+( cv==="\u2014"?"\u2014":cv+"%")+'</td>'+'<td style="padding:12px 18px;font-size:14px;font-weight:600;color:#64748b;text-align:right;">'+( r.untouched||0).toLocaleString()+'</td></tr>';
+        tL+=(r.leads||0);tP+=(r.prov||0);tU+=(r.untouched||0);
       });
       var tc=tL>0?((tP/tL)*100).toFixed(2):"0.00";
       tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
         '<td style="padding:13px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total</td>'+
         '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#1b2a5c;text-align:right;">'+tL.toLocaleString()+'</td>'+
         '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#059669;text-align:right;">'+tP+'</td>'+
-        '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#d97706;text-align:right;">'+tc+'%</td></tr>';
+        '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#d97706;text-align:right;">'+tc+'%</td>'+'<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#64748b;text-align:right;">'+tU.toLocaleString()+'</td></tr>';
     }
     var lvpChart=null;
     function renderChart(){
