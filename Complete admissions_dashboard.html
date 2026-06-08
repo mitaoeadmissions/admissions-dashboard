@@ -2524,6 +2524,8 @@ th.th-num { text-align: right; }
   </section>
 
   <script>
+  const RAW_LEADS_VS_PROV = [];
+  const RAW_ENG_SCORE = [];
   function switchScoreTab(tab){
     ["design","eng"].forEach(function(p){
       document.getElementById("score-panel-"+p).style.display=(p===tab)?"block":"none";
@@ -5602,8 +5604,7 @@ const RAW_BUDGET = [
   {sr:47,school:'MITAOE',desc:'Meta Account Social Media Campaign - raised by Nitish Chitkara',d:'2026-06-02',vendor:'Meta',head:'Meta',poNum:'',invNum:'',poAmt:null,advance:3020.0,thisExp:3020.0}
 ];
 
-const RAW_LEADS_VS_PROV = [];
-const RAW_ENG_SCORE = [];
+// RAW_LEADS_VS_PROV and RAW_ENG_SCORE declared below in rendering script block
 
 function renderBudget() {
   var from = filters.bgt ? filters.bgt.from : '', to = filters.bgt ? filters.bgt.to : '';
