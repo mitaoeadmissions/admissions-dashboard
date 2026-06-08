@@ -1,5 +1,7 @@
 config.py
 google_creds.json
+patch_template.py
+.claude/
 *.xlsx
 dashboard.html
 dashboard_share.html

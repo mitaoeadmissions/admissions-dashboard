@@ -7,8 +7,11 @@ import sys
 import time
 from pathlib import Path
 
-# ── Config ────────────────────────────────────────────────────────────────────
-GITHUB_TOKEN = "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"          # paste your GitHub Personal Access Token here
+# ── Config (token stored in config.py which is gitignored) ───────────────────
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import config as _cfg
+GITHUB_TOKEN = _cfg.GITHUB_TOKEN
 GITHUB_OWNER = "mitaoeadmissions"
 GITHUB_REPO  = "admissions-dashboard"
 WORKFLOW     = "update_dashboard.yml"
