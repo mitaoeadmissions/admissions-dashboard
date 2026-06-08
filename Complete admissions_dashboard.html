@@ -2446,22 +2446,22 @@ th.th-num { text-align: right; }
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
           <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
             <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; JEE</div>
-            <div id="eng-score-kpi-cj" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">â</div>
+            <div id="eng-score-kpi-cj" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
           <div style="background:#ede9fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
             <div style="font-size:11px;font-weight:700;color:#6d28d9;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only JEE</div>
-            <div id="eng-score-kpi-j" style="font-size:34px;font-weight:700;color:#7c3aed;line-height:1;">â</div>
+            <div id="eng-score-kpi-j" style="font-size:34px;font-weight:700;color:#7c3aed;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
           <div style="background:#d1fae5;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
             <div style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only CET</div>
-            <div id="eng-score-kpi-c" style="font-size:34px;font-weight:700;color:#059669;line-height:1;">â</div>
+            <div id="eng-score-kpi-c" style="font-size:34px;font-weight:700;color:#059669;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
           <div style="background:#eef1f9;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
             <div style="font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Total Provisional</div>
-            <div id="eng-score-kpi-total" style="font-size:34px;font-weight:700;color:#1b2a5c;line-height:1;">â</div>
+            <div id="eng-score-kpi-total" style="font-size:34px;font-weight:700;color:#1b2a5c;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">across all categories</div>
           </div>
         </div>
@@ -2517,7 +2517,7 @@ th.th-num { text-align: right; }
         </div>
       </div>
       <div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:24px;margin-top:20px;box-shadow:0 1px 4px rgba(27,42,92,0.07);">
-        <div style="font-size:14px;font-weight:700;color:#1b2a5c;margin-bottom:16px;">Leads vs Provisional â Visual Comparison</div>
+        <div style="font-size:14px;font-weight:700;color:#1b2a5c;margin-bottom:16px;">Leads vs Provisional \u2014 Visual Comparison</div>
         <div style="position:relative;height:320px;"><canvas id="lvp-chart"></canvas></div>
       </div>
     </div>
@@ -2587,11 +2587,11 @@ th.th-num { text-align: right; }
     }
     function renderTable(){
       var rows=grouped[activeP]||[];
-      document.getElementById("lvp-table-title").textContent=activeP+" â Course-wise Breakdown";
+      document.getElementById("lvp-table-title").textContent=activeP+" \u2014 Course-wise Breakdown";
       var tb=document.getElementById("lvp-tbody");tb.innerHTML="";
       var tL=0,tP=0;
       rows.forEach(function(r,i){
-        var cv=(r.leads||0)>0?((r.prov||0)/(r.leads||1)*100).toFixed(2):"â";
+        var cv=(r.leads||0)>0?((r.prov||0)/(r.leads||1)*100).toFixed(2):"\u2014";
         var cn=parseFloat(cv)||0;
         var cc=cn>=5?"#059669":cn>=1?"#d97706":"#9ca3af";
         var bg=i%2===1?"background:#f8faff;":"";
@@ -2599,7 +2599,7 @@ th.th-num { text-align: right; }
           '<td style="padding:12px 18px;font-size:13px;color:#1b2a5c;font-weight:500;">'+r.course+'</td>'+
           '<td style="padding:12px 18px;font-size:14px;font-weight:600;color:#1b2a5c;text-align:right;">'+( r.leads||0).toLocaleString()+'</td>'+
           '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:#059669;text-align:right;">'+( r.prov||0)+'</td>'+
-          '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:'+cc+';text-align:right;">'+( cv==="â"?"â":cv+"%")+'</td></tr>';
+          '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:'+cc+';text-align:right;">'+( cv==="\u2014"?"\u2014":cv+"%")+'</td></tr>';
         tL+=(r.leads||0);tP+=(r.prov||0);
       });
       var tc=tL>0?((tP/tL)*100).toFixed(2):"0.00";
