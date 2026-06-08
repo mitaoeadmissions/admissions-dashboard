@@ -388,6 +388,7 @@ th.th-num { text-align: right; }
 .sect-tab.brd.active { background: #fce7f3; border-color: #db2777; color: #db2777; }
 .sect-tab.bgt.active { background: #d1fae5; border-color: #059669; color: #059669; }
 .sect-tab.txn.active { background: #dbeafe; border-color: #0284c7; color: #0284c7; }
+.sect-tab.lvp.active { background: #fef3c7; border-color: #d97706; color: #d97706; }
 
 .sect-tab.csr.active { background: #e0f2fe; border-color: #0891b2; color: #0891b2; }
 .sect-tab.inc.active { background: var(--accent-cum-light); border-color: var(--accent-cum); color: var(--accent-cum); }
@@ -533,6 +534,9 @@ th.th-num { text-align: right; }
     </button>
     <button class="sect-tab scoreanalysis" data-section="scoreanalysis">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Score Analysis
+    </button>
+    <button class="sect-tab lvp" data-section="leadsvsprov">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Leads vs Provisional
     </button>
 
   </div>
@@ -2213,7 +2217,20 @@ th.th-num { text-align: right; }
 
   <!-- ============ SCORE ANALYSIS ============ -->
   <section class="tab-section" id="sec-scoreanalysis">
-    <div style="max-width:1100px;margin:0 auto;padding:32px 20px 40px;">
+    <div style="max-width:1100px;margin:0 auto;padding:24px 20px 8px;">
+      <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+        <button id="score-tab-design" onclick="switchScoreTab('design')"
+          style="padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid #f472b6;background:#fdf2f8;color:#be185d;transition:all 0.15s;">
+          Design
+        </button>
+        <button id="score-tab-eng" onclick="switchScoreTab('eng')"
+          style="padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #dde2ef;background:white;color:#64748b;transition:all 0.15s;">
+          Engineering (B.Tech)
+        </button>
+      </div>
+    </div>
+    <div id="score-panel-design">
+<div style="max-width:1100px;margin:0 auto;padding:32px 20px 40px;">
 
       <!-- Header -->
       <div style="margin-bottom:24px;">
@@ -2418,8 +2435,197 @@ th.th-num { text-align: right; }
           </div>
         </div>
       </div>
-    </section>
+    
+    </div>
+    <div id="score-panel-eng" style="display:none;">
+      <div style="max-width:1100px;margin:0 auto;padding:0 20px 40px;">
+        <div style="margin-bottom:24px;">
+          <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin:0 0 6px;">Score Analysis of Provisional Admissions (Engineering)</h2>
+          <p style="font-size:13px;color:#64748b;margin:0;">Distribution of entrance exam scores across provisional admission categories</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
+          <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+            <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; JEE</div>
+            <div id="eng-score-kpi-cj" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">â</div>
+            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
+          </div>
+          <div style="background:#ede9fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+            <div style="font-size:11px;font-weight:700;color:#6d28d9;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only JEE</div>
+            <div id="eng-score-kpi-j" style="font-size:34px;font-weight:700;color:#7c3aed;line-height:1;">â</div>
+            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
+          </div>
+          <div style="background:#d1fae5;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+            <div style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only CET</div>
+            <div id="eng-score-kpi-c" style="font-size:34px;font-weight:700;color:#059669;line-height:1;">â</div>
+            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
+          </div>
+          <div style="background:#eef1f9;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+            <div style="font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Total Provisional</div>
+            <div id="eng-score-kpi-total" style="font-size:34px;font-weight:700;color:#1b2a5c;line-height:1;">â</div>
+            <div style="font-size:11px;color:#64748b;margin-top:4px;">across all categories</div>
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
+          <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
+            <div style="font-size:14px;font-weight:700;color:#1b2a5c;">Score Band Distribution</div>
+            <div style="font-size:12px;color:#9ca3af;margin-top:2px;">CET percentile &amp; JEE scores for provisional admissions</div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;min-width:500px;">
+              <thead><tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Score Range</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">CET &amp; JEE</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#7c3aed;text-align:center;">Only JEE</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:center;">Only CET</th>
+              </tr></thead>
+              <tbody id="eng-score-tbody">
+                <tr><td colspan="4" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">
+                  Add Engineering Score Analysis data to Excel (same format as Design) to populate this table.
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ============ LEADS VS PROVISIONAL ============ -->
+  <section class="tab-section" id="sec-leadsvsprov">
+    <div style="max-width:1100px;margin:0 auto;padding:32px 20px 40px;">
+      <div style="margin-bottom:24px;">
+        <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin:0 0 6px;">Leads vs Provisional Admissions</h2>
+        <p style="font-size:13px;color:#64748b;margin:0;">Lead-to-admission conversion analysis by program and course</p>
+      </div>
+      <div id="lvp-kpi" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;"></div>
+      <div id="lvp-prog-tabs" style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;"></div>
+      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
+        <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
+          <div id="lvp-table-title" style="font-size:14px;font-weight:700;color:#1b2a5c;">Course-wise Breakdown</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:2px;">Leads, provisional admissions and conversion rate per course</div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;min-width:500px;">
+            <thead><tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
+              <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Course</th>
+              <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:right;">Total Leads</th>
+              <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:right;">Provisional</th>
+              <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#d97706;text-align:right;">Conversion %</th>
+            </tr></thead>
+            <tbody id="lvp-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:24px;margin-top:20px;box-shadow:0 1px 4px rgba(27,42,92,0.07);">
+        <div style="font-size:14px;font-weight:700;color:#1b2a5c;margin-bottom:16px;">Leads vs Provisional â Visual Comparison</div>
+        <div style="position:relative;height:320px;"><canvas id="lvp-chart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  function switchScoreTab(tab){
+    ["design","eng"].forEach(function(p){
+      document.getElementById("score-panel-"+p).style.display=(p===tab)?"block":"none";
+      var b=document.getElementById("score-tab-"+p);
+      if(p===tab){b.style.borderColor=p==="design"?"#f472b6":"#6366f1";b.style.background=p==="design"?"#fdf2f8":"#eef2ff";b.style.color=p==="design"?"#be185d":"#4338ca";b.style.fontWeight="700";}
+      else{b.style.borderColor="#dde2ef";b.style.background="white";b.style.color="#64748b";b.style.fontWeight="600";}
+    });
+  }
+  (function(){
+    if(typeof RAW_ENG_SCORE==="undefined"||!RAW_ENG_SCORE.length)return;
+    var kpi=RAW_ENG_SCORE[RAW_ENG_SCORE.length-1];
+    var bands=RAW_ENG_SCORE.slice(0,-1);
+    document.getElementById("eng-score-kpi-cj").textContent=kpi.cu;
+    document.getElementById("eng-score-kpi-j").textContent=kpi.uu;
+    document.getElementById("eng-score-kpi-c").textContent=kpi.oc;
+    document.getElementById("eng-score-kpi-total").textContent=kpi.total;
+    var tb=document.getElementById("eng-score-tbody");tb.innerHTML="";
+    bands.forEach(function(b,i){
+      var bg=i%2===1?"background:#f8faff;":"";
+      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
+        '<td style="padding:14px 18px;font-size:13px;font-weight:600;color:#1b2a5c;"><span style="background:#f1f5f9;color:#334155;padding:3px 10px;border-radius:20px;font-size:12px;">'+b.label+'</span></td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+( b.cu!==null?b.cu:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+( b.uu!==null?b.uu:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+( b.oc!==null?b.oc:"N/A")+'</td></tr>';
+    });
+    tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
+      '<td style="padding:14px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total Provisional Admissions</td>'+
+      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+kpi.cu+'</td>'+
+      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+kpi.uu+'</td>'+
+      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+kpi.oc+'</td></tr>';
+  })();
+  (function(){
+    var data=typeof RAW_LEADS_VS_PROV!=="undefined"?RAW_LEADS_VS_PROV:[];
+    if(!data.length)return;
+    var grouped={},order=[];
+    data.forEach(function(r){if(!grouped[r.program]){grouped[r.program]=[];order.push(r.program);}grouped[r.program].push(r);});
+    var KC={"B.Tech":{bg:"#dbeafe",hdr:"#1e40af",val:"#1a56db"},"M.Tech":{bg:"#ede9fe",hdr:"#6d28d9",val:"#7c3aed"},"DSY":{bg:"#fef3c7",hdr:"#92400e",val:"#d97706"},"Design":{bg:"#d1fae5",hdr:"#065f46",val:"#059669"}};
+    var kpiDiv=document.getElementById("lvp-kpi");
+    order.forEach(function(prog){
+      var rows=grouped[prog];var tL=rows.reduce(function(s,r){return s+(r.leads||0);},0);var tP=rows.reduce(function(s,r){return s+(r.prov||0);},0);
+      var cv=tL>0?((tP/tL)*100).toFixed(2):"0.00";
+      var c=KC[prog]||{bg:"#f1f5f9",hdr:"#334155",val:"#1b2a5c"};
+      kpiDiv.innerHTML+='<div style="background:'+c.bg+';border-radius:12px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">'+
+        '<div style="font-size:11px;font-weight:700;color:'+c.hdr+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">'+prog+'</div>'+
+        '<div style="font-size:26px;font-weight:700;color:'+c.val+';line-height:1;">'+tL.toLocaleString()+'</div>'+
+        '<div style="font-size:11px;color:#64748b;margin-top:3px;">leads &nbsp;|&nbsp; <strong>'+tP+'</strong> prov. &nbsp;|&nbsp; <strong>'+cv+'%</strong> conv.</div>'+'</div>';
+    });
+    var activeP=order[0];
+    function renderTabs(){
+      var td=document.getElementById("lvp-prog-tabs");td.innerHTML="";
+      order.forEach(function(prog){
+        var act=prog===activeP;var c=KC[prog]||{bg:"#f1f5f9",hdr:"#334155",val:"#1b2a5c"};
+        var b=document.createElement("button");
+        b.textContent=prog;
+        b.style.cssText="padding:7px 18px;border-radius:20px;font-size:13px;font-weight:"+(act?"700":"500")+";cursor:pointer;border:2px solid "+(act?c.val:"#dde2ef")+";background:"+(act?c.bg:"white")+";color:"+(act?c.val:"#64748b")+";transition:all 0.15s;";
+        b.onclick=function(){activeP=prog;renderTabs();renderTable();renderChart();};
+        td.appendChild(b);
+      });
+    }
+    function renderTable(){
+      var rows=grouped[activeP]||[];
+      document.getElementById("lvp-table-title").textContent=activeP+" â Course-wise Breakdown";
+      var tb=document.getElementById("lvp-tbody");tb.innerHTML="";
+      var tL=0,tP=0;
+      rows.forEach(function(r,i){
+        var cv=(r.leads||0)>0?((r.prov||0)/(r.leads||1)*100).toFixed(2):"â";
+        var cn=parseFloat(cv)||0;
+        var cc=cn>=5?"#059669":cn>=1?"#d97706":"#9ca3af";
+        var bg=i%2===1?"background:#f8faff;":"";
+        tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
+          '<td style="padding:12px 18px;font-size:13px;color:#1b2a5c;font-weight:500;">'+r.course+'</td>'+
+          '<td style="padding:12px 18px;font-size:14px;font-weight:600;color:#1b2a5c;text-align:right;">'+( r.leads||0).toLocaleString()+'</td>'+
+          '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:#059669;text-align:right;">'+( r.prov||0)+'</td>'+
+          '<td style="padding:12px 18px;font-size:14px;font-weight:700;color:'+cc+';text-align:right;">'+( cv==="â"?"â":cv+"%")+'</td></tr>';
+        tL+=(r.leads||0);tP+=(r.prov||0);
+      });
+      var tc=tL>0?((tP/tL)*100).toFixed(2):"0.00";
+      tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
+        '<td style="padding:13px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total</td>'+
+        '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#1b2a5c;text-align:right;">'+tL.toLocaleString()+'</td>'+
+        '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#059669;text-align:right;">'+tP+'</td>'+
+        '<td style="padding:13px 18px;font-size:15px;font-weight:700;color:#d97706;text-align:right;">'+tc+'%</td></tr>';
+    }
+    var lvpChart=null;
+    function renderChart(){
+      var rows=(grouped[activeP]||[]).filter(function(r){return(r.leads||0)>0;});
+      var labels=rows.map(function(r){return r.course.length>25?r.course.substr(0,23)+"..":r.course;});
+      var leads=rows.map(function(r){return r.leads||0;});
+      var provs=rows.map(function(r){return r.prov||0;});
+      var ctx=document.getElementById("lvp-chart").getContext("2d");
+      if(lvpChart)lvpChart.destroy();
+      lvpChart=new Chart(ctx,{type:"bar",data:{labels:labels,datasets:[
+        {label:"Leads",data:leads,backgroundColor:"rgba(27,42,92,0.15)",borderColor:"#1b2a5c",borderWidth:1.5,borderRadius:4},
+        {label:"Provisional",data:provs,backgroundColor:"rgba(5,150,105,0.7)",borderColor:"#059669",borderWidth:1.5,borderRadius:4}
+      ]},options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:"top"},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+(c.raw||0).toLocaleString();}}}},
+        scales:{x:{ticks:{font:{size:10}},grid:{display:false}},y:{beginAtZero:true,ticks:{callback:function(v){return v>=1000?(v/1000).toFixed(0)+"k":v;}}}}
+      }});
+    }
+    renderTabs();renderTable();renderChart();
+  })();
+  </script>
 
   <!-- ============ VENDORS ============ -->
 </div><!-- end dept-admissions -->
@@ -5396,6 +5602,8 @@ const RAW_BUDGET = [
   {sr:47,school:'MITAOE',desc:'Meta Account Social Media Campaign - raised by Nitish Chitkara',d:'2026-06-02',vendor:'Meta',head:'Meta',poNum:'',invNum:'',poAmt:null,advance:3020.0,thisExp:3020.0}
 ];
 
+const RAW_LEADS_VS_PROV = [];
+const RAW_ENG_SCORE = [];
 
 function renderBudget() {
   var from = filters.bgt ? filters.bgt.from : '', to = filters.bgt ? filters.bgt.to : '';

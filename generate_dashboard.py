@@ -22,7 +22,7 @@ if _IN_CLOUD:
 else:
     # Running locally
     EXCEL_FILE    = Path(r"C:\Users\guruv\Dropbox\Admission Dashboard\Masterdata File.xlsx")
-    HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\05.06.26\Complete admissions_dashboard.html")
+    HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Automate\Complete admissions_dashboard.html")
     OUTPUT_HTML   = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard.html")
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -394,6 +394,58 @@ def parse_transactions(rows, start):
     return data
 
 
+def parse_leads_vs_prov(rows, start):
+    """Leads vs Provisional Admissions.
+    Excel layout:
+      start+0 : section header
+      start+1 : col headers (Program | Course | Leads | Provisional admissions)
+      start+2+ : data rows until blank
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None:
+            break
+        data.append({
+            "program": safe_str(r[0]),
+            "course":  safe_str(r[1]),
+            "leads":   safe_num(r[2]),
+            "prov":    safe_num(r[3]) if r[3] is not None else 0,
+        })
+    return data
+
+
+def parse_eng_score_analysis(rows, start):
+    """Score Analysis of Provisional Admissions (Engineering).
+    Same format as Design: bands + total row.
+    Returns list where last element is the totals row (with cu/uu/oc/total keys).
+    """
+    band_rows = rows[start + 2: start + 6]
+    total_row = rows[start + 6] if len(rows) > start + 6 else None
+
+    bands = []
+    for r in band_rows:
+        if r[0] is None:
+            break
+        cu = safe_num(r[1]) if r[1] not in (None, 'NA', 'N/A') else None
+        uu = safe_num(r[2]) if r[2] not in (None, 'NA', 'N/A') else None
+        oc = safe_num(r[3]) if r[3] not in (None, 'NA', 'N/A') else None
+        bands.append({"label": safe_str(r[0]), "cu": cu, "uu": uu, "oc": oc})
+
+    if total_row:
+        kpi_cu = safe_num(total_row[1])
+        kpi_uu = safe_num(total_row[2])
+        kpi_oc = safe_num(total_row[3])
+    else:
+        kpi_cu = sum(b["cu"] or 0 for b in bands)
+        kpi_uu = sum(b["uu"] or 0 for b in bands)
+        kpi_oc = sum(b["oc"] or 0 for b in bands)
+
+    # Append totals as final element (read by JS as kpi row)
+    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc,
+                  "total": kpi_cu + kpi_uu + kpi_oc})
+    return bands
+
+
 def parse_score_analysis(rows, start):
     """Score Analysis of Provisional Admissions (Design).
     Excel layout:
@@ -584,7 +636,12 @@ def generate():
     s_states  = find_section(rows, "State-wise Leads")
     s_budget  = find_section(rows, "Budget Analysis")
     s_txn     = find_section(rows, "Transaction updates")
-    s_score   = find_section(rows, "Score Analysis of Provisional")
+    s_score   = find_section(rows, "Score Analysis of Provisional Admissions (Design)")
+    s_lvp     = find_section(rows, "Leads vs Provisional admissions")
+    try:
+        s_eng_score = find_section(rows, "Score Analysis of Provisional Admissions (Engineering)")
+    except ValueError:
+        s_eng_score = None
 
     print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
     print(f"  DesAds={s_des_ads}  Walkins={s_walkins}  Social={s_social}  Branding={s_branding}")
@@ -606,6 +663,9 @@ def generate():
     budget       = parse_budget(rows, s_budget)
     transactions  = parse_transactions(rows, s_txn)
     score_data    = parse_score_analysis(rows, s_score)
+    leads_vs_prov = parse_leads_vs_prov(rows, s_lvp)
+    eng_score     = parse_eng_score_analysis(rows, s_eng_score) if s_eng_score is not None else []
+    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score Analysis: {'not found in Excel yet' if not eng_score else str(len(eng_score)-1)+' bands'}")
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
     data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
@@ -635,7 +695,9 @@ def generate():
     html = replace_raw(html, "RAW_NOTICES",    notices)
     html = replace_raw(html, "RAW_STATES",     states)
     html = replace_raw(html, "RAW_BUDGET",     budget)
-    html = replace_raw(html, "RAW_TXN",        transactions)
+    html = replace_raw(html, "RAW_TXN",           transactions)
+    html = replace_raw(html, "RAW_LEADS_VS_PROV", leads_vs_prov)
+    html = replace_raw(html, "RAW_ENG_SCORE",     eng_score)
 
     # ── Patch static Score Analysis section with live Excel data ─────────────
     print("Patching Score Analysis...")

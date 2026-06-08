@@ -38,7 +38,7 @@ def trigger():
 
     if r.status_code == 204:
         print("\n  SUCCESS! Dashboard will update in ~20 seconds.")
-        print(f"\n  Live URL: https://mit-admissions-dashboard.netlify.app")
+        print(f"\n  Live URL: https://mitaoeadmissions.github.io/admissions-dashboard/")
         print("\n  You can close this window.")
     else:
         print(f"\n  ERROR ({r.status_code}): {r.text[:200]}")
