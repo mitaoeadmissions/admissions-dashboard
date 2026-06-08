@@ -414,35 +414,35 @@ def parse_leads_vs_prov(rows, start):
     return data
 
 
-def parse_eng_score_analysis(rows, start):
-    """Score Analysis of Provisional Admissions (Engineering).
-    Same format as Design: bands + total row.
-    Returns list where last element is the totals row (with cu/uu/oc/total keys).
+def parse_eng_score_analysis(rows, s_score):
+    """Score Analysis of Provisional Admissions (B.Tech Engineering).
+    Stored in the SAME rows as Design score analysis but in columns 5-7:
+      col 5 = label (Above 90 / 81-90 / ... / Total Provisional Admissions)
+      col 6 = JEE & CET count   → mapped to key 'cu'
+      col 7 = Only JEE count    → mapped to key 'uu'
+    7 bands: Above 90, 81-90, 71-80, 61-70, 51-60, 31-50, Below 30
+    Total row at s_score+9.
     """
-    band_rows = rows[start + 2: start + 6]
-    total_row = rows[start + 6] if len(rows) > start + 6 else None
-
     bands = []
-    for r in band_rows:
-        if r[0] is None:
+    for r in rows[s_score + 2: s_score + 9]:   # 7 score bands
+        label = r[5]
+        if label is None:
             break
-        cu = safe_num(r[1]) if r[1] not in (None, 'NA', 'N/A') else None
-        uu = safe_num(r[2]) if r[2] not in (None, 'NA', 'N/A') else None
-        oc = safe_num(r[3]) if r[3] not in (None, 'NA', 'N/A') else None
-        bands.append({"label": safe_str(r[0]), "cu": cu, "uu": uu, "oc": oc})
+        cu = safe_num(r[6]) if r[6] not in (None, 'NA', 'N/A') else 0
+        uu = safe_num(r[7]) if r[7] not in (None, 'NA', 'N/A') else 0
+        bands.append({"label": safe_str(label), "cu": cu, "uu": uu, "oc": 0})
 
-    if total_row:
-        kpi_cu = safe_num(total_row[1])
-        kpi_uu = safe_num(total_row[2])
-        kpi_oc = safe_num(total_row[3])
+    # Total row: col 5 = "Total Provisional Admissions", col 6 = JEE&CET total, col 7 = Only JEE total
+    total_row = rows[s_score + 9] if len(rows) > s_score + 9 else None
+    if total_row and total_row[5] is not None and "total" in safe_str(total_row[5]).lower():
+        kpi_cu = safe_num(total_row[6])
+        kpi_uu = safe_num(total_row[7])
     else:
-        kpi_cu = sum(b["cu"] or 0 for b in bands)
-        kpi_uu = sum(b["uu"] or 0 for b in bands)
-        kpi_oc = sum(b["oc"] or 0 for b in bands)
+        kpi_cu = sum(b["cu"] for b in bands)
+        kpi_uu = sum(b["uu"] for b in bands)
 
-    # Append totals as final element (read by JS as kpi row)
-    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc,
-                  "total": kpi_cu + kpi_uu + kpi_oc})
+    kpi_total = kpi_cu + kpi_uu
+    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": 0, "total": kpi_total})
     return bands
 
 
@@ -638,10 +638,7 @@ def generate():
     s_txn     = find_section(rows, "Transaction updates")
     s_score   = find_section(rows, "Score Analysis of Provisional Admissions (Design)")
     s_lvp     = find_section(rows, "Leads vs Provisional admissions")
-    try:
-        s_eng_score = find_section(rows, "Score Analysis of Provisional Admissions (Engineering)")
-    except ValueError:
-        s_eng_score = None
+    # Engineering score analysis is in cols 5-7 of the same rows as Design (no separate section header)
 
     print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
     print(f"  DesAds={s_des_ads}  Walkins={s_walkins}  Social={s_social}  Branding={s_branding}")
@@ -664,8 +661,8 @@ def generate():
     transactions  = parse_transactions(rows, s_txn)
     score_data    = parse_score_analysis(rows, s_score)
     leads_vs_prov = parse_leads_vs_prov(rows, s_lvp)
-    eng_score     = parse_eng_score_analysis(rows, s_eng_score) if s_eng_score is not None else []
-    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score Analysis: {'not found in Excel yet' if not eng_score else str(len(eng_score)-1)+' bands'}")
+    eng_score     = parse_eng_score_analysis(rows, s_score)   # cols 5-7 of same rows as Design
+    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score: {len(eng_score)-1} bands  JEE+CET:{eng_score[-1]['cu']}  OnlyJEE:{eng_score[-1]['uu']}")
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
     data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
