@@ -416,33 +416,44 @@ def parse_leads_vs_prov(rows, start):
 
 def parse_eng_score_analysis(rows, s_score):
     """Score Analysis of Provisional Admissions (B.Tech Engineering).
-    Stored in the SAME rows as Design score analysis but in columns 5-7:
-      col 5 = label (Above 90 / 81-90 / ... / Total Provisional Admissions)
-      col 6 = JEE & CET count   → mapped to key 'cu'
-      col 7 = Only JEE count    → mapped to key 'uu'
-    7 bands: Above 90, 81-90, 71-80, 61-70, 51-60, 31-50, Below 30
-    Total row at s_score+9.
+    Stored in the SAME rows as Design score analysis but in columns 5-8:
+      col 5 = label (Above 90 / 81-90 / ... / Awaiting Result / Total)
+      col 6 = JEE & CET count        → key 'cu'
+      col 7 = Only JEE count         → key 'uu'
+      col 8 = Awaiting Results count → key 'oc'
+    Up to 8 bands followed by Total Provisional Admissions row.
     """
     bands = []
-    for r in rows[s_score + 2: s_score + 9]:   # 7 score bands
+    # Read up to 10 rows; stop when label is None or contains "total"
+    for r in rows[s_score + 2: s_score + 12]:
         label = r[5]
         if label is None:
             break
-        cu = safe_num(r[6]) if r[6] not in (None, 'NA', 'N/A') else 0
-        uu = safe_num(r[7]) if r[7] not in (None, 'NA', 'N/A') else 0
-        bands.append({"label": safe_str(label), "cu": cu, "uu": uu, "oc": 0})
+        if "total" in safe_str(label).lower():
+            break
+        cu  = safe_num(r[6]) if isinstance(r[6], (int, float)) else 0
+        uu  = safe_num(r[7]) if isinstance(r[7], (int, float)) else 0
+        oc  = safe_num(r[8]) if isinstance(r[8], (int, float)) else 0
+        bands.append({"label": safe_str(label), "cu": cu, "uu": uu, "oc": oc})
 
-    # Total row: col 5 = "Total Provisional Admissions", col 6 = JEE&CET total, col 7 = Only JEE total
-    total_row = rows[s_score + 9] if len(rows) > s_score + 9 else None
-    if total_row and total_row[5] is not None and "total" in safe_str(total_row[5]).lower():
+    # Find Total row (first row after bands whose col 5 contains "total")
+    total_row = None
+    for r in rows[s_score + 2: s_score + 15]:
+        if r[5] is not None and "total" in safe_str(r[5]).lower():
+            total_row = r
+            break
+
+    if total_row:
         kpi_cu = safe_num(total_row[6])
         kpi_uu = safe_num(total_row[7])
+        kpi_oc = safe_num(total_row[8]) if isinstance(total_row[8], (int, float)) else 0
     else:
         kpi_cu = sum(b["cu"] for b in bands)
         kpi_uu = sum(b["uu"] for b in bands)
+        kpi_oc = sum(b["oc"] for b in bands)
 
-    kpi_total = kpi_cu + kpi_uu
-    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": 0, "total": kpi_total})
+    kpi_total = kpi_cu + kpi_uu + kpi_oc
+    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc, "total": kpi_total})
     return bands
 
 
@@ -662,7 +673,7 @@ def generate():
     score_data    = parse_score_analysis(rows, s_score)
     leads_vs_prov = parse_leads_vs_prov(rows, s_lvp)
     eng_score     = parse_eng_score_analysis(rows, s_score)   # cols 5-7 of same rows as Design
-    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score: {len(eng_score)-1} bands  JEE+CET:{eng_score[-1]['cu']}  OnlyJEE:{eng_score[-1]['uu']}")
+    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score: {len(eng_score)-1} bands  JEE+CET:{eng_score[-1]['cu']}  OnlyJEE:{eng_score[-1]['uu']}  Awaiting:{eng_score[-1]['oc']}  Total:{eng_score[-1]['total']}")
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
     data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
