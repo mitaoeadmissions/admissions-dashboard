@@ -262,7 +262,7 @@ def parse_branding(rows, start):
 
 
 def parse_counselors(rows, start):
-    """Counselor report — template only needs name, pa, prov.
+    """Counselor report.
     Excel cols: Name | Untouched | NI | Follow-Up | Interested | NR |
                 CET | FP | DSY | New Leads | Junk | UCEED | Paid Apps | Prov
     """
@@ -274,9 +274,20 @@ def parse_counselors(rows, start):
         if not name:
             break
         data.append({
-            "name": name,
-            "pa":   safe_num(r[12]),   # Paid Applications
-            "prov": safe_num(r[13]),   # Provisional Admissions
+            "name":      name,
+            "untouched": safe_num(r[1]),
+            "ni":        safe_num(r[2]),
+            "fu":        safe_num(r[3]),
+            "interested":safe_num(r[4]),
+            "nr":        safe_num(r[5]),
+            "cet":       safe_num(r[6]),
+            "fp":        safe_num(r[7]),
+            "dsy":       safe_num(r[8]),
+            "newleads":  safe_num(r[9]),
+            "junk":      safe_num(r[10]),
+            "uceed":     safe_num(r[11]),
+            "pa":        safe_num(r[12]),
+            "prov":      safe_num(r[13]),
         })
     return data
 
