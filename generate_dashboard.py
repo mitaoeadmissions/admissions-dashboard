@@ -366,13 +366,10 @@ def parse_budget(rows, start):
 
 def parse_transactions(rows, start):
     """Transaction updates.
-    Excel cols: Sr | Name | UG/PG | Program | Branch | Contact | Parent Contact |
-                Email | Gender | Category | HSC | JEE/UCEED | CET/UCEED/JEE |
+    Excel cols: Sr | Name | Branch | Contact | Parent Contact | Email |
+                Gender | Category | HSC | PCM | JEE/UCEED/GATE | CET 1 | CET 2 |
                 Caution Fees | Counsellor | Payment Date | Payment Amount |
-                Transaction ID | Mode | Verified Accounts | Admission Status | Refund Status
-    Template fields: sr, name, ugpg, program, branch, gender, category,
-                     cet(via), csl(counsellor), d, amt, txid, mode,
-                     admStatus, refundStatus, hsc, jee
+                Transaction ID | Mode | UG/PG | Program | Verified | Admission Status | Cancellation Status
     """
     data = []
     for r in rows[start + 2:]:
@@ -384,23 +381,25 @@ def parse_transactions(rows, start):
         else:
             ds = fmt_date(date_val) or safe_str(date_val)
         data.append({
-            "sr":           safe_str(r[0]),
-            "name":         safe_str(r[1]),
-            "ugpg":         safe_str(r[2]),
-            "program":      safe_str(r[3]),
-            "branch":       safe_str(r[4]),
-            "gender":       safe_str(r[8]),
-            "category":     safe_str(r[9]),
-            "cet":          safe_str(r[12]),   # via: CET / UCEED / JEE
-            "csl":          safe_str(r[14]),   # counsellor
-            "d":            ds,
-            "amt":          safe_num(r[16]),
-            "txid":         safe_str(r[17]),
-            "mode":         safe_str(r[18]),
-            "admStatus":    safe_str(r[20]),
-            "refundStatus": safe_str(r[21]) if len(r) > 21 and r[21] else "",
-            "hsc":          null_or_num(r[10]),
-            "jee":          null_or_num(r[11]),
+            "sr":               safe_str(r[0]),
+            "name":             safe_str(r[1]),
+            "branch":           safe_str(r[2]),
+            "gender":           safe_str(r[6]),
+            "category":         safe_str(r[7]),
+            "hsc":              null_or_num(r[8]),
+            "pcm":              null_or_num(r[9]),
+            "jee":              null_or_num(r[10]),
+            "cet1":             null_or_num(r[11]),
+            "cet2":             null_or_num(r[12]),
+            "csl":              safe_str(r[14]),
+            "d":                ds,
+            "amt":              safe_num(r[16]),
+            "txid":             safe_str(r[17]),
+            "mode":             safe_str(r[18]),
+            "ugpg":             safe_str(r[19]),
+            "program":          safe_str(r[20]),
+            "admStatus":        safe_str(r[22]),
+            "cancelStatus":     safe_str(r[23]) if len(r) > 23 and r[23] else "",
         })
     return data
 

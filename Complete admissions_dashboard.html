@@ -538,6 +538,9 @@ th.th-num { text-align: right; }
     <button class="sect-tab lvp" data-section="leadsvsprov">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Leads vs Provisional
     </button>
+    <button class="sect-tab branchscores" data-section="branch-scores">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Branch Score Analysis
+    </button>
 
   </div>
 </nav>
@@ -1359,16 +1362,18 @@ th.th-num { text-align: right; }
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">UG/PG</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Program</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Branch</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Exam</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">HSC %</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">JEE/UCEED</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">PCM</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">JEE</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 1</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 2</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Counsellor</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Date</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">Amount</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Txn ID</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Mode</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Adm. Status</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Refund</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Cancellation</th>
               </tr>
             </thead>
             <tbody id="txn-tbody">
@@ -2214,6 +2219,127 @@ th.th-num { text-align: right; }
       </div>
     </div>
   </section>
+  <!-- Branch Score Analysis panel -->
+  <div id="sec-branch-scores" class="tab-section" style="padding:0 0 40px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
+      <div style="margin-bottom:20px;">
+        <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin-bottom:4px;">Branch-wise Score Analysis</h2>
+        <div style="font-size:13px;color:#64748b;">Highest entrance score (JEE / CET 1 / CET 2) per student, grouped by branch</div>
+      </div>
+      <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <label style="font-size:12px;font-weight:600;color:#475569;">Filter by Program:</label>
+        <select id="bs-prog-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
+          <option value="">All Programs</option>
+          <option value="Engineering">Engineering</option>
+          <option value="Design">Design</option>
+        </select>
+        <label style="font-size:12px;font-weight:600;color:#475569;">Status:</label>
+        <select id="bs-adm-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
+          <option value="">All</option>
+          <option value="Confirmed">Confirmed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div id="bs-container"></div>
+    </div>
+  </div>
+
+  <script>
+  function renderBranchScores() {
+    var progF = (document.getElementById("bs-prog-filter")||{}).value||"";
+    var admF  = (document.getElementById("bs-adm-filter") ||{}).value||"";
+
+    var data = RAW_TXN.filter(function(r){
+      return (!progF || r.program === progF) && (!admF || r.admStatus === admF);
+    });
+
+    // Group by branch
+    var grouped = {}, order = [];
+    data.forEach(function(r){
+      var b = r.branch || "Unknown";
+      if (!grouped[b]) { grouped[b] = []; order.push(b); }
+      grouped[b].push(r);
+    });
+    order.sort();
+
+    var container = document.getElementById("bs-container");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (!data.length) {
+      container.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:40px;">No data matching filters.</p>';
+      return;
+    }
+
+    order.forEach(function(branch){
+      var students = grouped[branch];
+
+      // Compute best score for each student
+      var rows = students.map(function(r){
+        var scores = [];
+        if (typeof r.jee  === "number") scores.push({val: r.jee,  label: "JEE"});
+        if (typeof r.cet1 === "number") scores.push({val: r.cet1, label: "CET 1"});
+        if (typeof r.cet2 === "number") scores.push({val: r.cet2, label: "CET 2"});
+        var best = scores.length ? scores.reduce(function(a,b){ return b.val > a.val ? b : a; }) : null;
+        return { r: r, best: best };
+      }).sort(function(a,b){
+        var av = a.best ? a.best.val : -1;
+        var bv = b.best ? b.best.val : -1;
+        return bv - av;
+      });
+
+      var tableRows = rows.map(function(s, i){
+        var r = s.r, best = s.best;
+        var bg = i % 2 ? "background:#f8faff;" : "";
+        var jeeCell  = r.jee  !== null && r.jee  !== undefined ? r.jee  : "—";
+        var cet1Cell = r.cet1 !== null && r.cet1 !== undefined ? r.cet1 : "—";
+        var cet2Cell = r.cet2 !== null && r.cet2 !== undefined ? r.cet2 : "—";
+        var bestBadge = best
+          ? '<span style="background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;">' + best.val + ' (' + best.label + ')</span>'
+          : '<span style="color:#9ca3af;">—</span>';
+        var admColor = r.admStatus === "Confirmed" ? "#059669" : r.admStatus === "Cancelled" ? "#dc2626" : "#64748b";
+        return '<tr style="border-bottom:1px solid #f0f2f8;' + bg + '">' +
+          '<td style="padding:10px 14px;font-size:13px;font-weight:500;color:#111827;">' + r.name + '</td>' +
+          '<td style="padding:10px 14px;font-size:12px;color:#64748b;">' + (r.ugpg||"—") + '</td>' +
+          '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + (r.hsc !== null && r.hsc !== undefined ? r.hsc : "—") + '</td>' +
+          '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + (r.pcm !== null && r.pcm !== undefined ? r.pcm : "—") + '</td>' +
+          '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + jeeCell + '</td>' +
+          '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + cet1Cell + '</td>' +
+          '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + cet2Cell + '</td>' +
+          '<td style="padding:10px 14px;text-align:center;">' + bestBadge + '</td>' +
+          '<td style="padding:10px 14px;font-size:11px;font-weight:600;color:' + admColor + ';text-align:center;">' + (r.admStatus||"—") + '</td>' +
+          '</tr>';
+      }).join("");
+
+      var avgBest = rows.filter(function(s){ return s.best; });
+      var avg = avgBest.length
+        ? (avgBest.reduce(function(sum,s){ return sum + s.best.val; }, 0) / avgBest.length).toFixed(1)
+        : "—";
+
+      container.innerHTML +=
+        '<div style="margin-bottom:28px;background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">' +
+        '<div style="padding:14px 20px;background:linear-gradient(90deg,#eef1f9 0%,#fff 70%);border-bottom:1px solid #dde2ef;display:flex;justify-content:space-between;align-items:center;">' +
+        '<div style="font-size:15px;font-weight:700;color:#1b2a5c;">' + branch + '</div>' +
+        '<div style="font-size:12px;color:#64748b;">' + students.length + ' student' + (students.length!==1?'s':'') + ' &nbsp;|&nbsp; Avg best score: <strong>' + avg + '</strong></div>' +
+        '</div>' +
+        '<div style="overflow-x:auto;">' +
+        '<table style="width:100%;border-collapse:collapse;min-width:700px;">' +
+        '<thead><tr style="background:#f8faff;border-bottom:1px solid #e2e8f0;">' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">Student Name</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;">UG/PG</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">HSC %</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">PCM</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">JEE</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 1</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 2</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Best Score</th>' +
+        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Status</th>' +
+        '</tr></thead>' +
+        '<tbody>' + tableRows + '</tbody>' +
+        '</table></div></div>';
+    });
+  }
+  </script>
 
   <!-- ============ SCORE ANALYSIS ============ -->
   <section class="tab-section" id="sec-scoreanalysis">
@@ -4055,6 +4181,7 @@ function switchMain(section) {
   else if (section==='branding') renderBranding();
   else if (section==='counselor') renderCounselor();
   else if (section==='notices') renderNotices();
+  else if (section==='branch-scores') renderBranchScores();
 }
 
 // Group → first-section mapping
@@ -5463,7 +5590,7 @@ function renderTransactions() {
            (!programF || r.program === programF) &&
            (!branchF  || r.branch  === branchF)  &&
            (!admF     || r.admStatus === admF)   &&
-           (!refundF  || r.refundStatus === refundF) &&
+           (!refundF  || r.cancelStatus === refundF) &&
            hscMatch(r.hsc, hscF) &&
            jeeMatch(r.jee, jeeF);
   });
@@ -5528,7 +5655,7 @@ function renderTransactions() {
   var tbody=document.getElementById('txn-tbody');
   if(!tbody)return;
   if(!data.length){
-    tbody.innerHTML='<tr><td colspan="15" style="text-align:center;padding:40px;color:#9ba4bb;">No records match the selected filters</td></tr>';
+    tbody.innerHTML='<tr><td colspan="17" style="text-align:center;padding:40px;color:#9ba4bb;">No records match the selected filters</td></tr>';
     return;
   }
 
@@ -5539,16 +5666,18 @@ function renderTransactions() {
       '<td style="padding:9px 10px;text-align:center;"><span style="background:'+(r.ugpg==='UG'?'#dbeafe':'#ede9fe')+';color:'+(r.ugpg==='UG'?'#1d4ed8':'#6d28d9')+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;">'+(r.ugpg||'—')+'</span></td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+r.program+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+r.branch+'</td>' +
-      '<td style="padding:9px 10px;text-align:center;">'+examBadge(r.cet)+'</td>' +
       '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.hsc)+'</td>' +
+      '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.pcm)+'</td>' +
       '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.jee)+'</td>' +
+      '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.cet1)+'</td>' +
+      '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.cet2)+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+(r.csl||'—')+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;white-space:nowrap;">'+r.d+'</td>' +
       '<td style="padding:9px 10px;font-size:12px;font-weight:600;color:#059669;text-align:right;">'+fmtAmt(r.amt)+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;font-family:monospace;">'+(r.txid||'—')+'</td>' +
       '<td style="padding:9px 10px;"><span style="'+modeBadge(r.mode)+'font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;">'+r.mode+'</span></td>' +
       '<td style="padding:9px 10px;text-align:center;"><span style="'+admBadge(r.admStatus)+'font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;">'+(r.admStatus||'—')+'</span></td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:'+(r.refundStatus?'#b91c1c':'#9ba4bb')+';text-align:center;">'+(r.refundStatus||'—')+'</td>' +
+      '<td style="padding:9px 10px;font-size:11px;color:'+(r.cancelStatus?'#b91c1c':'#9ba4bb')+';text-align:center;">'+(r.cancelStatus||'—')+'</td>' +
       '</tr>';
   }).join('');
 }
