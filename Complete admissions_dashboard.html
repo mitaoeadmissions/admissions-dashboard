@@ -2227,11 +2227,25 @@ th.th-num { text-align: right; }
         <div style="font-size:13px;color:#64748b;">Highest entrance score (JEE / CET 1 / CET 2) per student, grouped by branch</div>
       </div>
       <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-        <label style="font-size:12px;font-weight:600;color:#475569;">Filter by Program:</label>
-        <select id="bs-prog-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
+        <label style="font-size:12px;font-weight:600;color:#475569;">Program:</label>
+        <select id="bs-prog-filter" onchange="bsProgChanged()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
           <option value="">All Programs</option>
           <option value="Engineering">Engineering</option>
           <option value="Design">Design</option>
+        </select>
+        <label style="font-size:12px;font-weight:600;color:#475569;">Course:</label>
+        <select id="bs-course-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
+          <option value="">All Courses</option>
+        </select>
+        <label style="font-size:12px;font-weight:600;color:#475569;">Best Score:</label>
+        <select id="bs-score-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
+          <option value="">All Ranges</option>
+          <option value="below30">Below 30</option>
+          <option value="30to50">30.01 to 50</option>
+          <option value="50to70">50.01 to 70</option>
+          <option value="70to85">70.01 to 85</option>
+          <option value="85to90">85.01 to 90</option>
+          <option value="above90">Above 90</option>
         </select>
         <label style="font-size:12px;font-weight:600;color:#475569;">Status:</label>
         <select id="bs-adm-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
@@ -2245,12 +2259,56 @@ th.th-num { text-align: right; }
   </div>
 
   <script>
-  function renderBranchScores() {
+  function bsProgChanged() {
     var progF = (document.getElementById("bs-prog-filter")||{}).value||"";
-    var admF  = (document.getElementById("bs-adm-filter") ||{}).value||"";
+    var sel = document.getElementById("bs-course-filter");
+    if (!sel) return;
+    var courses = [];
+    RAW_TXN.forEach(function(r){
+      if ((!progF || r.program === progF) && r.branch && courses.indexOf(r.branch) === -1)
+        courses.push(r.branch);
+    });
+    courses.sort();
+    var prev = sel.value;
+    sel.innerHTML = '<option value="">All Courses</option>';
+    courses.forEach(function(c){
+      sel.innerHTML += '<option value="' + c + '"' + (c===prev?' selected':'') + '>' + c + '</option>';
+    });
+    renderBranchScores();
+  }
+
+  function scoreInRange(val, range) {
+    if (!range) return true;
+    if (val === null || val === undefined) return false;
+    if (range === "below30")  return val <= 30;
+    if (range === "30to50")   return val > 30  && val <= 50;
+    if (range === "50to70")   return val > 50  && val <= 70;
+    if (range === "70to85")   return val > 70  && val <= 85;
+    if (range === "85to90")   return val > 85  && val <= 90;
+    if (range === "above90")  return val > 90;
+    return true;
+  }
+
+  function renderBranchScores() {
+    var progF   = (document.getElementById("bs-prog-filter")  ||{}).value||"";
+    var courseF = (document.getElementById("bs-course-filter")||{}).value||"";
+    var scoreF  = (document.getElementById("bs-score-filter") ||{}).value||"";
+    var admF    = (document.getElementById("bs-adm-filter")   ||{}).value||"";
 
     var data = RAW_TXN.filter(function(r){
-      return (!progF || r.program === progF) && (!admF || r.admStatus === admF);
+      if (progF   && r.program   !== progF)  return false;
+      if (courseF && r.branch    !== courseF) return false;
+      if (admF    && r.admStatus !== admF)    return false;
+      // score range: check best score
+      if (scoreF) {
+        var scores = [];
+        if (typeof r.jee  === "number") scores.push(r.jee);
+        if (typeof r.cet1 === "number") scores.push(r.cet1);
+        if (typeof r.cet2 === "number") scores.push(r.cet2);
+        var best = scores.length ? Math.max.apply(null, scores) : null;
+        if (!scoreInRange(best, scoreF)) return false;
+      }
+      return true;
     });
 
     // Group by branch
@@ -4181,7 +4239,7 @@ function switchMain(section) {
   else if (section==='branding') renderBranding();
   else if (section==='counselor') renderCounselor();
   else if (section==='notices') renderNotices();
-  else if (section==='branch-scores') renderBranchScores();
+  else if (section==='branch-scores') bsProgChanged();
 }
 
 // Group → first-section mapping
