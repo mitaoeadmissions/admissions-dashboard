@@ -499,6 +499,12 @@ th.th-num { text-align: right; }
     <button class="sect-tab cum active" data-section="cumulative">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Cumulative Overview
     </button>
+    <button class="sect-tab scoreanalysis" data-section="scoreanalysis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Score Analysis
+    </button>
+    <button class="sect-tab branchscores" data-section="branch-scores">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Branch Score Analysis
+    </button>
   </div>
 </nav>
 
@@ -532,14 +538,8 @@ th.th-num { text-align: right; }
     <button class="sect-tab txn" data-section="transactions">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Transaction Updates
     </button>
-    <button class="sect-tab scoreanalysis" data-section="scoreanalysis">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Score Analysis
-    </button>
     <button class="sect-tab lvp" data-section="leadsvsprov">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Leads vs Provisional
-    </button>
-    <button class="sect-tab branchscores" data-section="branch-scores">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Branch Score Analysis
     </button>
 
   </div>
@@ -2631,7 +2631,7 @@ th.th-num { text-align: right; }
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
           <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; JEE</div>
+            <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">JEE &amp; CET</div>
             <div id="eng-score-kpi-cj" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
@@ -2640,8 +2640,8 @@ th.th-num { text-align: right; }
             <div id="eng-score-kpi-j" style="font-size:34px;font-weight:700;color:#7c3aed;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
-          <div style="background:#fef3c7;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Awaiting Results</div>
+          <div style="background:#d1fae5;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+            <div style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only CET</div>
             <div id="eng-score-kpi-c" style="font-size:34px;font-weight:700;color:#059669;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
@@ -2660,9 +2660,9 @@ th.th-num { text-align: right; }
             <table style="width:100%;border-collapse:collapse;min-width:500px;">
               <thead><tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Score Range</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">CET &amp; JEE</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">JEE &amp; CET</th>
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#7c3aed;text-align:center;">Only JEE</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#d97706;text-align:center;">Awaiting Results</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:center;">Only CET</th>
               </tr></thead>
               <tbody id="eng-score-tbody">
                 <tr><td colspan="4" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">
