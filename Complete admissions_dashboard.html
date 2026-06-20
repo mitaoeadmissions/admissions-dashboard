@@ -2369,16 +2369,18 @@ th.th-num { text-align: right; }
           '</tr>';
       }).join("");
 
-      var avgBest = rows.filter(function(s){ return s.best; });
-      var avg = avgBest.length
-        ? (avgBest.reduce(function(sum,s){ return sum + s.best.val; }, 0) / avgBest.length).toFixed(1)
-        : "—";
+      var nConfirmed = students.filter(function(r){ return r.admStatus === "Confirmed"; }).length;
+      var nCancelled = students.filter(function(r){ return r.admStatus === "Cancelled"; }).length;
 
       container.innerHTML +=
         '<div style="margin-bottom:28px;background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">' +
-        '<div style="padding:14px 20px;background:linear-gradient(90deg,#eef1f9 0%,#fff 70%);border-bottom:1px solid #dde2ef;display:flex;justify-content:space-between;align-items:center;">' +
+        '<div style="padding:14px 20px;background:linear-gradient(90deg,#eef1f9 0%,#fff 70%);border-bottom:1px solid #dde2ef;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">' +
         '<div style="font-size:15px;font-weight:700;color:#1b2a5c;">' + branch + '</div>' +
-        '<div style="font-size:12px;color:#64748b;">' + students.length + ' student' + (students.length!==1?'s':'') + ' &nbsp;|&nbsp; Avg best score: <strong>' + avg + '</strong></div>' +
+        '<div style="display:flex;gap:12px;align-items:center;">' +
+        '<span style="font-size:12px;color:#64748b;">Total: <strong style="color:#1b2a5c;">' + students.length + '</strong></span>' +
+        '<span style="font-size:12px;background:#d1fae5;color:#065f46;padding:2px 10px;border-radius:10px;font-weight:700;">✓ ' + nConfirmed + ' Confirmed</span>' +
+        (nCancelled > 0 ? '<span style="font-size:12px;background:#fee2e2;color:#991b1b;padding:2px 10px;border-radius:10px;font-weight:700;">× ' + nCancelled + ' Cancelled</span>' : '') +
+        '</div>' +
         '</div>' +
         '<div style="overflow-x:auto;">' +
         '<table style="width:100%;border-collapse:collapse;min-width:700px;">' +
