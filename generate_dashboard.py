@@ -501,8 +501,8 @@ def parse_score_analysis(rows, start):
         kpi_oc = sum(b["oc"] or 0 for b in bands)
 
     kpi_total = kpi_cu + kpi_uu + kpi_oc
-    return {"kpi": {"cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc, "total": kpi_total},
-            "bands": bands}
+    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc, "total": kpi_total})
+    return bands
 
 
 def patch_score_analysis(html, data):
@@ -718,9 +718,8 @@ def generate():
     html = replace_raw(html, "RAW_LEADS_VS_PROV", leads_vs_prov)
     html = replace_raw(html, "RAW_ENG_SCORE",     eng_score)
 
-    # ── Patch static Score Analysis section with live Excel data ─────────────
-    print("Patching Score Analysis...")
-    html = patch_score_analysis(html, score_data)
+    # ── Inject Design Score Analysis (same flat-list format as RAW_ENG_SCORE) ──
+    html = replace_raw(html, "RAW_DESIGN_SCORE", score_data)
 
     # Update DATA_LATEST everywhere
     html = re.sub(
