@@ -404,6 +404,36 @@ def parse_transactions(rows, start):
     return data
 
 
+def parse_city_breakdown(rows, s_score):
+    """City-wise provisional admissions (Design + Engineering).
+    The city table starts after the score section bands — find the row where col 0 = 'City'.
+    Reads until 'Grand Total' row.
+    Returns list of {city, design, eng, total} dicts, plus a TOTAL entry.
+    """
+    # Find the City header row (col 0 == 'City') within 20 rows of s_score
+    city_header = None
+    for i in range(s_score, s_score + 25):
+        if rows[i][0] is not None and str(rows[i][0]).strip().lower() == "city":
+            city_header = i
+            break
+    if city_header is None:
+        return []
+
+    data = []
+    total = {"city": "Grand Total", "design": 0, "eng": 0, "total": 0}
+    for r in rows[city_header + 1:]:
+        if r[0] is None:
+            break
+        city = safe_str(r[0]).strip()
+        if city.lower() == "grand total":
+            total = {"city": "Grand Total", "design": safe_num(r[1]), "eng": safe_num(r[2]), "total": safe_num(r[3])}
+            break
+        data.append({"city": city, "design": safe_num(r[1]), "eng": safe_num(r[2]), "total": safe_num(r[3])})
+
+    data.append(total)
+    return data
+
+
 def parse_leads_vs_prov(rows, start):
     """Leads vs Provisional Admissions.
     Excel layout:
@@ -684,7 +714,9 @@ def generate():
     score_data    = parse_score_analysis(rows, s_score)
     leads_vs_prov = parse_leads_vs_prov(rows, s_lvp)
     eng_score     = parse_eng_score_analysis(rows, s_score)   # cols 5-7 of same rows as Design
+    city_data     = parse_city_breakdown(rows, s_score)
     print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score: {len(eng_score)-1} bands  JEE+CET:{eng_score[-1]['cu']}  OnlyJEE:{eng_score[-1]['uu']}  Awaiting:{eng_score[-1]['oc']}  Total:{eng_score[-1]['total']}")
+    print(f"  City breakdown: {len(city_data)-1} cities")
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
     data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
@@ -720,6 +752,7 @@ def generate():
 
     # ── Inject Design Score Analysis (same flat-list format as RAW_ENG_SCORE) ──
     html = replace_raw(html, "RAW_DESIGN_SCORE", score_data)
+    html = replace_raw(html, "RAW_CITY",         city_data)
 
     # Update DATA_LATEST everywhere
     html = re.sub(
