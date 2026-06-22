@@ -487,6 +487,9 @@ th.th-num { text-align: right; }
     <button class="main-tab csr" data-group="counselorperf">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Counselor Performance
     </button>
+    <button class="main-tab avg" data-group="averages">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg> Averages
+    </button>
     <button class="main-tab ntc" data-group="notices">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Notices / Circulars
     </button>
@@ -551,6 +554,14 @@ th.th-num { text-align: right; }
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Counselor Report
     </button>
     
+  </div>
+</nav>
+
+<nav class="sect-nav-bar" id="grpnav-averages" style="display:none">
+  <div class="sect-nav-inner">
+    <button class="sect-tab avgov active" data-section="averages">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Averages
+    </button>
   </div>
 </nav>
 
@@ -2766,6 +2777,183 @@ th.th-num { text-align: right; }
       tb.innerHTML+='<tr style="'+rowStyle+'">'+cityCell+desCell+engCell+totCell+'</tr>';
     });
   })();
+
+  /* ── AVERAGES TAB ──────────────────────────────────────────────────── */
+  var _avgTab = 'overview';
+
+  function switchAvgTab(tab) {
+    _avgTab = tab;
+    ['overview','eng','des'].forEach(function(t) {
+      var btn = document.getElementById('avg-tab-'+t);
+      var panel = document.getElementById('avg-panel-'+t);
+      if (t === tab) {
+        btn.style.borderColor='#1b2a5c'; btn.style.background='#1b2a5c'; btn.style.color='white'; btn.style.fontWeight='700';
+        panel.style.display='block';
+      } else {
+        btn.style.borderColor='#dde2ef'; btn.style.background='white'; btn.style.color='#64748b'; btn.style.fontWeight='600';
+        panel.style.display='none';
+      }
+    });
+    renderAverages();
+  }
+
+  function renderAverages() {
+    /* ── resolve date range ── */
+    var fromEl = document.getElementById('avg-from');
+    var toEl   = document.getElementById('avg-to');
+    if (!fromEl || !toEl) return;
+
+    /* seed defaults on first call */
+    if (!fromEl.value) fromEl.value = '2025-09-01';
+    if (!toEl.value) {
+      var latest = typeof DATA_LATEST !== 'undefined' ? DATA_LATEST : '';
+      toEl.value = latest || new Date().toISOString().slice(0,10);
+    }
+    var fromD = fromEl.value, toD = toEl.value;
+
+    /* ── filter helpers ── */
+    function inRange(d) { return d >= fromD && d <= toD; }
+    function avg(arr, key) {
+      var valid = arr.filter(function(r){ return inRange(r.d) && r[key] != null; });
+      if (!valid.length) return {avg:0, total:0, days:0};
+      var total = valid.reduce(function(s,r){ return s + (r[key]||0); }, 0);
+      return {avg: total/valid.length, total: total, days: valid.length};
+    }
+    function avgSum(arr, keys) {
+      var valid = arr.filter(function(r){ return inRange(r.d); });
+      if (!valid.length) return {avg:0, total:0, days:0};
+      var total = valid.reduce(function(s,r){
+        return s + keys.reduce(function(ss,k){ return ss+(r[k]||0); },0);
+      }, 0);
+      return {avg: total/valid.length, total: total, days: valid.length};
+    }
+
+    var mainData  = typeof RAW_MAIN      !== 'undefined' ? RAW_MAIN      : [];
+    var wkData    = typeof RAW_WALKINS   !== 'undefined' ? RAW_WALKINS   : [];
+    var engAds    = typeof RAW_ENG_ADS   !== 'undefined' ? RAW_ENG_ADS   : [];
+    var desAds    = typeof RAW_DES_ADS   !== 'undefined' ? RAW_DES_ADS   : [];
+
+    var days = mainData.filter(function(r){ return inRange(r.d); }).length;
+    var sumEl = document.getElementById('avg-summary');
+    if (sumEl) sumEl.textContent = days + ' day' + (days!==1?'s':'') + ' in selected range  (' + fromD + '  →  ' + toD + ')';
+
+    /* ── card builder ── */
+    function fmtA(v, isCur) {
+      if (isCur) return '₹' + v.toFixed(2) + 'L';
+      return v % 1 === 0 ? v.toFixed(0) : v.toFixed(2);
+    }
+    function card(label, a, isCur, color, bg) {
+      color = color||'#1b2a5c'; bg = bg||'#eef1f9';
+      return '<div style="background:'+bg+';border:1px solid #dde2ef;border-radius:12px;padding:18px 20px;box-shadow:0 1px 4px rgba(27,42,92,0.06);">'+
+        '<div style="font-size:11px;font-weight:700;color:'+color+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">'+label+'</div>'+
+        '<div style="font-size:28px;font-weight:700;color:'+color+';line-height:1.1;margin-bottom:4px;">'+fmtA(a.avg,isCur)+'</div>'+
+        '<div style="font-size:11px;color:#64748b;">per day &nbsp;&bull;&nbsp; Total: '+(isCur?'₹'+a.total.toFixed(2)+'L':a.total)+' &nbsp;&bull;&nbsp; '+a.days+' days</div>'+
+        '</div>';
+    }
+    function section(title, cards) {
+      return '<div style="margin-bottom:28px;">'+
+        '<div style="font-size:14px;font-weight:700;color:#1b2a5c;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #eef1f9;">'+title+'</div>'+
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;">'+cards.join('')+'</div>'+
+        '</div>';
+    }
+
+    /* ── OVERVIEW ── */
+    if (_avgTab === 'overview') {
+      var html = '';
+      html += section('Leads', [
+        card('Total Leads',          avgSum(mainData,['eLeads','dLeads']),  false, '#1b2a5c', '#eef1f9'),
+        card('Engineering Leads',    avg(mainData,'eLeads'),                false, '#1a56db', '#dbeafe'),
+        card('Design Leads',         avg(mainData,'dLeads'),                false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Paid Applications', [
+        card('Total Paid Apps',      avgSum(mainData,['ePaid','dPaid']),    false, '#1b2a5c', '#eef1f9'),
+        card('Engineering Paid Apps',avg(mainData,'ePaid'),                 false, '#1a56db', '#dbeafe'),
+        card('Design Paid Apps',     avg(mainData,'dPaid'),                 false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Sign-ups', [
+        card('Total Sign-ups',       avgSum(mainData,['eSign','dSign']),    false, '#1b2a5c', '#eef1f9'),
+        card('Engineering Sign-ups', avg(mainData,'eSign'),                 false, '#1a56db', '#dbeafe'),
+        card('Design Sign-ups',      avg(mainData,'dSign'),                 false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Provisional Admissions', [
+        card('Total Provisional',    avgSum(mainData,['eProv','dProv']),    false, '#1b2a5c', '#eef1f9'),
+        card('Eng Provisional',      avg(mainData,'eProv'),                 false, '#1a56db', '#dbeafe'),
+        card('Des Provisional',      avg(mainData,'dProv'),                 false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Revenue — Provisional Admissions', [
+        card('Total Rev. Provisional', avgSum(mainData,['eRevProv','dRevProv']), true, '#065f46', '#d1fae5'),
+        card('Eng Rev. Provisional',   avg(mainData,'eRevProv'),                true, '#1a56db', '#dbeafe'),
+        card('Des Rev. Provisional',   avg(mainData,'dRevProv'),                true, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Revenue — Paid Applications', [
+        card('Total Rev. Paid Apps',  avgSum(mainData,['eRevPaid','dRevPaid']), true, '#065f46', '#d1fae5'),
+        card('Eng Rev. Paid Apps',    avg(mainData,'eRevPaid'),                 true, '#1a56db', '#dbeafe'),
+        card('Des Rev. Paid Apps',    avg(mainData,'dRevPaid'),                 true, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Walk-ins', [
+        card('Total Walk-ins',        avgSum(wkData,['eng','des']), false, '#1b2a5c', '#eef1f9'),
+        card('Engineering Walk-ins',  avg(wkData,'eng'),            false, '#1a56db', '#dbeafe'),
+        card('Design Walk-ins',       avg(wkData,'des'),            false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Google Ads', [
+        card('Eng Ads Spend',         avg(engAds,'cost'),  true,  '#b45309', '#fef3c7'),
+        card('Eng Ads Leads',         avg(engAds,'leads'), false, '#1a56db', '#dbeafe'),
+        card('Des Ads Spend',         avg(desAds,'cost'),  true,  '#b45309', '#fef3c7'),
+        card('Des Ads Leads',         avg(desAds,'leads'), false, '#7c3aed', '#ede9fe'),
+      ]);
+      document.getElementById('avg-panel-overview').innerHTML = html;
+    }
+
+    /* ── ENGINEERING ── */
+    if (_avgTab === 'eng') {
+      var html = '';
+      html += section('Leads & Applications', [
+        card('Leads',               avg(mainData,'eLeads'), false, '#1a56db', '#dbeafe'),
+        card('Paid Applications',   avg(mainData,'ePaid'),  false, '#1a56db', '#dbeafe'),
+        card('Sign-ups',            avg(mainData,'eSign'),  false, '#1a56db', '#dbeafe'),
+        card('Provisional Admissions', avg(mainData,'eProv'), false, '#1a56db', '#dbeafe'),
+      ]);
+      html += section('Revenue', [
+        card('Revenue — Provisional', avg(mainData,'eRevProv'), true, '#065f46', '#d1fae5'),
+        card('Revenue — Paid Apps',   avg(mainData,'eRevPaid'), true, '#065f46', '#d1fae5'),
+      ]);
+      html += section('Google Ads', [
+        card('Ads Spend',      avg(engAds,'cost'),   true,  '#b45309', '#fef3c7'),
+        card('Impressions',    avg(engAds,'imp'),     false, '#1a56db', '#dbeafe'),
+        card('Avg CPC',        avg(engAds,'cpc'),     true,  '#b45309', '#fef3c7'),
+        card('Google Leads',   avg(engAds,'leads'),   false, '#1a56db', '#dbeafe'),
+      ]);
+      html += section('Walk-ins', [
+        card('Walk-ins', avg(wkData,'eng'), false, '#1a56db', '#dbeafe'),
+      ]);
+      document.getElementById('avg-panel-eng').innerHTML = html;
+    }
+
+    /* ── DESIGN ── */
+    if (_avgTab === 'des') {
+      var html = '';
+      html += section('Leads & Applications', [
+        card('Leads',               avg(mainData,'dLeads'), false, '#7c3aed', '#ede9fe'),
+        card('Paid Applications',   avg(mainData,'dPaid'),  false, '#7c3aed', '#ede9fe'),
+        card('Sign-ups',            avg(mainData,'dSign'),  false, '#7c3aed', '#ede9fe'),
+        card('Provisional Admissions', avg(mainData,'dProv'), false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Revenue', [
+        card('Revenue — Provisional', avg(mainData,'dRevProv'), true, '#065f46', '#d1fae5'),
+        card('Revenue — Paid Apps',   avg(mainData,'dRevPaid'), true, '#065f46', '#d1fae5'),
+      ]);
+      html += section('Google Ads', [
+        card('Ads Spend',      avg(desAds,'cost'),   true,  '#b45309', '#fef3c7'),
+        card('Impressions',    avg(desAds,'imp'),     false, '#7c3aed', '#ede9fe'),
+        card('Avg CPC',        avg(desAds,'cpc'),     true,  '#b45309', '#fef3c7'),
+        card('Google Leads',   avg(desAds,'leads'),   false, '#7c3aed', '#ede9fe'),
+      ]);
+      html += section('Walk-ins', [
+        card('Walk-ins', avg(wkData,'des'), false, '#7c3aed', '#ede9fe'),
+      ]);
+      document.getElementById('avg-panel-des').innerHTML = html;
+    }
+  }
   (function(){
     var data=typeof RAW_LEADS_VS_PROV!=="undefined"?RAW_LEADS_VS_PROV:[];
     if(!data.length)return;
@@ -4264,6 +4452,7 @@ function switchMain(section) {
   else if (section==='counselor') renderCounselor();
   else if (section==='notices') renderNotices();
   else if (section==='branch-scores') bsProgChanged();
+  else if (section==='averages') renderAverages();
 }
 
 // Group → first-section mapping
@@ -4273,6 +4462,7 @@ const GROUP_SECTIONS = {
   marketing:     'social',
   finbudget:     'budget',
   counselorperf: 'counselor',
+  averages:     'averages',
   notices:       'notices'
 };
 
