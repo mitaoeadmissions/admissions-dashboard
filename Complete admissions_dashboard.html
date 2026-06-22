@@ -2819,88 +2819,6 @@ th.th-num { text-align: right; }
     });
   }
   (function(){
-
-  /* ── GOOGLE LEADS ─────────────────────────────────────────────── */
-  function _glKpiCard(label, value, sub, color, bg) {
-    return '<div style="background:'+bg+';border:1px solid #dde2ef;border-radius:12px;padding:16px 18px;">'+
-      '<div style="font-size:11px;font-weight:700;color:'+color+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">'+label+'</div>'+
-      '<div style="font-size:28px;font-weight:700;color:'+color+';line-height:1.1;margin-bottom:3px;">'+value+'</div>'+
-      '<div style="font-size:11px;color:#64748b;">'+sub+'</div></div>';
-  }
-
-  function renderGLeads() {
-    var engAds = typeof RAW_ENG_ADS !== 'undefined' ? RAW_ENG_ADS : [];
-    var desAds = typeof RAW_DES_ADS !== 'undefined' ? RAW_DES_ADS : [];
-    var engMap = {}; engAds.forEach(function(r){ engMap[r.d] = r; });
-    var desMap = {}; desAds.forEach(function(r){ desMap[r.d] = r; });
-    var dates = Array.from(new Set(engAds.map(function(r){return r.d;}).concat(desAds.map(function(r){return r.d;})))).sort().reverse();
-    var totEL=0,totDL=0,totES=0,totDS=0;
-    dates.forEach(function(d){
-      var e=engMap[d]||{}; var dv=desMap[d]||{};
-      totEL+=(e.gLeads||0); totDL+=(dv.gLeads||0);
-      totES+=(e.cost||0); totDS+=(dv.cost||0);
-    });
-    var kEl=document.getElementById('gl-kpi');
-    if(kEl) kEl.innerHTML=
-      _glKpiCard('Total Leads',totEL+totDL,'eng '+totEL+' + des '+totDL,'#1b2a5c','#eef1f9')+
-      _glKpiCard('Eng Leads',totEL,engAds.length+' days data','#1a56db','#dbeafe')+
-      _glKpiCard('Des Leads',totDL,desAds.length+' days data','#7c3aed','#ede9fe')+
-      _glKpiCard('Total Spend','₹'+(totES+totDS).toFixed(0),'Eng ₹'+totES.toFixed(0)+' + Des ₹'+totDS.toFixed(0),'#b45309','#fef3c7');
-    var tb=document.getElementById('gl-tbody');
-    if(!tb) return;
-    tb.innerHTML='';
-    dates.forEach(function(d,i){
-      var e=engMap[d]||{}; var dv=desMap[d]||{};
-      var eL=e.gLeads||0, dL=dv.gLeads||0;
-      var eS=e.cost||0, dS=dv.cost||0;
-      var bg=i%2===1?'background:#f8faff;':'';
-      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
-        '<td style="padding:10px 16px;font-size:12px;font-weight:600;color:#1b2a5c;">'+d+'</td>'+
-        '<td style="padding:10px 16px;font-size:13px;font-weight:700;color:#1a56db;text-align:right;">'+eL+'</td>'+
-        '<td style="padding:10px 16px;font-size:13px;font-weight:700;color:#7c3aed;text-align:right;">'+dL+'</td>'+
-        '<td style="padding:10px 16px;font-size:14px;font-weight:700;color:#1b2a5c;text-align:right;">'+(eL+dL)+'</td>'+
-        '<td style="padding:10px 16px;font-size:12px;color:#b45309;text-align:right;">₹'+eS.toFixed(0)+'</td>'+
-        '<td style="padding:10px 16px;font-size:12px;color:#b45309;text-align:right;">₹'+dS.toFixed(0)+'</td>'+
-        '<td style="padding:10px 16px;font-size:13px;font-weight:600;color:#b45309;text-align:right;">₹'+(eS+dS).toFixed(0)+'</td></tr>';
-    });
-  }
-
-  function _renderAdsTable(data, tbId, kpiId, color, bg) {
-    var totL=0,totS=0,totI=0;
-    data.forEach(function(r){ totL+=(r.gLeads||0); totS+=(r.cost||0); totI+=(r.imp||0); });
-    var avgCTR=data.length?data.reduce(function(s,r){return s+(r.ctr||0);},0)/data.length:0;
-    var avgCPC=totL>0?totS/totL:0;
-    var kEl=document.getElementById(kpiId);
-    if(kEl) kEl.innerHTML=
-      _glKpiCard('Total Leads',totL,data.length+' days data',color,bg)+
-      _glKpiCard('Total Spend','₹'+totS.toFixed(0),'across '+data.length+' days','#b45309','#fef3c7')+
-      _glKpiCard('Avg CTR',avgCTR.toFixed(2),'clicks per day avg','#065f46','#d1fae5')+
-      _glKpiCard('Avg CPC','₹'+avgCPC.toFixed(2),'cost per lead','#b45309','#fef3c7');
-    var tb=document.getElementById(tbId);
-    if(!tb) return;
-    tb.innerHTML='';
-    var sorted=data.slice().sort(function(a,b){return b.d>a.d?1:-1;});
-    sorted.forEach(function(r,i){
-      var bg2=i%2===1?'background:#f8faff;':'';
-      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg2+'">'+
-        '<td style="padding:10px 16px;font-size:12px;font-weight:600;color:#1b2a5c;">'+r.d+'</td>'+
-        '<td style="padding:10px 16px;font-size:14px;font-weight:700;color:'+color+';text-align:right;">'+(r.gLeads||0)+'</td>'+
-        '<td style="padding:10px 16px;font-size:12px;font-weight:600;color:#b45309;text-align:right;">₹'+(r.cost||0).toFixed(0)+'</td>'+
-        '<td style="padding:10px 16px;font-size:12px;color:#64748b;text-align:right;">'+(r.imp||0).toLocaleString()+'</td>'+
-        '<td style="padding:10px 16px;font-size:12px;color:#64748b;text-align:right;">'+(r.ctr||0).toFixed(2)+'</td>'+
-        '<td style="padding:10px 16px;font-size:12px;color:#64748b;text-align:right;">₹'+(r.cpc||0).toFixed(2)+'</td></tr>';
-    });
-  }
-
-  function renderEngGLeads() {
-    var engAds = typeof RAW_ENG_ADS !== 'undefined' ? RAW_ENG_ADS : [];
-    _renderAdsTable(engAds, 'egl-tbody', 'egl-kpi', '#1a56db', '#dbeafe');
-  }
-
-  function renderDesGLeads() {
-    var desAds = typeof RAW_DES_ADS !== 'undefined' ? RAW_DES_ADS : [];
-    _renderAdsTable(desAds, 'dgl-tbody', 'dgl-kpi', '#7c3aed', '#ede9fe');
-  }
     if(typeof RAW_ENG_SCORE==="undefined"||!RAW_ENG_SCORE.length)return;
     var kpi=RAW_ENG_SCORE[RAW_ENG_SCORE.length-1];
     var bands=RAW_ENG_SCORE.slice(0,-1);
@@ -3159,6 +3077,89 @@ th.th-num { text-align: right; }
       document.getElementById('avg-panel-des').innerHTML = html;
     }
   }
+
+  /* ── GOOGLE LEADS ─────────────────────────────────────────────── */
+  function _glKpiCard(label, value, sub, color, bg) {
+    return '<div style="background:'+bg+';border:1px solid #dde2ef;border-radius:12px;padding:16px 18px;">'+
+      '<div style="font-size:11px;font-weight:700;color:'+color+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">'+label+'</div>'+
+      '<div style="font-size:28px;font-weight:700;color:'+color+';line-height:1.1;margin-bottom:3px;">'+value+'</div>'+
+      '<div style="font-size:11px;color:#64748b;">'+sub+'</div></div>';
+  }
+
+  function renderGLeads() {
+    var engAds = typeof RAW_ENG_ADS !== 'undefined' ? RAW_ENG_ADS : [];
+    var desAds = typeof RAW_DES_ADS !== 'undefined' ? RAW_DES_ADS : [];
+    var engMap = {}; engAds.forEach(function(r){ engMap[r.d] = r; });
+    var desMap = {}; desAds.forEach(function(r){ desMap[r.d] = r; });
+    var dates = Array.from(new Set(engAds.map(function(r){return r.d;}).concat(desAds.map(function(r){return r.d;})))).sort().reverse();
+    var totEL=0,totDL=0,totES=0,totDS=0;
+    dates.forEach(function(d){
+      var e=engMap[d]||{}; var dv=desMap[d]||{};
+      totEL+=(e.gLeads||0); totDL+=(dv.gLeads||0);
+      totES+=(e.cost||0); totDS+=(dv.cost||0);
+    });
+    var kEl=document.getElementById('gl-kpi');
+    if(kEl) kEl.innerHTML=
+      _glKpiCard('Total Leads',totEL+totDL,'eng '+totEL+' + des '+totDL,'#1b2a5c','#eef1f9')+
+      _glKpiCard('Eng Leads',totEL,engAds.length+' days data','#1a56db','#dbeafe')+
+      _glKpiCard('Des Leads',totDL,desAds.length+' days data','#7c3aed','#ede9fe')+
+      _glKpiCard('Total Spend','₹'+(totES+totDS).toFixed(0),'Eng ₹'+totES.toFixed(0)+' + Des ₹'+totDS.toFixed(0),'#b45309','#fef3c7');
+    var tb=document.getElementById('gl-tbody');
+    if(!tb) return;
+    tb.innerHTML='';
+    dates.forEach(function(d,i){
+      var e=engMap[d]||{}; var dv=desMap[d]||{};
+      var eL=e.gLeads||0, dL=dv.gLeads||0;
+      var eS=e.cost||0, dS=dv.cost||0;
+      var bg2=i%2===1?'background:#f8faff;':'';
+      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg2+'">'+
+        '<td style="padding:10px 16px;font-size:12px;font-weight:600;color:#1b2a5c;">'+d+'</td>'+
+        '<td style="padding:10px 16px;font-size:13px;font-weight:700;color:#1a56db;text-align:right;">'+eL+'</td>'+
+        '<td style="padding:10px 16px;font-size:13px;font-weight:700;color:#7c3aed;text-align:right;">'+dL+'</td>'+
+        '<td style="padding:10px 16px;font-size:14px;font-weight:700;color:#1b2a5c;text-align:right;">'+(eL+dL)+'</td>'+
+        '<td style="padding:10px 16px;font-size:12px;color:#b45309;text-align:right;">₹'+eS.toFixed(0)+'</td>'+
+        '<td style="padding:10px 16px;font-size:12px;color:#b45309;text-align:right;">₹'+dS.toFixed(0)+'</td>'+
+        '<td style="padding:10px 16px;font-size:13px;font-weight:600;color:#b45309;text-align:right;">₹'+(eS+dS).toFixed(0)+'</td></tr>';
+    });
+  }
+
+  function _renderAdsTable(data, tbId, kpiId, color, bg) {
+    var totL=0,totS=0,totI=0;
+    data.forEach(function(r){ totL+=(r.gLeads||0); totS+=(r.cost||0); totI+=(r.imp||0); });
+    var avgCTR=data.length?data.reduce(function(s,r){return s+(r.ctr||0);},0)/data.length:0;
+    var avgCPC=totL>0?totS/totL:0;
+    var kEl=document.getElementById(kpiId);
+    if(kEl) kEl.innerHTML=
+      _glKpiCard('Total Leads',totL,data.length+' days data',color,bg)+
+      _glKpiCard('Total Spend','₹'+totS.toFixed(0),'across '+data.length+' days','#b45309','#fef3c7')+
+      _glKpiCard('Avg CTR',avgCTR.toFixed(2),'clicks per day avg','#065f46','#d1fae5')+
+      _glKpiCard('Avg CPC','₹'+avgCPC.toFixed(2),'cost per lead','#b45309','#fef3c7');
+    var tb=document.getElementById(tbId);
+    if(!tb) return;
+    tb.innerHTML='';
+    var sorted=data.slice().sort(function(a,b){return b.d>a.d?1:-1;});
+    sorted.forEach(function(r,i){
+      var bg2=i%2===1?'background:#f8faff;':'';
+      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg2+'">'+
+        '<td style="padding:10px 16px;font-size:12px;font-weight:600;color:#1b2a5c;">'+r.d+'</td>'+
+        '<td style="padding:10px 16px;font-size:14px;font-weight:700;color:'+color+';text-align:right;">'+(r.gLeads||0)+'</td>'+
+        '<td style="padding:10px 16px;font-size:12px;font-weight:600;color:#b45309;text-align:right;">₹'+(r.cost||0).toFixed(0)+'</td>'+
+        '<td style="padding:10px 16px;font-size:12px;color:#64748b;text-align:right;">'+(r.imp||0).toLocaleString()+'</td>'+
+        '<td style="padding:10px 16px;font-size:12px;color:#64748b;text-align:right;">'+(r.ctr||0).toFixed(2)+'</td>'+
+        '<td style="padding:10px 16px;font-size:12px;color:#64748b;text-align:right;">₹'+(r.cpc||0).toFixed(2)+'</td></tr>';
+    });
+  }
+
+  function renderEngGLeads() {
+    var engAds = typeof RAW_ENG_ADS !== 'undefined' ? RAW_ENG_ADS : [];
+    _renderAdsTable(engAds, 'egl-tbody', 'egl-kpi', '#1a56db', '#dbeafe');
+  }
+
+  function renderDesGLeads() {
+    var desAds = typeof RAW_DES_ADS !== 'undefined' ? RAW_DES_ADS : [];
+    _renderAdsTable(desAds, 'dgl-tbody', 'dgl-kpi', '#7c3aed', '#ede9fe');
+  }
+
   (function(){
     var data=typeof RAW_LEADS_VS_PROV!=="undefined"?RAW_LEADS_VS_PROV:[];
     if(!data.length)return;
