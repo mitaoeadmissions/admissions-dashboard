@@ -1200,6 +1200,49 @@ th.th-num { text-align: right; }
   </section>
 
   <!-- ============ NOTICES / CIRCULARS ============ -->
+  <section class="tab-section" id="sec-averages">
+    <div style="max-width:1300px;margin:0 auto;padding:24px 20px 48px;">
+
+      <!-- Header + Date Range -->
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px;">
+        <div>
+          <h2 style="font-size:22px;font-weight:700;color:#1b2a5c;margin:0 0 4px;">Daily Averages</h2>
+          <div style="font-size:13px;color:#64748b;">Average values per day across the selected date range</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <label style="font-size:12px;font-weight:600;color:#475569;">From:</label>
+          <input type="date" id="avg-from" style="padding:7px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;" onchange="renderAverages()">
+          <label style="font-size:12px;font-weight:600;color:#475569;">To:</label>
+          <input type="date" id="avg-to" style="padding:7px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;" onchange="renderAverages()">
+        </div>
+      </div>
+
+      <!-- Sub-tab buttons -->
+      <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+        <button id="avg-tab-overview" onclick="switchAvgTab('overview')"
+          style="padding:8px 22px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid #1b2a5c;background:#1b2a5c;color:white;transition:all 0.15s;">
+          Overview
+        </button>
+        <button id="avg-tab-eng" onclick="switchAvgTab('eng')"
+          style="padding:8px 22px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #dde2ef;background:white;color:#64748b;transition:all 0.15s;">
+          Engineering
+        </button>
+        <button id="avg-tab-des" onclick="switchAvgTab('des')"
+          style="padding:8px 22px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #dde2ef;background:white;color:#64748b;transition:all 0.15s;">
+          Design
+        </button>
+      </div>
+
+      <!-- Summary line -->
+      <div id="avg-summary" style="font-size:12px;color:#64748b;margin-bottom:20px;"></div>
+
+      <!-- Content panels -->
+      <div id="avg-panel-overview"></div>
+      <div id="avg-panel-eng" style="display:none;"></div>
+      <div id="avg-panel-des" style="display:none;"></div>
+    </div>
+  </section>
+
   <section class="tab-section" id="sec-notices">
     <div class="controls-bar">
       <label>Date Range:</label>
