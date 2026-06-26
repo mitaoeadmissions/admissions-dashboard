@@ -511,6 +511,9 @@ th.th-num { text-align: right; }
     <button class="sect-tab glv" data-section="google-leads">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Google Leads
     </button>
+    <button class="sect-tab admst" data-section="admission-status">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Admission Status
+    </button>
   </div>
 </nav>
 
@@ -1320,6 +1323,42 @@ th.th-num { text-align: right; }
       <div id="avg-panel-overview"></div>
       <div id="avg-panel-eng" style="display:none;"></div>
       <div id="avg-panel-des" style="display:none;"></div>
+    </div>
+  </section>
+
+  <section class="tab-section" id="sec-admission-status">
+    <div style="max-width:1300px;margin:0 auto;padding:24px 20px 48px;">
+      <div style="margin-bottom:24px;">
+        <h2 style="font-size:22px;font-weight:700;color:#1b2a5c;margin:0 0 4px;">MITAOE Admission Status 2026-27</h2>
+        <div style="font-size:13px;color:#64748b;">Seat availability vs admissions as on 25th June 2026</div>
+      </div>
+
+      <!-- KPI summary row -->
+      <div id="adm-kpi" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;"></div>
+
+      <!-- Branch-wise table -->
+      <div style="background:white;border:1px solid #dde2ef;border-radius:14px;overflow:hidden;box-shadow:0 1px 6px rgba(27,42,92,0.08);">
+        <div style="background:#1b2a5c;padding:14px 18px;display:flex;align-items:center;gap:10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span style="font-size:14px;font-weight:700;color:white;">Branch-wise Seat Matrix</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#f8faff;border-bottom:2px solid #dde2ef;">
+                <th style="padding:12px 14px;text-align:left;font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Branch</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#1a56db;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">IL Intake<br>2026-27 (A)</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">CAP Vacancy<br>2025-26 (B)</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#0891b2;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Cancellation<br>Vacancy 2025-26 (C)</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Total<br>(A+B+C)</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Admissions<br>as on 25th Jun</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Vacant<br>2026-27</th>
+              </tr>
+            </thead>
+            <tbody id="adm-tbody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2810,6 +2849,7 @@ th.th-num { text-align: right; }
   const RAW_CITY = [];
   const RAW_DESIGN_SCORE = [];
   const RAW_ENG_SCORE = [];
+  const RAW_ADMISSION_STATUS = [];
   function switchScoreTab(tab){
     ["design","eng"].forEach(function(p){
       document.getElementById("score-panel-"+p).style.display=(p===tab)?"block":"none";
@@ -3158,6 +3198,66 @@ th.th-num { text-align: right; }
   function renderDesGLeads() {
     var desAds = typeof RAW_DES_ADS !== 'undefined' ? RAW_DES_ADS : [];
     _renderAdsTable(desAds, 'dgl-tbody', 'dgl-kpi', '#7c3aed', '#ede9fe');
+  }
+
+
+  /* ── MITAOE ADMISSION STATUS ──────────────────────────────────── */
+  function renderAdmissionStatus() {
+    var data = typeof RAW_ADMISSION_STATUS !== 'undefined' ? RAW_ADMISSION_STATUS : [];
+    var totRow = data.find(function(r){ return r.branch.toUpperCase() === 'TOTAL'; });
+    var rows   = data.filter(function(r){ return r.branch.toUpperCase() !== 'TOTAL'; });
+
+    // KPI cards
+    var kEl = document.getElementById('adm-kpi');
+    if (kEl && totRow) {
+      function kCard(label, val, color, bg) {
+        return '<div style="background:'+bg+';border:1px solid #dde2ef;border-radius:12px;padding:16px 18px;">' +
+          '<div style="font-size:11px;font-weight:700;color:'+color+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">'+label+'</div>' +
+          '<div style="font-size:28px;font-weight:700;color:'+color+';line-height:1.1;margin-bottom:3px;">'+val+'</div></div>';
+      }
+      kEl.innerHTML =
+        kCard('IL Intake 2026-27', totRow.ilIntake, '#1a56db', '#eff6ff') +
+        kCard('CAP Vacancy (Last Yr)', totRow.capVac, '#7c3aed', '#f5f3ff') +
+        kCard('Cancellation Vacancy', totRow.cancVac, '#0891b2', '#ecfeff') +
+        kCard('Total Available (A+B+C)', totRow.total, '#059669', '#f0fdf4') +
+        kCard('Admissions (25th Jun)', totRow.admitted, '#b45309', '#fffbeb') +
+        kCard('Vacant 2026-27', totRow.vacant, '#dc2626', '#fef2f2');
+    }
+
+    // Table
+    var tb = document.getElementById('adm-tbody');
+    if (!tb) return;
+    tb.innerHTML = '';
+    rows.forEach(function(r, i) {
+      var fillPct = r.total > 0 ? Math.round(r.admitted / r.total * 100) : 0;
+      var fillColor = fillPct >= 70 ? '#059669' : fillPct >= 40 ? '#b45309' : '#dc2626';
+      var bg = i % 2 === 1 ? 'background:#f8faff;' : '';
+      var isTotal = r.branch.toUpperCase() === 'TOTAL';
+      var rowStyle = isTotal ? 'background:#1b2a5c;font-weight:700;' : bg;
+      var textColor = isTotal ? 'color:white;' : '';
+      tb.innerHTML += '<tr style="border-bottom:1px solid #f0f2f8;' + rowStyle + '">' +
+        '<td style="padding:11px 14px;font-size:12px;font-weight:600;' + textColor + '">' + r.branch + '</td>' +
+        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#1a56db') + ';">' + r.ilIntake + '</td>' +
+        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#7c3aed') + ';">' + r.capVac + '</td>' +
+        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#0891b2') + ';">' + r.cancVac + '</td>' +
+        '<td style="padding:11px 14px;text-align:center;font-size:14px;font-weight:700;color:' + (isTotal ? 'white' : '#059669') + ';">' + r.total + '</td>' +
+        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#b45309') + ';">' + r.admitted +
+          (isTotal ? '' : ' <span style="font-size:10px;color:' + fillColor + ';font-weight:600;">(' + fillPct + '%)</span>') + '</td>' +
+        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#dc2626') + ';">' + r.vacant + '</td>' +
+        '</tr>';
+    });
+    // Add total row at bottom
+    if (totRow) {
+      tb.innerHTML += '<tr style="background:#1b2a5c;">' +
+        '<td style="padding:12px 14px;font-size:13px;font-weight:700;color:white;">TOTAL</td>' +
+        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.ilIntake + '</td>' +
+        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.capVac + '</td>' +
+        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.cancVac + '</td>' +
+        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.total + '</td>' +
+        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.admitted + '</td>' +
+        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.vacant + '</td>' +
+        '</tr>';
+    }
   }
 
   (function(){
@@ -4662,6 +4762,7 @@ function switchMain(section) {
   else if (section==='google-leads') renderGLeads();
   else if (section==='eng-gleads') renderEngGLeads();
   else if (section==='des-gleads') renderDesGLeads();
+  else if (section==='admission-status') renderAdmissionStatus();
 }
 
 // Group → first-section mapping

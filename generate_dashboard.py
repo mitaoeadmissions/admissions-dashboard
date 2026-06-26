@@ -365,41 +365,71 @@ def parse_budget(rows, start):
 
 
 def parse_transactions(rows, start):
-    """Transaction updates.
-    Excel cols: Sr | Name | Branch | Contact | Parent Contact | Email |
-                Gender | Category | HSC | PCM | JEE/UCEED/GATE | CET 1 | CET 2 |
-                Caution Fees | Counsellor | Payment Date | Payment Amount |
-                Transaction ID | Mode | UG/PG | Program | Verified | Admission Status | Cancellation Status
+    """Transaction updates (updated column layout — 2 new cols inserted at positions 3-4).
+    Excel cols: Sr.No | Name | Branch | Remark | Fees Type | Contact | Parent Contact | Email |
+                Gender | Category | HSC | PCM | JEE | CET 1 | CET 2 |
+                Caution Fees | Counselor | Date | Amount | UTR/UPI | Mode | UG/PG | Program |
+                Checked with Accounts | Admission Status | Refund Status
     """
     data = []
     for r in rows[start + 2:]:
         if r[0] is None or not isinstance(r[0], (int, float)):
             break
-        date_val = r[15]
+        date_val = r[17]
         if isinstance(date_val, datetime):
             ds = fmt_date(date_val)
         else:
             ds = fmt_date(date_val) or safe_str(date_val)
+        fees_type = safe_str(r[4])
+        jee_raw   = r[12]
+        jee_val   = null_or_num(jee_raw)
         data.append({
-            "sr":               safe_str(r[0]),
-            "name":             safe_str(r[1]),
-            "branch":           safe_str(r[2]),
-            "gender":           safe_str(r[6]),
-            "category":         safe_str(r[7]),
-            "hsc":              null_or_num(r[8]),
-            "pcm":              null_or_num(r[9]),
-            "jee":              null_or_num(r[10]),
-            "cet1":             null_or_num(r[11]),
-            "cet2":             null_or_num(r[12]),
-            "csl":              safe_str(r[14]),
-            "d":                ds,
-            "amt":              safe_num(r[16]),
-            "txid":             safe_str(r[17]),
-            "mode":             safe_str(r[18]),
-            "ugpg":             safe_str(r[19]),
-            "program":          safe_str(r[20]),
-            "admStatus":        safe_str(r[22]),
-            "cancelStatus":     safe_str(r[23]) if len(r) > 23 and r[23] else "",
+            "sr":           safe_str(r[0]),
+            "name":         safe_str(r[1]),
+            "branch":       safe_str(r[2]),
+            "remark":       safe_str(r[3]),
+            "feesType":     fees_type,
+            "gender":       safe_str(r[8]),
+            "category":     safe_str(r[9]),
+            "hsc":          null_or_num(r[10]),
+            "pcm":          null_or_num(r[11]),
+            "jee":          jee_val,
+            "cet1":         null_or_num(r[13]),
+            "cet2":         null_or_num(r[14]),
+            "csl":          safe_str(r[16]),
+            "d":            ds,
+            "amt":          safe_num(r[18]),
+            "txid":         safe_str(r[19]),
+            "mode":         safe_str(r[20]),
+            "ugpg":         safe_str(r[21]),
+            "program":      safe_str(r[22]),
+            "admStatus":    safe_str(r[24]),
+            "refundStatus": safe_str(r[25]) if len(r) > 25 and r[25] else "",
+        })
+    return data
+
+
+def parse_mitaoe_admission_status(rows, start):
+    """MITAOE Admission Status section.
+    Excel cols: Branch | IL Intake (A) | ACAP Vacancy prev yr (B) |
+                Vacancy Against Cancellation prev yr (C) | Total (A+B+C) |
+                Admissions as on 25th June | Vacant
+    """
+    data = []
+    for r in rows[start + 2:]:
+        if r[0] is None:
+            break
+        branch = safe_str(r[0]).strip()
+        if not branch:
+            break
+        data.append({
+            "branch":    branch,
+            "ilIntake":  safe_num(r[1]),
+            "capVac":    safe_num(r[2]),
+            "cancVac":   safe_num(r[3]),
+            "total":     safe_num(r[4]),
+            "admitted":  safe_num(r[5]),
+            "vacant":    safe_num(r[6]),
         })
     return data
 
@@ -690,6 +720,7 @@ def generate():
     s_txn     = find_section(rows, "Transaction updates")
     s_score   = find_section(rows, "Score Analysis of Provisional Admissions (Design)")
     s_lvp     = find_section(rows, "Leads vs Provisional admissions")
+    s_adm_st  = find_section(rows, "MITAOE Admission Status")
     # Engineering score analysis is in cols 5-7 of the same rows as Design (no separate section header)
 
     print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
@@ -714,6 +745,7 @@ def generate():
     score_data    = parse_score_analysis(rows, s_score)
     leads_vs_prov = parse_leads_vs_prov(rows, s_lvp)
     eng_score     = parse_eng_score_analysis(rows, s_score)   # cols 5-7 of same rows as Design
+    adm_status    = parse_mitaoe_admission_status(rows, s_adm_st)
     city_data     = parse_city_breakdown(rows, s_score)
     print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score: {len(eng_score)-1} bands  JEE+CET:{eng_score[-1]['cu']}  OnlyJEE:{eng_score[-1]['uu']}  Awaiting:{eng_score[-1]['oc']}  Total:{eng_score[-1]['total']}")
     print(f"  City breakdown: {len(city_data)-1} cities")
@@ -753,6 +785,7 @@ def generate():
     # ── Inject Design Score Analysis (same flat-list format as RAW_ENG_SCORE) ──
     html = replace_raw(html, "RAW_DESIGN_SCORE", score_data)
     html = replace_raw(html, "RAW_CITY",         city_data)
+    html = replace_raw(html, "RAW_ADMISSION_STATUS", adm_status)
 
     # Update DATA_LATEST everywhere
     html = re.sub(
