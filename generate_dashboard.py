@@ -718,8 +718,12 @@ def generate():
     s_states  = find_section(rows, "State-wise Leads")
     s_budget  = find_section(rows, "Budget Analysis")
     s_txn     = find_section(rows, "Transaction updates")
-    s_score   = find_section(rows, "Score Analysis of Provisional Admissions (Design)")
-    s_lvp     = find_section(rows, "Leads vs Provisional admissions")
+    s_score   = find_section(rows, "Score Analysis of Provisional Admissions")
+    try:
+        s_lvp = find_section(rows, "Leads vs Provisional admissions")
+    except ValueError:
+        s_lvp = None
+        print("  [INFO] 'Leads vs Provisional admissions' section not found — skipping")
     s_adm_st  = find_section(rows, "MITAOE Admission Status")
     # Engineering score analysis is in cols 5-7 of the same rows as Design (no separate section header)
 
@@ -743,7 +747,7 @@ def generate():
     budget       = parse_budget(rows, s_budget)
     transactions  = parse_transactions(rows, s_txn)
     score_data    = parse_score_analysis(rows, s_score)
-    leads_vs_prov = parse_leads_vs_prov(rows, s_lvp)
+    leads_vs_prov = parse_leads_vs_prov(rows, s_lvp) if s_lvp is not None else []
     eng_score     = parse_eng_score_analysis(rows, s_score)   # cols 5-7 of same rows as Design
     adm_status    = parse_mitaoe_admission_status(rows, s_adm_st)
     city_data     = parse_city_breakdown(rows, s_score)
