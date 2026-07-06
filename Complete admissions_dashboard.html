@@ -90,6 +90,7 @@ button, [data-section], [data-group], [data-pfx], [data-apply], [data-preset], [
 .badge-live { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: rgba(255,255,255,0.85); font-weight: 500; padding: 5px 14px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; backdrop-filter:blur(4px); }
 .dot-live { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+@keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 
 /* ── MAIN TABS ───────────────────────────── */
 .main-nav {
@@ -419,6 +420,10 @@ th.th-num { text-align: right; }
     </div>
     <div class="header-actions">
       <div class="badge-live" id="last-updated-badge"><span class="dot-live"></span><span id="last-updated-text">Last Updated: —</span></div>
+      <button class="btn btn-outline" id="sync-btn" onclick="triggerDashboardUpdate()" title="Pull latest data from Excel and rebuild dashboard">
+        <svg id="sync-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <span id="sync-label">Sync Data</span>
+      </button>
       <button class="btn btn-outline" onclick="document.getElementById('mainImport').click()" title="Import CSV or Excel file (.csv, .xls, .xlsx)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         Import
@@ -4885,6 +4890,74 @@ function setPreset(pfx, preset, el) {
   else if (pfx==='ntc') renderNotices();
   else if (pfx==='txn') renderTransactions();
   else if (pfx==='bgt') renderBudget();
+}
+
+// ═══════════════════════════════════════════
+// SYNC / TRIGGER CI UPDATE
+// ═══════════════════════════════════════════
+function triggerDashboardUpdate() {
+  var btn   = document.getElementById('sync-btn');
+  var icon  = document.getElementById('sync-icon');
+  var label = document.getElementById('sync-label');
+
+  // Get token from localStorage, prompt once if missing
+  var token = localStorage.getItem('gh_sync_token');
+  if (!token) {
+    token = prompt(
+      'Enter your GitHub Personal Access Token to trigger a dashboard sync.\n' +
+      '(Saved locally in your browser — never sent anywhere except GitHub API)\n\n' +
+      'Need one? Go to: github.com → Settings → Developer settings → Personal access tokens\n' +
+      'Required scope: workflow'
+    );
+    if (!token) return;
+    localStorage.setItem('gh_sync_token', token.trim());
+    token = token.trim();
+  }
+
+  btn.disabled = true;
+  label.textContent = 'Syncing…';
+  icon.style.animation = 'spin 1s linear infinite';
+
+  fetch('https://api.github.com/repos/mitaoeadmissions/admissions-dashboard/actions/workflows/update_dashboard.yml/dispatches', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ ref: 'main' })
+  })
+  .then(function(r) {
+    if (r.status === 204) {
+      label.textContent = '✓ Running…';
+      icon.style.animation = '';
+      // Poll for reload after ~90s (CI typically takes 60-90s)
+      setTimeout(function() {
+        label.textContent = 'Checking…';
+        icon.style.animation = 'spin 1s linear infinite';
+        setTimeout(function() {
+          btn.disabled = false;
+          label.textContent = 'Sync Data';
+          icon.style.animation = '';
+          location.reload();
+        }, 30000);
+      }, 90000);
+    } else if (r.status === 401) {
+      localStorage.removeItem('gh_sync_token');
+      label.textContent = 'Sync Data';
+      icon.style.animation = '';
+      btn.disabled = false;
+      alert('Token invalid or expired. It has been cleared — click Sync Data again to enter a new one.');
+    } else {
+      throw new Error('Status ' + r.status);
+    }
+  })
+  .catch(function(err) {
+    label.textContent = 'Sync Data';
+    icon.style.animation = '';
+    btn.disabled = false;
+    alert('Could not trigger update: ' + err.message + '\n\nYou can also trigger it manually at:\ngithub.com/mitaoeadmissions/admissions-dashboard/actions');
+  });
 }
 
 // ═══════════════════════════════════════════
