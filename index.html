@@ -516,6 +516,15 @@ th.th-num { text-align: right; }
   .main-tab { padding: 10px 10px; font-size: 11px; }
 }
 </style>
+<style>
+#dl-btn{position:fixed;bottom:24px;right:24px;z-index:9999;
+  display:flex;align-items:center;gap:8px;
+  background:#1b2a5c;color:#fff;border:none;border-radius:10px;
+  padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 16px rgba(27,42,92,0.35);transition:background 0.18s;}
+#dl-btn:hover{background:#2d3f7c;}
+#dl-btn svg{width:16px;height:16px;flex-shrink:0;}
+</style>
 </head>
 <body>
 
@@ -627,9 +636,6 @@ th.th-num { text-align: right; }
     </button>
     <button class="sect-tab glv" data-section="google-leads">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Google Leads
-    </button>
-    <button class="sect-tab admst" data-section="admission-status">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Admission Status
     </button>
   </div>
 </nav>
@@ -1436,42 +1442,6 @@ th.th-num { text-align: right; }
       <div id="avg-panel-overview"></div>
       <div id="avg-panel-eng" style="display:none;"></div>
       <div id="avg-panel-des" style="display:none;"></div>
-    </div>
-  </section>
-
-  <section class="tab-section" id="sec-admission-status">
-    <div style="max-width:1300px;margin:0 auto;padding:24px 20px 48px;">
-      <div style="margin-bottom:24px;">
-        <h2 style="font-size:22px;font-weight:700;color:#1b2a5c;margin:0 0 4px;">MITAOE Admission Status 2026-27</h2>
-        <div style="font-size:13px;color:#64748b;">Seat availability vs admissions as on 25th June 2026</div>
-      </div>
-
-      <!-- KPI summary row -->
-      <div id="adm-kpi" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;"></div>
-
-      <!-- Branch-wise table -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:14px;overflow:hidden;box-shadow:0 1px 6px rgba(27,42,92,0.08);">
-        <div style="background:#1b2a5c;padding:14px 18px;display:flex;align-items:center;gap:10px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          <span style="font-size:14px;font-weight:700;color:white;">Branch-wise Seat Matrix</span>
-        </div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-size:13px;">
-            <thead>
-              <tr style="background:#f8faff;border-bottom:2px solid #dde2ef;">
-                <th style="padding:12px 14px;text-align:left;font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Branch</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#1a56db;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">IL Intake<br>2026-27 (A)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">CAP Vacancy<br>2025-26 (B)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#0891b2;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Cancellation<br>Vacancy 2025-26 (C)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Total<br>(A+B+C)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Admissions<br>as on 25th Jun</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Vacant<br>2026-27</th>
-              </tr>
-            </thead>
-            <tbody id="adm-tbody"></tbody>
-          </table>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -2942,7 +2912,7 @@ th.th-num { text-align: right; }
   {"city":"Chandrapur","design":0,"eng":1,"total":1},
   {"city":"Coimbatore","design":2,"eng":2,"total":4},
   {"city":"Dhule","design":0,"eng":2,"total":2},
-  {"city":"Jalgaon","design":1,"eng":5,"total":6},
+  {"city":"Jalgaon","design":1,"eng":6,"total":7},
   {"city":"Jalna","design":0,"eng":1,"total":1},
   {"city":"Karmala","design":0,"eng":1,"total":1},
   {"city":"Karmala Rural","design":0,"eng":1,"total":1},
@@ -2951,7 +2921,7 @@ th.th-num { text-align: right; }
   {"city":"Kolkata","design":1,"eng":1,"total":2},
   {"city":"Kurduwadi","design":0,"eng":1,"total":1},
   {"city":"Malegaon","design":0,"eng":1,"total":1},
-  {"city":"Mumbai","design":3,"eng":4,"total":7},
+  {"city":"Mumbai","design":3,"eng":5,"total":8},
   {"city":"Nashik","design":0,"eng":3,"total":3},
   {"city":"Old Goa","design":0,"eng":1,"total":1},
   {"city":"Pimpri-chinchwad","design":2,"eng":8,"total":10},
@@ -2963,7 +2933,7 @@ th.th-num { text-align: right; }
   {"city":"Solapur","design":0,"eng":1,"total":1},
   {"city":"Thane","design":2,"eng":4,"total":6},
   {"city":"Thrissur","design":1,"eng":1,"total":2},
-  {"city":"Grand Total","design":66,"eng":216,"total":282},
+  {"city":"Grand Total","design":66,"eng":218,"total":284},
 ];
   const RAW_DESIGN_SCORE = [
   {"label":"Above 100","cu":14,"uu":12,"oc":8},
@@ -2973,27 +2943,15 @@ th.th-num { text-align: right; }
   {"label":"TOTAL","cu":24,"uu":24,"oc":18,"total":66},
 ];
   const RAW_ENG_SCORE = [
-  {"label":"Above 90","cu":31,"uu":1,"oc":36},
-  {"label":"80.01-90","cu":40,"uu":1,"oc":40},
+  {"label":"Above 90","cu":31,"uu":1,"oc":37},
+  {"label":"80.01-90","cu":41,"uu":1,"oc":40},
   {"label":"70.01-80","cu":18,"uu":1,"oc":19},
   {"label":"60.01-70","cu":7,"uu":2,"oc":7},
   {"label":"50.01-60","cu":6,"uu":1,"oc":6},
   {"label":"30.01-50","cu":0,"uu":0,"oc":0},
   {"label":"Below 30","cu":0,"uu":0,"oc":0},
   {"label":"Awaiting Result","cu":0,"uu":0,"oc":0},
-  {"label":"TOTAL","cu":102,"uu":6,"oc":108,"total":216},
-];
-  const RAW_ADMISSION_STATUS = [
-  {"branch":"E & Tc Engineering","ilIntake":36,"capVac":22,"cancVac":19,"total":77,"admitted":55,"vacant":-19},
-  {"branch":"Mechanical Engineering","ilIntake":24,"capVac":16,"cancVac":16,"total":56,"admitted":30,"vacant":-6},
-  {"branch":"Computer Engineering","ilIntake":72,"capVac":37,"cancVac":21,"total":130,"admitted":28,"vacant":44},
-  {"branch":"Computer Engineering(Software Engineering)","ilIntake":36,"capVac":19,"cancVac":14,"total":69,"admitted":14,"vacant":22},
-  {"branch":"Chemical Engineering","ilIntake":12,"capVac":10,"cancVac":1,"total":23,"admitted":7,"vacant":5},
-  {"branch":"Computer SCience & Engineering(AI ML )","ilIntake":48,"capVac":14,"cancVac":10,"total":72,"admitted":24,"vacant":24},
-  {"branch":"Information Technology","ilIntake":36,"capVac":16,"cancVac":22,"total":74,"admitted":13,"vacant":23},
-  {"branch":"Civil Engineering","ilIntake":12,"capVac":7,"cancVac":3,"total":22,"admitted":6,"vacant":6},
-  {"branch":"Computer SCience & Engineering(Data SCience)","ilIntake":36,"capVac":5,"cancVac":14,"total":55,"admitted":18,"vacant":18},
-  {"branch":"TOTAL","ilIntake":312,"capVac":146,"cancVac":120,"total":578,"admitted":195,"vacant":117},
+  {"label":"TOTAL","cu":103,"uu":6,"oc":109,"total":218},
 ];
   function switchScoreTab(tab){
     ["design","eng"].forEach(function(p){
@@ -3346,65 +3304,6 @@ th.th-num { text-align: right; }
   }
 
 
-  /* ── MITAOE ADMISSION STATUS ──────────────────────────────────── */
-  function renderAdmissionStatus() {
-    var data = typeof RAW_ADMISSION_STATUS !== 'undefined' ? RAW_ADMISSION_STATUS : [];
-    var totRow = data.find(function(r){ return r.branch.toUpperCase() === 'TOTAL'; });
-    var rows   = data.filter(function(r){ return r.branch.toUpperCase() !== 'TOTAL'; });
-
-    // KPI cards
-    var kEl = document.getElementById('adm-kpi');
-    if (kEl && totRow) {
-      function kCard(label, val, color, bg) {
-        return '<div style="background:'+bg+';border:1px solid #dde2ef;border-radius:12px;padding:16px 18px;">' +
-          '<div style="font-size:11px;font-weight:700;color:'+color+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">'+label+'</div>' +
-          '<div style="font-size:28px;font-weight:700;color:'+color+';line-height:1.1;margin-bottom:3px;">'+val+'</div></div>';
-      }
-      kEl.innerHTML =
-        kCard('IL Intake 2026-27', totRow.ilIntake, '#1a56db', '#eff6ff') +
-        kCard('CAP Vacancy (Last Yr)', totRow.capVac, '#7c3aed', '#f5f3ff') +
-        kCard('Cancellation Vacancy', totRow.cancVac, '#0891b2', '#ecfeff') +
-        kCard('Total Available (A+B+C)', totRow.total, '#059669', '#f0fdf4') +
-        kCard('Admissions (25th Jun)', totRow.admitted, '#b45309', '#fffbeb') +
-        kCard('Vacant 2026-27', totRow.vacant, '#dc2626', '#fef2f2');
-    }
-
-    // Table
-    var tb = document.getElementById('adm-tbody');
-    if (!tb) return;
-    tb.innerHTML = '';
-    rows.forEach(function(r, i) {
-      var fillPct = r.total > 0 ? Math.round(r.admitted / r.total * 100) : 0;
-      var fillColor = fillPct >= 70 ? '#059669' : fillPct >= 40 ? '#b45309' : '#dc2626';
-      var bg = i % 2 === 1 ? 'background:#f8faff;' : '';
-      var isTotal = r.branch.toUpperCase() === 'TOTAL';
-      var rowStyle = isTotal ? 'background:#1b2a5c;font-weight:700;' : bg;
-      var textColor = isTotal ? 'color:white;' : '';
-      tb.innerHTML += '<tr style="border-bottom:1px solid #f0f2f8;' + rowStyle + '">' +
-        '<td style="padding:11px 14px;font-size:12px;font-weight:600;' + textColor + '">' + r.branch + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#1a56db') + ';">' + r.ilIntake + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#7c3aed') + ';">' + r.capVac + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#0891b2') + ';">' + r.cancVac + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:14px;font-weight:700;color:' + (isTotal ? 'white' : '#059669') + ';">' + r.total + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#b45309') + ';">' + r.admitted +
-          (isTotal ? '' : ' <span style="font-size:10px;color:' + fillColor + ';font-weight:600;">(' + fillPct + '%)</span>') + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#dc2626') + ';">' + r.vacant + '</td>' +
-        '</tr>';
-    });
-    // Add total row at bottom
-    if (totRow) {
-      tb.innerHTML += '<tr style="background:#1b2a5c;">' +
-        '<td style="padding:12px 14px;font-size:13px;font-weight:700;color:white;">TOTAL</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.ilIntake + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.capVac + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.cancVac + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.total + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.admitted + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.vacant + '</td>' +
-        '</tr>';
-    }
-  }
-
   </script>
 
   <!-- ============ VENDORS ============ -->
@@ -3603,9 +3502,9 @@ const RAW_MAIN = [
   {"d":"2026-07-04","eLeads":191,"dLeads":7,"ePaid":11,"dPaid":1,"eSign":46,"dSign":3,"eProv":2,"dProv":0,"eRevPaid":22000,"dRevPaid":2000,"eRevProv":200000,"dRevProv":0},
   {"d":"2026-07-05","eLeads":237,"dLeads":6,"ePaid":10,"dPaid":1,"eSign":43,"dSign":3,"eProv":2,"dProv":0,"eRevPaid":20000,"dRevPaid":2000,"eRevProv":549000,"dRevProv":0},
   {"d":"2026-07-06","eLeads":218,"dLeads":8,"ePaid":7,"dPaid":1,"eSign":48,"dSign":1,"eProv":1,"dProv":1,"eRevPaid":14000,"dRevPaid":2000,"eRevProv":100000,"dRevProv":100000},
-  {"d":"2026-07-07","eLeads":190,"dLeads":27,"ePaid":6,"dPaid":0,"eSign":48,"dSign":1,"eProv":0,"dProv":0,"eRevPaid":12000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
-  {"d":"2026-07-08","eLeads":0,"dLeads":0,"ePaid":0,"dPaid":0,"eSign":0,"dSign":0,"eProv":0,"dProv":0,"eRevPaid":0,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
-  {"d":"2026-07-09","eLeads":0,"dLeads":0,"ePaid":0,"dPaid":0,"eSign":0,"dSign":0,"eProv":0,"dProv":0,"eRevPaid":0,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
+  {"d":"2026-07-07","eLeads":200,"dLeads":27,"ePaid":6,"dPaid":0,"eSign":48,"dSign":1,"eProv":0,"dProv":0,"eRevPaid":12000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
+  {"d":"2026-07-08","eLeads":176,"dLeads":9,"ePaid":10,"dPaid":1,"eSign":38,"dSign":3,"eProv":2,"dProv":0,"eRevPaid":20000,"dRevPaid":2000,"eRevProv":200000,"dRevProv":0},
+  {"d":"2026-07-09","eLeads":222,"dLeads":1,"ePaid":10,"dPaid":0,"eSign":31,"dSign":2,"eProv":0,"dProv":0,"eRevPaid":20000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
 ];
 
 const RAW_ENG_STATUS = [
@@ -3724,6 +3623,8 @@ const RAW_ENG_STATUS = [
   {"d":"2026-07-05","pa":11,"su":0,"cet":13,"d2y":0,"fu":11,"fp":0,"in":0,"jk":6,"ni":0,"nr":0},
   {"d":"2026-07-06","pa":26,"su":4,"cet":58,"d2y":0,"fu":8,"fp":4,"in":10,"jk":49,"ni":0,"nr":0},
   {"d":"2026-07-07","pa":14,"su":2,"cet":52,"d2y":0,"fu":4,"fp":0,"in":8,"jk":39,"ni":0,"nr":0},
+  {"d":"2026-07-08","pa":8,"su":3,"cet":47,"d2y":0,"fu":4,"fp":2,"in":14,"jk":19,"ni":0,"nr":0},
+  {"d":"2026-07-09","pa":5,"su":7,"cet":26,"d2y":0,"fu":6,"fp":1,"in":10,"jk":30,"ni":0,"nr":0},
 ];
 
 const RAW_DES_STATUS = [
@@ -3842,6 +3743,8 @@ const RAW_DES_STATUS = [
   {"d":"2026-07-05","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
   {"d":"2026-07-06","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
   {"d":"2026-07-07","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
+  {"d":"2026-07-08","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":1,"ni":0,"nr":0},
+  {"d":"2026-07-09","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
 ];
 
 const RAW_WALKINS = [
@@ -3960,6 +3863,8 @@ const RAW_WALKINS = [
   {"d":"2026-07-05","eng":9,"des":0},
   {"d":"2026-07-06","eng":15,"des":0},
   {"d":"2026-07-07","eng":0,"des":0},
+  {"d":"2026-07-08","eng":21,"des":1},
+  {"d":"2026-07-09","eng":15,"des":0},
 ];
 
 const RAW_ENG_ADS = [
@@ -4138,8 +4043,8 @@ const RAW_ENG_ADS = [
   {"d":"2026-07-05","ctr":1.7,"imp":183991,"cpc":26.53,"cost":82975.18,"gLeads":132},
   {"d":"2026-07-06","ctr":1.55,"imp":219224,"cpc":26.48,"cost":90178.05,"gLeads":121},
   {"d":"2026-07-07","ctr":1.74,"imp":151732,"cpc":35.21,"cost":92755.31,"gLeads":100},
-  {"d":"2026-07-08","ctr":2.01,"imp":143063,"cpc":31.83,"cost":91315.03,"gLeads":0},
-  {"d":"2026-07-09","ctr":2.43,"imp":91035,"cpc":37.4,"cost":82656.18,"gLeads":0},
+  {"d":"2026-07-08","ctr":2.01,"imp":143063,"cpc":31.83,"cost":91315.03,"gLeads":110},
+  {"d":"2026-07-09","ctr":2.43,"imp":91035,"cpc":37.4,"cost":82656.18,"gLeads":89},
 ];
 
 const RAW_DES_ADS = [
@@ -4366,6 +4271,8 @@ const RAW_DES_ADS = [
   {"d":"2026-07-05","ctr":5.22,"imp":8081,"cpc":5.08,"cost":2145.01,"gLeads":4},
   {"d":"2026-07-06","ctr":3.52,"imp":6004,"cpc":8.91,"cost":1900,"gLeads":8},
   {"d":"2026-07-07","ctr":4.59,"imp":8380,"cpc":10.58,"cost":4006,"gLeads":3},
+  {"d":"2026-07-08","ctr":3.82,"imp":6380,"cpc":4.69,"cost":1140,"gLeads":3},
+  {"d":"2026-07-09","ctr":3.33,"imp":6420,"cpc":9,"cost":1930,"gLeads":1},
 ];
 
 // ═══════════════════════════════════════════
@@ -4385,6 +4292,7 @@ const RAW_SOCIAL = [
   {"period":"12-06-2026 to 18-06-2026","fb":5094417,"ig":3931079,"yt":2845,"li":9772,"posts":10,"paid":0,"paidAmt":0},
   {"period":"18-06-2026 to 24-06-2026","fb":4328575,"ig":3760002,"yt":3691,"li":7216,"posts":4,"paid":0,"paidAmt":0},
   {"period":"25-06-2026 to 02-07-2026","fb":5333964,"ig":5828677,"yt":5886,"li":3813,"posts":7,"paid":2,"paidAmt":5000},
+  {"period":"03-07-2026 to 09-07-2026","fb":1380058,"ig":1420508,"yt":8112,"li":8388,"posts":8,"paid":1,"paidAmt":2500},
 ];
 
 
@@ -5043,7 +4951,6 @@ function switchMain(section) {
   else if (section==='google-leads') renderGLeads();
   else if (section==='eng-gleads') renderEngGLeads();
   else if (section==='des-gleads') renderDesGLeads();
-  else if (section==='admission-status') renderAdmissionStatus();
 }
 
 // Group → first-section mapping
@@ -6683,6 +6590,8 @@ const RAW_TXN = [
   {"sr":"326","name":"Aaryan Sopan patil","branch":"Product Design","remark":"","feesType":"","gender":"Male","category":"OBC","hsc":78.33,"pcm":null,"jee":null,"cet1":95,"cet2":null,"csl":"Tushar","d":"2026-07-06","amt":100000,"txid":"5949461040","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
   {"sr":"327","name":"Ghorpade Sameeksha Vasantrao","branch":"Information Technology","remark":"","feesType":"","gender":"Female","category":"SEBC","hsc":77.17,"pcm":188,"jee":43.81,"cet1":89.45,"cet2":71.76,"csl":"Sayali","d":"2026-07-06","amt":100000,"txid":"5949733023","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"328","name":"Varad Rajesh Uplanchwar","branch":"Computer Engineering","remark":"","feesType":"Higher Fees","gender":"male","category":"SBC","hsc":null,"pcm":146,"jee":null,"cet1":null,"cet2":82.57,"csl":"Vaibhav","d":"2026-07-05","amt":449000,"txid":"AXOMB18602043122","mode":"NEFT","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"329","name":"Mohit Ramakrishnan","branch":"Chemical Engineering","remark":"","feesType":"Regular Fees","gender":"male","category":"Open","hsc":86,"pcm":244,"jee":80.73,"cet1":88.72,"cet2":null,"csl":"Pratiksha","d":"2026-07-08","amt":100000,"txid":"5964755734","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"330","name":"sushil Vilas Patil","branch":"Information Technology","remark":"","feesType":"Regular Fees","gender":"male","category":"OBC","hsc":83.33,"pcm":252,"jee":null,"cet1":null,"cet2":91.85,"csl":"Vaibhav","d":"2026-07-08","amt":100000,"txid":"5965067648","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
 ];
 
 function renderTransactions() {
@@ -6867,6 +6776,9 @@ const RAW_BUDGET = [
   {"sr":48,"school":"MITAOE","desc":"SIM Card Recharge Advance for Counsellors","d":"2026-06-15","vendor":"SIM Card","head":"Communications","poNum":"","invNum":"","poAmt":null,"advance":2118,"thisExp":2118},
   {"sr":49,"school":"MITAOE","desc":"Fox Aircomm Pvt. Ltd - Bulk Whatsapp Top Up messaging services","d":"22-062026","vendor":"Fox Aircomm","head":"Bulk Whats","poNum":"59/25-26/MKTG","invNum":"FoxAir20526","poAmt":null,"advance":null,"thisExp":49560},
   {"sr":50,"school":"MITAOE","desc":"Airtribe Private LtdGenerative AI Launchpad (Baner Office)","d":"2026-07-01","vendor":"Airtribe","head":"Generative AI","poNum":"","invNum":"AT-011559","poAmt":null,"advance":null,"thisExp":125000},
+  {"sr":51,"school":"MITAOE","desc":"Google India Pvt. Ltd- Engineering Paid Campaign","d":"2026-07-06","vendor":"Google India","head":"Google Paid Campaign","poNum":"243-B/25-26/MKTG","invNum":"5621804879","poAmt":null,"advance":null,"thisExp":3054558.71},
+  {"sr":52,"school":"MITAOE","desc":"Google India Pvt. Ltd- Design Paid Campaign","d":"2026-07-06","vendor":"Google India","head":"Google Paid Campaign","poNum":"243-B/25-26/MKTG","invNum":"5623096575","poAmt":null,"advance":null,"thisExp":71371.08},
+  {"sr":53,"school":"MITAOE","desc":"VMC Technologies Pvt.ltd","d":"2026-07-06","vendor":"VMC Technologies","head":"True Caller","poNum":"156/25-26/MKTG","invNum":"INV-26-27/02183","poAmt":null,"advance":null,"thisExp":359164},
 ];
 
 // RAW_ENG_SCORE declared below in rendering script block
@@ -7054,6 +6966,54 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTransactions();
   renderBudget();
 });
+</script>
+<button id="dl-btn" title="Download shareable snapshot" onclick="downloadDash()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+  Download Dashboard
+</button>
+<script>
+function downloadDash(){
+  var btn=document.getElementById('dl-btn');
+  btn.textContent='Preparing...';btn.disabled=true;
+  fetch('/dashboard_share.html?_='+Date.now())
+    .then(function(r){return r.blob();})
+    .then(function(blob){
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='MIT_Admissions_Dashboard_2026-07-09.html';
+      document.body.appendChild(a);a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      btn.innerHTML='&#10003; Downloaded';
+      setTimeout(function(){
+        btn.disabled=false;
+        btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download Dashboard';
+      },2500);
+    })
+    .catch(function(){
+      btn.textContent='Error – try again';btn.disabled=false;
+    });
+}
+</script>
+<script>
+(function(){
+  var _ver=null;
+  function check(){
+    fetch('/version.json?_='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(_ver===null){_ver=d.v;}
+        else if(d.v!==_ver){location.reload();}
+      }).catch(function(){});
+  }
+  setInterval(check,10000);
+  check();
+})();
 </script>
 </body>
 </html>
