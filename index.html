@@ -2681,10 +2681,15 @@ th.th-num { text-align: right; }
       </div>
 
       <!-- Summary KPI Cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px;">
         <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-          <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; UCEED</div>
+          <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; UCEED (CET Higher)</div>
           <div id="design-score-kpi-cu" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">—</div>
+          <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
+        </div>
+        <div style="background:#e0f2fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+          <div style="font-size:11px;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; UCEED (UCEED Higher)</div>
+          <div id="design-score-kpi-cu2" style="font-size:34px;font-weight:700;color:#0284c7;line-height:1;">—</div>
           <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
         </div>
         <div style="background:#ede9fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
@@ -2715,80 +2720,21 @@ th.th-num { text-align: right; }
             <thead>
               <tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Score Range</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">CET &amp; UCEED</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">CET &amp; UCEED<br><span style="font-weight:500;font-size:10px;">(CET Marks Higher)</span></th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#0284c7;text-align:center;">CET &amp; UCEED<br><span style="font-weight:500;font-size:10px;">(UCEED Marks Higher)</span></th>
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#7c3aed;text-align:center;">Only UCEED</th>
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:center;">Only CET</th>
               </tr>
             </thead>
-            <tbody id="design-score-tbody"><tr><td colspan="4" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">Loading...</td></tr></tbody>
+            <tbody id="design-score-tbody"><tr><td colspan="5" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Visual Bar Chart -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:24px;margin-top:20px;box-shadow:0 1px 4px rgba(27,42,92,0.07);">
-        <div style="font-size:14px;font-weight:700;color:#1b2a5c;margin-bottom:20px;">CET &amp; UCEED vs Only UCEED — Score Distribution</div>
-        <div style="display:flex;flex-direction:column;gap:16px;">
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">Above 100</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 8 &nbsp;|&nbsp; Only UCEED: 5</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#1a56db;border-radius:4px;width:calc(8/16*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">8</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(5/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">5</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">75 &#8211; 100</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 0 &nbsp;|&nbsp; Only UCEED: 2</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#e2e8f0;border-radius:4px;width:5%;display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;color:#94a3b8;">0</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(2/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">2</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">50 &#8211; 75</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 6 &nbsp;|&nbsp; Only UCEED: 9</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#1a56db;border-radius:4px;width:calc(6/16*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">6</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(9/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">9</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">Below 50</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 2 &nbsp;|&nbsp; Only UCEED: 2</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#1a56db;border-radius:4px;width:calc(2/16*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">2</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(2/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">2</span></div>
-            </div>
-          </div>
-          <div style="display:flex;gap:16px;margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;background:#1a56db;border-radius:2px;"></div><span style="font-size:11px;color:#64748b;">CET &amp; UCEED</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;background:#7c3aed;border-radius:2px;"></div><span style="font-size:11px;color:#64748b;">Only UCEED</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Note about Only CET -->
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin-top:16px;display:flex;gap:10px;align-items:flex-start;">
-        <span style="font-size:16px;">&#8505;&#65039;</span>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:#065f46;">Only CET: 9 Provisional Admissions</div>
-          <div style="font-size:11px;color:#047857;margin-top:2px;">Score band breakdown for Only CET category is not available (N/A). Total count: 9 provisional admissions.</div>
-        </div>
-      </div>
-
     </div>
-  
 
-      
+
+
       <!-- City-wise Analysis -->
       <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;margin-top:24px;">
         <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
@@ -2846,10 +2792,15 @@ th.th-num { text-align: right; }
           <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin:0 0 6px;">Score Analysis of Provisional Admissions (Engineering)</h2>
           <p style="font-size:13px;color:#64748b;margin:0;">Distribution of entrance exam scores across provisional admission categories</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px;">
           <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">JEE &amp; CET</div>
+            <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">JEE &amp; CET (CET Higher)</div>
             <div id="eng-score-kpi-cj" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">\u2014</div>
+            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
+          </div>
+          <div style="background:#e0f2fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+            <div style="font-size:11px;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">JEE &amp; CET (JEE Higher)</div>
+            <div id="eng-score-kpi-cj2" style="font-size:34px;font-weight:700;color:#0284c7;line-height:1;">\u2014</div>
             <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
           </div>
           <div style="background:#ede9fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
@@ -2877,14 +2828,13 @@ th.th-num { text-align: right; }
             <table style="width:100%;border-collapse:collapse;min-width:500px;">
               <thead><tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Score Range</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">JEE &amp; CET</th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">JEE &amp; CET<br><span style="font-weight:500;font-size:10px;">(CET Marks Higher)</span></th>
+                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#0284c7;text-align:center;">JEE &amp; CET<br><span style="font-weight:500;font-size:10px;">(JEE Marks Higher)</span></th>
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#7c3aed;text-align:center;">Only JEE</th>
                 <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:center;">Only CET</th>
               </tr></thead>
               <tbody id="eng-score-tbody">
-                <tr><td colspan="4" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">
-                  Add Engineering Score Analysis data to Excel (same format as Design) to populate this table.
-                </td></tr>
+                <tr><td colspan="5" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">Loading...</td></tr>
               </tbody>
             </table>
           </div>
@@ -2925,7 +2875,7 @@ th.th-num { text-align: right; }
   {"city":"Nashik","design":0,"eng":3,"total":3},
   {"city":"Old Goa","design":0,"eng":1,"total":1},
   {"city":"Pimpri-chinchwad","design":2,"eng":8,"total":10},
-  {"city":"Pune","design":41,"eng":146,"total":187},
+  {"city":"Pune","design":40,"eng":158,"total":198},
   {"city":"Rajkot","design":0,"eng":1,"total":1},
   {"city":"Sangamner","design":0,"eng":2,"total":2},
   {"city":"Sangli","design":2,"eng":2,"total":4},
@@ -2933,25 +2883,17 @@ th.th-num { text-align: right; }
   {"city":"Solapur","design":0,"eng":1,"total":1},
   {"city":"Thane","design":2,"eng":4,"total":6},
   {"city":"Thrissur","design":1,"eng":1,"total":2},
-  {"city":"Grand Total","design":66,"eng":218,"total":284},
+  {"city":"Grand Total","design":65,"eng":230,"total":295},
 ];
   const RAW_DESIGN_SCORE = [
-  {"label":"Above 100","cu":14,"uu":12,"oc":8},
-  {"label":"75.01 - 100","cu":9,"uu":1,"oc":9},
-  {"label":"50.01 - 75","cu":1,"uu":9,"oc":1},
-  {"label":"Below 50","cu":0,"uu":2,"oc":0},
-  {"label":"TOTAL","cu":24,"uu":24,"oc":18,"total":66},
+  {"label":"Above 100","cu":10,"cu2":3,"uu":10,"oc":7},
+  {"label":"75.01 - 100","cu":9,"cu2":0,"uu":1,"oc":11},
+  {"label":"50.01 - 75","cu":1,"cu2":0,"uu":10,"oc":1},
+  {"label":"Below 50","cu":0,"cu2":0,"uu":2,"oc":0},
+  {"label":"TOTAL","cu":20,"cu2":3,"uu":23,"oc":19,"total":65},
 ];
   const RAW_ENG_SCORE = [
-  {"label":"Above 90","cu":31,"uu":1,"oc":37},
-  {"label":"80.01-90","cu":41,"uu":1,"oc":40},
-  {"label":"70.01-80","cu":18,"uu":1,"oc":19},
-  {"label":"60.01-70","cu":7,"uu":2,"oc":7},
-  {"label":"50.01-60","cu":6,"uu":1,"oc":6},
-  {"label":"30.01-50","cu":0,"uu":0,"oc":0},
-  {"label":"Below 30","cu":0,"uu":0,"oc":0},
-  {"label":"Awaiting Result","cu":0,"uu":0,"oc":0},
-  {"label":"TOTAL","cu":103,"uu":6,"oc":109,"total":218},
+  {"label":"TOTAL","cu":0,"cu2":0,"uu":0,"oc":0,"total":0},
 ];
   function switchScoreTab(tab){
     ["design","eng"].forEach(function(p){
@@ -2966,6 +2908,7 @@ th.th-num { text-align: right; }
     var kpi=RAW_ENG_SCORE[RAW_ENG_SCORE.length-1];
     var bands=RAW_ENG_SCORE.slice(0,-1);
     document.getElementById("eng-score-kpi-cj").textContent=kpi.cu;
+    document.getElementById("eng-score-kpi-cj2").textContent=kpi.cu2||0;
     document.getElementById("eng-score-kpi-j").textContent=kpi.uu;
     document.getElementById("eng-score-kpi-c").textContent=kpi.oc;
     document.getElementById("eng-score-kpi-total").textContent=kpi.total;
@@ -2974,13 +2917,15 @@ th.th-num { text-align: right; }
       var bg=i%2===1?"background:#f8faff;":"";
       tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
         '<td style="padding:14px 18px;font-size:13px;font-weight:600;color:#1b2a5c;"><span style="background:#f1f5f9;color:#334155;padding:3px 10px;border-radius:20px;font-size:12px;">'+b.label+'</span></td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+( b.cu!==null?b.cu:"N/A")+'</td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+( b.uu!==null?b.uu:"N/A")+'</td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+( b.oc!==null?b.oc:"N/A")+'</td></tr>';
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+(b.cu!==null?b.cu:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#0284c7;text-align:center;">'+(b.cu2!==null?b.cu2:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+(b.uu!==null?b.uu:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+(b.oc!==null?b.oc:"N/A")+'</td></tr>';
     });
     tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
       '<td style="padding:14px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total Provisional Admissions</td>'+
       '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+kpi.cu+'</td>'+
+      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#0284c7;text-align:center;">'+(kpi.cu2||0)+'</td>'+
       '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+kpi.uu+'</td>'+
       '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+kpi.oc+'</td></tr>';
   })();
@@ -2989,31 +2934,28 @@ th.th-num { text-align: right; }
     if(typeof RAW_DESIGN_SCORE==="undefined"||!RAW_DESIGN_SCORE.length)return;
     var kpi=RAW_DESIGN_SCORE[RAW_DESIGN_SCORE.length-1];
     var bands=RAW_DESIGN_SCORE.slice(0,-1);
-    var cu=document.getElementById("design-score-kpi-cu");
-    var uu=document.getElementById("design-score-kpi-uu");
-    var oc=document.getElementById("design-score-kpi-oc");
-    var tot=document.getElementById("design-score-kpi-total");
-    if(cu) cu.textContent=kpi.cu;
-    if(uu) uu.textContent=kpi.uu;
-    if(oc) oc.textContent=kpi.oc!==null?kpi.oc:"N/A";
-    if(tot) tot.textContent=kpi.total;
+    var el=function(id){return document.getElementById(id);};
+    if(el("design-score-kpi-cu"))  el("design-score-kpi-cu").textContent=kpi.cu;
+    if(el("design-score-kpi-cu2")) el("design-score-kpi-cu2").textContent=kpi.cu2!==null?kpi.cu2:"N/A";
+    if(el("design-score-kpi-uu"))  el("design-score-kpi-uu").textContent=kpi.uu;
+    if(el("design-score-kpi-oc"))  el("design-score-kpi-oc").textContent=kpi.oc!==null?kpi.oc:"N/A";
+    if(el("design-score-kpi-total")) el("design-score-kpi-total").textContent=kpi.total;
     var tb=document.getElementById("design-score-tbody");
     if(!tb)return;
     tb.innerHTML="";
     bands.forEach(function(b,i){
       var bg=i%2===1?"background:#f8faff;":"";
-      var ocCell=b.oc!==null
-        ?'<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+b.oc+'</td>'
-        :'<td style="padding:14px 18px;font-size:13px;color:#9ca3af;text-align:center;font-style:italic;">N/A</td>';
       tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
         '<td style="padding:14px 18px;font-size:13px;font-weight:600;color:#1b2a5c;"><span style="background:#f1f5f9;color:#334155;padding:3px 10px;border-radius:20px;font-size:12px;">'+b.label+'</span></td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+( b.cu!==null?b.cu:"N/A")+'</td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+( b.uu!==null?b.uu:"N/A")+'</td>'+
-        ocCell+'</tr>';
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+(b.cu!==null?b.cu:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#0284c7;text-align:center;">'+(b.cu2!==null?b.cu2:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+(b.uu!==null?b.uu:"N/A")+'</td>'+
+        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+(b.oc!==null?b.oc:"N/A")+'</td></tr>';
     });
     tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
       '<td style="padding:14px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total Provisional Admissions</td>'+
       '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+kpi.cu+'</td>'+
+      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#0284c7;text-align:center;">'+(kpi.cu2!==null?kpi.cu2:"N/A")+'</td>'+
       '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+kpi.uu+'</td>'+
       '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+(kpi.oc!==null?kpi.oc:"N/A")+'</td></tr>';
   })();
@@ -3403,7 +3345,7 @@ const RAW_MAIN = [
   {"d":"2026-03-27","eLeads":162,"dLeads":900,"ePaid":5,"dPaid":4,"eSign":16,"dSign":8,"eProv":0,"dProv":1,"eRevPaid":5000,"dRevPaid":4000,"eRevProv":0,"dRevProv":100000},
   {"d":"2026-03-28","eLeads":185,"dLeads":10,"ePaid":3,"dPaid":5,"eSign":19,"dSign":10,"eProv":0,"dProv":0,"eRevPaid":3000,"dRevPaid":5000,"eRevProv":0,"dRevProv":0},
   {"d":"2026-03-29","eLeads":119,"dLeads":7,"ePaid":2,"dPaid":6,"eSign":21,"dSign":10,"eProv":0,"dProv":0,"eRevPaid":2000,"dRevPaid":6000,"eRevProv":0,"dRevProv":0},
-  {"d":"2026-03-30","eLeads":184,"dLeads":90,"ePaid":6,"dPaid":5,"eSign":25,"dSign":12,"eProv":0,"dProv":3,"eRevPaid":6000,"dRevPaid":5000,"eRevProv":0,"dRevProv":300000},
+  {"d":"2026-03-30","eLeads":184,"dLeads":90,"ePaid":6,"dPaid":5,"eSign":25,"dSign":12,"eProv":0,"dProv":2,"eRevPaid":6000,"dRevPaid":5000,"eRevProv":0,"dRevProv":250000},
   {"d":"2026-03-31","eLeads":199,"dLeads":160,"ePaid":9,"dPaid":8,"eSign":33,"dSign":12,"eProv":0,"dProv":0,"eRevPaid":9000,"dRevPaid":8000,"eRevProv":0,"dRevProv":0},
   {"d":"2026-04-01","eLeads":179,"dLeads":111,"ePaid":10,"dPaid":9,"eSign":21,"dSign":10,"eProv":0,"dProv":0,"eRevPaid":10000,"dRevPaid":9000,"eRevProv":0,"dRevProv":0},
   {"d":"2026-04-02","eLeads":168,"dLeads":130,"ePaid":9,"dPaid":8,"eSign":19,"dSign":9,"eProv":0,"dProv":0,"eRevPaid":9000,"dRevPaid":8000,"eRevProv":0,"dRevProv":0},
@@ -3495,7 +3437,7 @@ const RAW_MAIN = [
   {"d":"2026-06-27","eLeads":295,"dLeads":32,"ePaid":20,"dPaid":1,"eSign":41,"dSign":4,"eProv":5,"dProv":1,"eRevPaid":40000,"dRevPaid":2000,"eRevProv":500000,"dRevProv":100000},
   {"d":"2026-06-28","eLeads":186,"dLeads":3,"ePaid":19,"dPaid":0,"eSign":42,"dSign":3,"eProv":0,"dProv":0,"eRevPaid":38000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
   {"d":"2026-06-29","eLeads":229,"dLeads":15,"ePaid":20,"dPaid":1,"eSign":41,"dSign":4,"eProv":8,"dProv":3,"eRevPaid":40000,"dRevPaid":2000,"eRevProv":1460000,"dRevProv":300000},
-  {"d":"2026-06-30","eLeads":198,"dLeads":13,"ePaid":19,"dPaid":0,"eSign":41,"dSign":4,"eProv":16,"dProv":0,"eRevPaid":38000,"dRevPaid":0,"eRevProv":1600000,"dRevProv":0},
+  {"d":"2026-06-30","eLeads":198,"dLeads":13,"ePaid":19,"dPaid":0,"eSign":41,"dSign":4,"eProv":15,"dProv":0,"eRevPaid":38000,"dRevPaid":0,"eRevProv":1500000,"dRevProv":0},
   {"d":"2026-07-01","eLeads":223,"dLeads":8,"ePaid":20,"dPaid":1,"eSign":42,"dSign":4,"eProv":3,"dProv":1,"eRevPaid":40000,"dRevPaid":2000,"eRevProv":300000,"dRevProv":100000},
   {"d":"2026-07-02","eLeads":243,"dLeads":9,"ePaid":14,"dPaid":0,"eSign":50,"dSign":3,"eProv":7,"dProv":0,"eRevPaid":28000,"dRevPaid":0,"eRevProv":700000,"dRevProv":0},
   {"d":"2026-07-03","eLeads":217,"dLeads":9,"ePaid":12,"dPaid":1,"eSign":52,"dSign":3,"eProv":8,"dProv":1,"eRevPaid":24000,"dRevPaid":2000,"eRevProv":800000,"dRevProv":100000},
@@ -3505,6 +3447,8 @@ const RAW_MAIN = [
   {"d":"2026-07-07","eLeads":200,"dLeads":27,"ePaid":6,"dPaid":0,"eSign":48,"dSign":1,"eProv":0,"dProv":0,"eRevPaid":12000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
   {"d":"2026-07-08","eLeads":176,"dLeads":9,"ePaid":10,"dPaid":1,"eSign":38,"dSign":3,"eProv":2,"dProv":0,"eRevPaid":20000,"dRevPaid":2000,"eRevProv":200000,"dRevProv":0},
   {"d":"2026-07-09","eLeads":222,"dLeads":1,"ePaid":10,"dPaid":0,"eSign":31,"dSign":2,"eProv":0,"dProv":0,"eRevPaid":20000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
+  {"d":"2026-07-10","eLeads":232,"dLeads":7,"ePaid":9,"dPaid":0,"eSign":45,"dSign":2,"eProv":6,"dProv":0,"eRevPaid":18000,"dRevPaid":0,"eRevProv":850474,"dRevProv":0},
+  {"d":"2026-07-11","eLeads":162,"dLeads":7,"ePaid":9,"dPaid":0,"eSign":45,"dSign":1,"eProv":7,"dProv":0,"eRevPaid":18000,"dRevPaid":0,"eRevProv":700000,"dRevProv":0},
 ];
 
 const RAW_ENG_STATUS = [
@@ -3625,6 +3569,8 @@ const RAW_ENG_STATUS = [
   {"d":"2026-07-07","pa":14,"su":2,"cet":52,"d2y":0,"fu":4,"fp":0,"in":8,"jk":39,"ni":0,"nr":0},
   {"d":"2026-07-08","pa":8,"su":3,"cet":47,"d2y":0,"fu":4,"fp":2,"in":14,"jk":19,"ni":0,"nr":0},
   {"d":"2026-07-09","pa":5,"su":7,"cet":26,"d2y":0,"fu":6,"fp":1,"in":10,"jk":30,"ni":0,"nr":0},
+  {"d":"2026-07-10","pa":14,"su":6,"cet":66,"d2y":0,"fu":13,"fp":4,"in":12,"jk":36,"ni":0,"nr":0},
+  {"d":"2026-07-11","pa":4,"su":0,"cet":44,"d2y":0,"fu":10,"fp":0,"in":2,"jk":11,"ni":0,"nr":0},
 ];
 
 const RAW_DES_STATUS = [
@@ -3745,6 +3691,8 @@ const RAW_DES_STATUS = [
   {"d":"2026-07-07","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
   {"d":"2026-07-08","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":1,"ni":0,"nr":0},
   {"d":"2026-07-09","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
+  {"d":"2026-07-10","pa":1,"su":3,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
+  {"d":"2026-07-11","pa":1,"su":3,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
 ];
 
 const RAW_WALKINS = [
@@ -3865,6 +3813,8 @@ const RAW_WALKINS = [
   {"d":"2026-07-07","eng":0,"des":0},
   {"d":"2026-07-08","eng":21,"des":1},
   {"d":"2026-07-09","eng":15,"des":0},
+  {"d":"2026-07-10","eng":33,"des":0},
+  {"d":"2026-07-11","eng":20,"des":0},
 ];
 
 const RAW_ENG_ADS = [
@@ -4045,6 +3995,8 @@ const RAW_ENG_ADS = [
   {"d":"2026-07-07","ctr":1.74,"imp":151732,"cpc":35.21,"cost":92755.31,"gLeads":100},
   {"d":"2026-07-08","ctr":2.01,"imp":143063,"cpc":31.83,"cost":91315.03,"gLeads":110},
   {"d":"2026-07-09","ctr":2.43,"imp":91035,"cpc":37.4,"cost":82656.18,"gLeads":89},
+  {"d":"2026-07-10","ctr":0.0,"imp":0,"cpc":0.0,"cost":0.0,"gLeads":115},
+  {"d":"2026-07-11","ctr":0.0,"imp":0,"cpc":0.0,"cost":0.0,"gLeads":106},
 ];
 
 const RAW_DES_ADS = [
@@ -4273,6 +4225,8 @@ const RAW_DES_ADS = [
   {"d":"2026-07-07","ctr":4.59,"imp":8380,"cpc":10.58,"cost":4006,"gLeads":3},
   {"d":"2026-07-08","ctr":3.82,"imp":6380,"cpc":4.69,"cost":1140,"gLeads":3},
   {"d":"2026-07-09","ctr":3.33,"imp":6420,"cpc":9,"cost":1930,"gLeads":1},
+  {"d":"2026-07-10","ctr":5.51,"imp":3630,"cpc":6.41,"cost":1280,"gLeads":2},
+  {"d":"2026-07-11","ctr":7.14,"imp":952,"cpc":11.56,"cost":786,"gLeads":2},
 ];
 
 // ═══════════════════════════════════════════
@@ -4298,7 +4252,7 @@ const RAW_SOCIAL = [
 
 let data = { main: [...RAW_MAIN], engStatus: [...RAW_ENG_STATUS], desStatus: [...RAW_DES_STATUS], walkins: [...RAW_WALKINS], engAds: [...RAW_ENG_ADS], desAds: [...RAW_DES_ADS], social: [...RAW_SOCIAL] };
 const charts = {};
-const filters = { txn: { from:'2026-03-15', to:'2026-07-09' }, bgt: { from:'2026-03-15', to:'2026-07-09' }, eng: { from:'2026-03-15', to:'2026-07-09' }, des: { from:'2026-03-15', to:'2026-07-09' }, cum: { from:'2026-03-15', to:'2026-07-09' }, sm: { from:'2026-03-15', to:'2026-07-09' } };
+const filters = { txn: { from:'2026-03-15', to:'2026-07-11' }, bgt: { from:'2026-03-15', to:'2026-07-11' }, eng: { from:'2026-03-15', to:'2026-07-11' }, des: { from:'2026-03-15', to:'2026-07-11' }, cum: { from:'2026-03-15', to:'2026-07-11' }, sm: { from:'2026-03-15', to:'2026-07-11' } };
 let activeSubs = { eng:'leads', des:'leads', cum:'leads' };
 let activeMain = 'engineering';
 
@@ -5043,7 +4997,7 @@ function applyFilter(pfx) {
 
 function setPreset(pfx, preset, el) {
   // Dynamic today capped at latest data date
-  const DATA_LATEST = '2026-07-09';
+  const DATA_LATEST = '2026-07-11';
   const nowStr = new Date().toISOString().slice(0,10);
   const today = nowStr > DATA_LATEST ? DATA_LATEST : nowStr;
 
@@ -5832,26 +5786,26 @@ function exportCSV(type) {
 // ═══════════════════════════════════════════
 
 const RAW_COUNSELORS = [
-  {"name":"Aarti Koli","untouched":25,"ni":348,"fu":46,"interested":17,"nr":940,"cet":47,"fp":3,"dsy":3,"newleads":0,"junk":21,"uceed":8,"pa":16,"prov":5},
-  {"name":"Gayatri Sawant","untouched":0,"ni":846,"fu":1102,"interested":101,"nr":1258,"cet":18,"fp":27,"dsy":64,"newleads":0,"junk":113,"uceed":930,"pa":87,"prov":0},
-  {"name":"Kedar Nalawade","untouched":2,"ni":564,"fu":540,"interested":0,"nr":469,"cet":563,"fp":0,"dsy":21,"newleads":0,"junk":492,"uceed":0,"pa":77,"prov":0},
-  {"name":"Nikita Arukar","untouched":8,"ni":266,"fu":517,"interested":257,"nr":760,"cet":12,"fp":6,"dsy":13,"newleads":0,"junk":26,"uceed":4,"pa":104,"prov":43},
-  {"name":"Nishu Tiwari","untouched":0,"ni":38,"fu":61,"interested":10,"nr":71,"cet":33,"fp":0,"dsy":9,"newleads":0,"junk":5,"uceed":0,"pa":7,"prov":0},
-  {"name":"Nitin Waghode","untouched":3,"ni":18,"fu":257,"interested":96,"nr":1822,"cet":0,"fp":0,"dsy":0,"newleads":0,"junk":0,"uceed":0,"pa":30,"prov":0},
-  {"name":"Prajwal Badage","untouched":0,"ni":1047,"fu":1284,"interested":98,"nr":1354,"cet":15,"fp":15,"dsy":63,"newleads":0,"junk":88,"uceed":581,"pa":81,"prov":0},
-  {"name":"Prateeksha Paliwal","untouched":5,"ni":1136,"fu":275,"interested":88,"nr":708,"cet":219,"fp":12,"dsy":31,"newleads":0,"junk":104,"uceed":31,"pa":104,"prov":31},
-  {"name":"Pratiksha Bhandwalkar","untouched":23,"ni":497,"fu":500,"interested":258,"nr":1149,"cet":13,"fp":12,"dsy":24,"newleads":0,"junk":52,"uceed":1,"pa":122,"prov":41},
-  {"name":"Rishikesh Mhamane","untouched":1,"ni":345,"fu":452,"interested":865,"nr":1180,"cet":776,"fp":22,"dsy":24,"newleads":0,"junk":47,"uceed":841,"pa":83,"prov":0},
-  {"name":"Sayali Jadhav","untouched":22,"ni":369,"fu":322,"interested":133,"nr":1169,"cet":20,"fp":0,"dsy":14,"newleads":0,"junk":20,"uceed":138,"pa":127,"prov":46},
-  {"name":"Shivani Sarnaik","untouched":0,"ni":800,"fu":903,"interested":115,"nr":1770,"cet":33,"fp":20,"dsy":69,"newleads":0,"junk":65,"uceed":660,"pa":90,"prov":0},
-  {"name":"Sonal Varma","untouched":1,"ni":653,"fu":942,"interested":20,"nr":2037,"cet":0,"fp":10,"dsy":48,"newleads":0,"junk":89,"uceed":834,"pa":99,"prov":0},
-  {"name":"Tamanna Khandare","untouched":9,"ni":771,"fu":1112,"interested":31,"nr":1899,"cet":531,"fp":20,"dsy":71,"newleads":0,"junk":29,"uceed":102,"pa":71,"prov":0},
-  {"name":"Tushar Pachpande","untouched":21,"ni":569,"fu":306,"interested":266,"nr":1131,"cet":9,"fp":0,"dsy":16,"newleads":0,"junk":84,"uceed":6,"pa":109,"prov":31},
-  {"name":"Usha Sangale","untouched":17,"ni":533,"fu":0,"interested":0,"nr":818,"cet":45,"fp":10,"dsy":7,"newleads":0,"junk":102,"uceed":0,"pa":8,"prov":3},
-  {"name":"Vaibhav Bhong","untouched":22,"ni":420,"fu":221,"interested":59,"nr":1092,"cet":13,"fp":0,"dsy":24,"newleads":0,"junk":25,"uceed":1,"pa":120,"prov":24},
-  {"name":"Vaishnavi Hule","untouched":0,"ni":1113,"fu":1766,"interested":205,"nr":440,"cet":35,"fp":15,"dsy":91,"newleads":0,"junk":77,"uceed":892,"pa":101,"prov":0},
-  {"name":"Vidya Bhalsing","untouched":23,"ni":365,"fu":190,"interested":111,"nr":1341,"cet":13,"fp":10,"dsy":10,"newleads":0,"junk":31,"uceed":91,"pa":102,"prov":42},
-  {"name":"Total","untouched":182,"ni":10698,"fu":10796,"interested":2730,"nr":21408,"cet":2395,"fp":182,"dsy":602,"newleads":0,"junk":1470,"uceed":5120,"pa":1538,"prov":266},
+  {"name":"Aarti Koli","untouched":0,"ni":348,"fu":46,"interested":17,"nr":940,"cet":46,"fp":3,"dsy":3,"newleads":0,"junk":21,"uceed":8,"pa":16,"prov":5},
+  {"name":"Gayatri Sawant","untouched":31,"ni":889,"fu":1219,"interested":106,"nr":1337,"cet":22,"fp":28,"dsy":67,"newleads":0,"junk":122,"uceed":930,"pa":92,"prov":0},
+  {"name":"Kedar Nalawade","untouched":30,"ni":585,"fu":608,"interested":0,"nr":492,"cet":675,"fp":0,"dsy":22,"newleads":0,"junk":516,"uceed":0,"pa":87,"prov":0},
+  {"name":"Nikita Arukar","untouched":0,"ni":266,"fu":518,"interested":263,"nr":760,"cet":12,"fp":6,"dsy":13,"newleads":0,"junk":26,"uceed":4,"pa":105,"prov":48},
+  {"name":"Nishu Tiwari","untouched":25,"ni":63,"fu":162,"interested":29,"nr":84,"cet":29,"fp":1,"dsy":15,"newleads":0,"junk":9,"uceed":0,"pa":12,"prov":0},
+  {"name":"Nitin Waghode","untouched":8,"ni":19,"fu":257,"interested":95,"nr":1822,"cet":0,"fp":0,"dsy":0,"newleads":0,"junk":0,"uceed":0,"pa":30,"prov":0},
+  {"name":"Prajwal Badage","untouched":30,"ni":1070,"fu":1486,"interested":101,"nr":1384,"cet":15,"fp":15,"dsy":64,"newleads":0,"junk":92,"uceed":581,"pa":83,"prov":0},
+  {"name":"Prateeksha Paliwal","untouched":0,"ni":1136,"fu":276,"interested":91,"nr":708,"cet":219,"fp":12,"dsy":31,"newleads":0,"junk":104,"uceed":31,"pa":106,"prov":29},
+  {"name":"Pratiksha Bhandwalkar","untouched":0,"ni":497,"fu":505,"interested":270,"nr":1149,"cet":13,"fp":12,"dsy":24,"newleads":0,"junk":52,"uceed":1,"pa":129,"prov":34},
+  {"name":"Rishikesh Mhamane","untouched":31,"ni":345,"fu":455,"interested":909,"nr":1182,"cet":982,"fp":22,"dsy":25,"newleads":0,"junk":51,"uceed":841,"pa":88,"prov":0},
+  {"name":"Sayali Jadhav","untouched":1,"ni":369,"fu":323,"interested":138,"nr":1169,"cet":20,"fp":0,"dsy":14,"newleads":0,"junk":20,"uceed":138,"pa":135,"prov":51},
+  {"name":"Shivani Sarnaik","untouched":43,"ni":822,"fu":1019,"interested":125,"nr":1854,"cet":35,"fp":20,"dsy":76,"newleads":0,"junk":67,"uceed":660,"pa":99,"prov":0},
+  {"name":"Sonal Varma","untouched":34,"ni":675,"fu":1010,"interested":20,"nr":2191,"cet":0,"fp":10,"dsy":55,"newleads":0,"junk":91,"uceed":834,"pa":106,"prov":0},
+  {"name":"Tamanna Khandare","untouched":32,"ni":791,"fu":1182,"interested":32,"nr":2039,"cet":567,"fp":20,"dsy":82,"newleads":0,"junk":29,"uceed":102,"pa":76,"prov":0},
+  {"name":"Tushar Pachpande","untouched":0,"ni":571,"fu":307,"interested":272,"nr":1131,"cet":9,"fp":0,"dsy":16,"newleads":0,"junk":87,"uceed":6,"pa":122,"prov":40},
+  {"name":"Usha Sangale","untouched":0,"ni":533,"fu":1,"interested":0,"nr":818,"cet":45,"fp":10,"dsy":7,"newleads":0,"junk":102,"uceed":0,"pa":8,"prov":2},
+  {"name":"Vaibhav Bhong","untouched":1,"ni":420,"fu":231,"interested":63,"nr":1092,"cet":13,"fp":0,"dsy":24,"newleads":0,"junk":25,"uceed":1,"pa":134,"prov":52},
+  {"name":"Vaishnavi Hule","untouched":11,"ni":1156,"fu":1939,"interested":248,"nr":439,"cet":35,"fp":16,"dsy":111,"newleads":0,"junk":82,"uceed":892,"pa":106,"prov":0},
+  {"name":"Vidya Bhalsing","untouched":0,"ni":365,"fu":190,"interested":113,"nr":1341,"cet":13,"fp":10,"dsy":10,"newleads":0,"junk":31,"uceed":91,"pa":106,"prov":34},
+  {"name":"Total","untouched":277,"ni":10920,"fu":11734,"interested":2892,"nr":21932,"cet":2750,"fp":185,"dsy":659,"newleads":0,"junk":1527,"uceed":5120,"pa":1640,"prov":295},
 ];
 // Counselor data covers the full campaign period — no per-day breakdown available
 // Date filter controls which summary period label is shown
@@ -5891,6 +5845,7 @@ const RAW_NOTICES = [
   {"d":"2026-06-19","category":"CET","programme":"Engineering","title":"Press Note MHT CET PCM Group 2nd Attempt 2026","link":"https://cetcell.mahacet.org/wp-content/uploads/2026/06/Press-Note-MHT-CET-PCM-Group-2nd-Attempt_2026.pdf"},
   {"d":"2026-07-02","category":"CET","programme":"Engineering","title":"4. Not to take admission in unauthorized institute Public Notice","link":"https://cetcell.mahacet.org/wp-content/uploads/2026/07/4.-Not-to-take-admission-in-unauthorized-institute-Public-Notice.pdf"},
   {"d":"2026-07-05","category":"CET","programme":"Engineering","title":"NOTICE IMP","link":"https://cetcell.mahacet.org/wp-content/uploads/2026/07/NOTICE-IMP.pdf"},
+  {"d":"2026-07-11","category":"CET","programme":"Engineering","title":"JEE Notice","link":"https://cetcell.mahacet.org/wp-content/uploads/2026/07/JEE-Notice.pdf"},
 ];
 
 function fmtDateShort(d) {
@@ -6466,7 +6421,7 @@ const RAW_TXN = [
   {"sr":"202","name":"Prasad Nitin Kothawade","branch":"Information Technology","remark":"","feesType":"Regular Fees","gender":"male","category":"obc","hsc":69.67,"pcm":201,"jee":null,"cet1":null,"cet2":90.01,"csl":"Vaibhav","d":"2026-06-26","amt":100000,"txid":"5877011980","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"203","name":"Siddharaj Santosh Babar","branch":"Computer Engineering(Software Engineering)","remark":"","feesType":"Regular Fees","gender":"Male","category":"OBC","hsc":61.17,"pcm":163,"jee":80.1,"cet1":77.55,"cet2":87.07,"csl":"Sayali","d":"2026-06-27","amt":100000,"txid":"5883122409","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"204","name":"Bharkar Vedant Jagdishappa","branch":"Computer Science & Engineering(AI ML )","remark":"","feesType":"Regular Fees","gender":"Male","category":"Open","hsc":73.67,"pcm":205,"jee":null,"cet1":null,"cet2":95.38,"csl":"Pratiksha","d":"2026-06-27","amt":100000,"txid":"5883429637","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
-  {"sr":"205","name":"Anuja Sachin Akolkar","branch":"Chemical Engineering","remark":"","feesType":"Regular Fees","gender":"Female","category":"OBC","hsc":55.5,"pcm":null,"jee":null,"cet1":41.71,"cet2":46.35,"csl":"Pratiksha","d":"2026-06-27","amt":50000,"txid":"5883509040","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"205","name":"Anuja Sachin Akolkar","branch":"Chemical Engineering","remark":"","feesType":"Regular Fees","gender":"Female","category":"OBC","hsc":55.5,"pcm":null,"jee":null,"cet1":41.71,"cet2":46.35,"csl":"Pratiksha","d":"2026-06-27","amt":50000,"txid":"5883509040","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Cancelled","refundStatus":"Refund Initiated"},
   {"sr":"206","name":"Pranav Rahul Sandbhor","branch":"Civil Engineering","remark":"","feesType":"Regular Fees","gender":"Male","category":"Open","hsc":67.33,"pcm":163,"jee":53.52,"cet1":30.19,"cet2":72.38,"csl":"Sayali","d":"2026-06-27","amt":100000,"txid":"5882380086","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"207","name":"OM SAMBHAJI ERANDE","branch":"Computer Engineering","remark":"","feesType":"Regular Fees","gender":"Male","category":"OBC","hsc":79.67,"pcm":238,"jee":69.2,"cet1":94.6,"cet2":92.93,"csl":"Tushar","d":"2026-06-27","amt":100000,"txid":"5883676819","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"208","name":"Aayush Ritesh Mayekar","branch":"Computer Science & Engineering(AI ML )","remark":"","feesType":"Regular Fees","gender":"Male","category":"Open","hsc":67.6,"pcm":168,"jee":null,"cet1":70.69,"cet2":92.46,"csl":"Tushar","d":"2026-06-29","amt":100000,"txid":"5896366390","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
@@ -6562,7 +6517,7 @@ const RAW_TXN = [
   {"sr":"298","name":"Shrungar Sanjay Parwat","branch":"Product Design","remark":"NA","feesType":"NA","gender":"Male","category":"obc","hsc":54.33,"pcm":null,"jee":null,"cet1":105,"cet2":null,"csl":"Vaibhav","d":"2026-06-20","amt":100000,"txid":"5834853186","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
   {"sr":"299","name":"SHRUSHTI SHIVAPUTRA BUKKANURE","branch":"Communication Design","remark":"NA","feesType":"NA","gender":"Female","category":"General EWS","hsc":55.83,"pcm":null,"jee":109.87,"cet1":null,"cet2":null,"csl":"Pratiksha(P)","d":"2026-06-22","amt":100000,"txid":"5849619361","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
   {"sr":"300","name":"Radhika Mahesh Ithape","branch":"Product Design","remark":"NA","feesType":"NA","gender":"Female","category":"OBC","hsc":53.3,"pcm":null,"jee":null,"cet1":112,"cet2":null,"csl":"Nikita","d":"2026-06-23","amt":100000,"txid":"5855215851","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
-  {"sr":"301","name":"SOHAM SUNIL PANDIT","branch":"Product Design","remark":"NA","feesType":"NA","gender":"Male","category":"OPEN","hsc":54.5,"pcm":null,"jee":81.06,"cet1":133,"cet2":null,"csl":"Nikita","d":"2026-06-23","amt":100000,"txid":"5854992199","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"301","name":"SOHAM SUNIL PANDIT","branch":"Product Design","remark":"NA","feesType":"NA","gender":"Male","category":"OPEN","hsc":54.5,"pcm":null,"jee":81.06,"cet1":133,"cet2":null,"csl":"Nikita","d":"2026-06-23","amt":100000,"txid":"5854992199","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Cancelled","refundStatus":"Refund Initiated"},
   {"sr":"302","name":"Stella paul","branch":"Communication Design","remark":"NA","feesType":"NA","gender":"Female","category":"OPEN","hsc":78.2,"pcm":null,"jee":70.87,"cet1":null,"cet2":null,"csl":"Nikita","d":"2026-06-27","amt":100000,"txid":"5883818954","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
   {"sr":"303","name":"Alika Rani","branch":"Communication Design","remark":"NA","feesType":"NA","gender":"Female","category":"OPEN","hsc":70,"pcm":null,"jee":110.74,"cet1":null,"cet2":null,"csl":"Nikita","d":"2026-06-29","amt":100000,"txid":"5896274264","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
   {"sr":"304","name":"Janhavi Walavalkar","branch":"User Experience Design","remark":"NA","feesType":"NA","gender":"Female","category":"OPEN","hsc":78.33,"pcm":null,"jee":null,"cet1":149,"cet2":null,"csl":"Vidya","d":"2026-06-29","amt":100000,"txid":"5896545066","mode":"Cashfree","ugpg":"UG","program":"Design","admStatus":"Confirmed","refundStatus":""},
@@ -6592,6 +6547,19 @@ const RAW_TXN = [
   {"sr":"328","name":"Varad Rajesh Uplanchwar","branch":"Computer Engineering","remark":"","feesType":"Higher Fees","gender":"male","category":"SBC","hsc":null,"pcm":146,"jee":null,"cet1":null,"cet2":82.57,"csl":"Vaibhav","d":"2026-07-05","amt":449000,"txid":"AXOMB18602043122","mode":"NEFT","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"329","name":"Mohit Ramakrishnan","branch":"Chemical Engineering","remark":"","feesType":"Regular Fees","gender":"male","category":"Open","hsc":86,"pcm":244,"jee":80.73,"cet1":88.72,"cet2":null,"csl":"Pratiksha","d":"2026-07-08","amt":100000,"txid":"5964755734","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
   {"sr":"330","name":"sushil Vilas Patil","branch":"Information Technology","remark":"","feesType":"Regular Fees","gender":"male","category":"OBC","hsc":83.33,"pcm":252,"jee":null,"cet1":null,"cet2":91.85,"csl":"Vaibhav","d":"2026-07-08","amt":100000,"txid":"5965067648","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"331","name":"Trimalle Ritesh Renukadas","branch":"Information Technology","remark":"","feesType":"Higher Fees","gender":"Male","category":"OBC","hsc":58.17,"pcm":152,"jee":47,"cet1":54.76,"cet2":27,"csl":"Vidya","d":"2026-07-10","amt":450474,"txid":"SBINR52026071034755156","mode":"RTGS","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"332","name":"Angeline Shaju","branch":"Chemical Engineering","remark":"","feesType":"Regular Fees","gender":"Female","category":"OMS","hsc":72.2,"pcm":192,"jee":76.88,"cet1":null,"cet2":null,"csl":"Vaibhav","d":"2026-07-10","amt":100000,"txid":"5978997456","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"333","name":"Sayuri Gawande","branch":"Computer Engineering(Software Engineering)","remark":"","feesType":"Regular Fees","gender":"Female","category":"OBC","hsc":69.33,"pcm":194,"jee":75.79,"cet1":91.23,"cet2":90.75,"csl":"Nikita","d":"2026-07-10","amt":50000,"txid":"5979639783","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"334","name":"Krishna Mangesh Chaudhari","branch":"Information Technology","remark":"","feesType":"Regular Fees","gender":"Male","category":"OBC","hsc":81.17,"pcm":253,"jee":null,"cet1":null,"cet2":91.73,"csl":"Vidya","d":"2026-07-10","amt":100000,"txid":"5980736749","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"335","name":"Ayush Raj Tiwary","branch":"Computer Science & Engineering(Data Science)","remark":"","feesType":"Regular Fees","gender":"male","category":"OMS","hsc":62,"pcm":164,"jee":null,"cet1":91.13,"cet2":null,"csl":"Vaibhav","d":"2026-07-10","amt":50000,"txid":"5980854526","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"336","name":"Shravani Sandeep Kasole","branch":"Civil Engineering","remark":"","feesType":"Regular Fees","gender":"Female","category":"SEBC","hsc":67.83,"pcm":176,"jee":null,"cet1":64.08,"cet2":49,"csl":"Vidya","d":"2026-07-10","amt":100000,"txid":"5980921382","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"337","name":"Aditi Vipin Dandgaval","branch":"Chemical Engineering","remark":"","feesType":"Regular Fees","gender":"female","category":"OBC","hsc":72.33,"pcm":201,"jee":null,"cet1":64.29,"cet2":null,"csl":"Vaibhav","d":"2026-07-11","amt":100000,"txid":"5985737809","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"338","name":"Debadipta Chatterjee","branch":"Computer Engineering","remark":"","feesType":"Regular Fees","gender":"Male","category":"Open","hsc":70.67,"pcm":198,"jee":null,"cet1":null,"cet2":92.35,"csl":"Vaibhav","d":"2026-07-11","amt":100000,"txid":"5985963797","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"339","name":"Prathmesh Sunil Pawar","branch":"Computer Engineering","remark":"","feesType":"Regular Fees","gender":"Male","category":"SEBC","hsc":64.67,"pcm":186,"jee":26.18,"cet1":94.93,"cet2":90,"csl":"Pratiksha","d":"2026-07-11","amt":90000,"txid":"5986126087","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"340","name":"Shreyansh S Jain","branch":"Computer Engineering","remark":"","feesType":"Regular Fees","gender":"Male","category":"Open","hsc":63.2,"pcm":168,"jee":87.32,"cet1":94.09,"cet2":92.35,"csl":"Tushar","d":"2026-07-11","amt":100000,"txid":"5987516513","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"341","name":"Shravani Umesh Moharil","branch":"Computer Engineering","remark":"","feesType":"Regular Fees","gender":"female","category":"Open","hsc":77.67,"pcm":187,"jee":null,"cet1":null,"cet2":95.38,"csl":"Vaibhav","d":"2026-07-11","amt":100000,"txid":"5987272292","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"342","name":"Anushka Bharat Kanade","branch":"E & Tc Engineering","remark":"","feesType":"Regular Fees","gender":"female","category":"OBC","hsc":69.33,"pcm":171,"jee":null,"cet1":null,"cet2":89.03,"csl":"Vaibhav","d":"2026-07-11","amt":100000,"txid":"5987973295","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
+  {"sr":"343","name":"Kamlesh Jeevaram Choudhary","branch":"Computer Science & Engineering(AI ML )","remark":"","feesType":"Regular Fees","gender":"Male","category":"Open","hsc":68.2,"pcm":212,"jee":null,"cet1":94.21,"cet2":null,"csl":"Sayali","d":"2026-07-11","amt":100000,"txid":"5986274019","mode":"Cashfree","ugpg":"UG","program":"Engineering","admStatus":"Confirmed","refundStatus":""},
 ];
 
 function renderTransactions() {
@@ -6839,15 +6807,15 @@ function renderBudget() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  filters.txn = { from: '2026-03-15', to: '2026-07-09' };
-  filters.bgt = { from: '2026-03-15', to: '2026-07-09' };
-  filters.eng.from = '2026-03-15'; filters.eng.to = '2026-07-09';
-  filters.des.from = '2026-03-15'; filters.des.to = '2026-07-09';
-  filters.cum.from = '2026-03-15'; filters.cum.to = '2026-07-09';
-  filters.sm.from = '2026-03-15'; filters.sm.to = '2026-07-09';
-  filters.brd = { from: '2026-03-15', to: '2026-07-09' };
-  filters.csr = { from: '2026-03-15', to: '2026-07-09' };
-  filters.ntc = { from: '2026-03-15', to: '2026-07-09' };
+  filters.txn = { from: '2026-03-15', to: '2026-07-11' };
+  filters.bgt = { from: '2026-03-15', to: '2026-07-11' };
+  filters.eng.from = '2026-03-15'; filters.eng.to = '2026-07-11';
+  filters.des.from = '2026-03-15'; filters.des.to = '2026-07-11';
+  filters.cum.from = '2026-03-15'; filters.cum.to = '2026-07-11';
+  filters.sm.from = '2026-03-15'; filters.sm.to = '2026-07-11';
+  filters.brd = { from: '2026-03-15', to: '2026-07-11' };
+  filters.csr = { from: '2026-03-15', to: '2026-07-11' };
+  filters.ntc = { from: '2026-03-15', to: '2026-07-11' };
 
   // ── Wire GROUP TABS (top-level nav) ─────────────────────
   document.querySelectorAll('.main-tab[data-group]').forEach(btn => {
@@ -6985,7 +6953,7 @@ function downloadDash(){
     .then(function(blob){
       var a=document.createElement('a');
       a.href=URL.createObjectURL(blob);
-      a.download='MIT_Admissions_Dashboard_2026-07-09.html';
+      a.download='MIT_Admissions_Dashboard_2026-07-11.html';
       document.body.appendChild(a);a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(a.href);
