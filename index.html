@@ -2893,7 +2893,7 @@ th.th-num { text-align: right; }
   {"label":"TOTAL","cu":20,"cu2":3,"uu":23,"oc":19,"total":65},
 ];
   const RAW_ENG_SCORE = [
-  {"label":"Above 90","cu":42,"cu2":2,"uu":1,"oc":29},
+  {"label":"Above 90","cu":42,"cu2":2,"uu":1,"oc":30},
   {"label":"80.01-90","cu":44,"cu2":4,"uu":1,"oc":36},
   {"label":"70.01-80","cu":17,"cu2":5,"uu":2,"oc":17},
   {"label":"60.01-70","cu":5,"cu2":2,"uu":1,"oc":6},
@@ -2901,7 +2901,7 @@ th.th-num { text-align: right; }
   {"label":"30.01-50","cu":0,"cu2":0,"uu":0,"oc":1},
   {"label":"Below 30","cu":0,"cu2":0,"uu":0,"oc":2},
   {"label":"Awaiting Result","cu":0,"cu2":0,"uu":0,"oc":0},
-  {"label":"TOTAL","cu":112,"cu2":17,"uu":6,"oc":95,"total":230},
+  {"label":"TOTAL","cu":112,"cu2":17,"uu":6,"oc":96,"total":231},
 ];
   function switchScoreTab(tab){
     ["design","eng"].forEach(function(p){
@@ -3457,6 +3457,7 @@ const RAW_MAIN = [
   {"d":"2026-07-09","eLeads":222,"dLeads":1,"ePaid":10,"dPaid":0,"eSign":31,"dSign":2,"eProv":0,"dProv":0,"eRevPaid":20000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
   {"d":"2026-07-10","eLeads":232,"dLeads":7,"ePaid":9,"dPaid":0,"eSign":45,"dSign":2,"eProv":6,"dProv":0,"eRevPaid":18000,"dRevPaid":0,"eRevProv":850474,"dRevProv":0},
   {"d":"2026-07-11","eLeads":162,"dLeads":7,"ePaid":9,"dPaid":0,"eSign":45,"dSign":1,"eProv":7,"dProv":0,"eRevPaid":18000,"dRevPaid":0,"eRevProv":700000,"dRevProv":0},
+  {"d":"2026-07-12","eLeads":146,"dLeads":0,"ePaid":4,"dPaid":0,"eSign":26,"dSign":2,"eProv":0,"dProv":0,"eRevPaid":8000,"dRevPaid":0,"eRevProv":0,"dRevProv":0},
 ];
 
 const RAW_ENG_STATUS = [
@@ -3579,6 +3580,7 @@ const RAW_ENG_STATUS = [
   {"d":"2026-07-09","pa":5,"su":7,"cet":26,"d2y":0,"fu":6,"fp":1,"in":10,"jk":30,"ni":0,"nr":0},
   {"d":"2026-07-10","pa":14,"su":6,"cet":66,"d2y":0,"fu":13,"fp":4,"in":12,"jk":36,"ni":0,"nr":0},
   {"d":"2026-07-11","pa":4,"su":0,"cet":44,"d2y":0,"fu":10,"fp":0,"in":2,"jk":11,"ni":0,"nr":0},
+  {"d":"2026-07-12","pa":0,"su":2,"cet":9,"d2y":0,"fu":3,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
 ];
 
 const RAW_DES_STATUS = [
@@ -3701,6 +3703,7 @@ const RAW_DES_STATUS = [
   {"d":"2026-07-09","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
   {"d":"2026-07-10","pa":1,"su":3,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
   {"d":"2026-07-11","pa":1,"su":3,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
+  {"d":"2026-07-12","pa":0,"su":0,"cet":0,"d2y":0,"fu":0,"fp":0,"in":0,"jk":0,"ni":0,"nr":0},
 ];
 
 const RAW_WALKINS = [
@@ -3823,6 +3826,7 @@ const RAW_WALKINS = [
   {"d":"2026-07-09","eng":15,"des":0},
   {"d":"2026-07-10","eng":33,"des":0},
   {"d":"2026-07-11","eng":20,"des":0},
+  {"d":"2026-07-12","eng":20,"des":0},
 ];
 
 const RAW_ENG_ADS = [
@@ -4005,6 +4009,7 @@ const RAW_ENG_ADS = [
   {"d":"2026-07-09","ctr":2.43,"imp":91035,"cpc":37.4,"cost":82656.18,"gLeads":89},
   {"d":"2026-07-10","ctr":0.0,"imp":0,"cpc":0.0,"cost":0.0,"gLeads":115},
   {"d":"2026-07-11","ctr":0.0,"imp":0,"cpc":0.0,"cost":0.0,"gLeads":106},
+  {"d":"2026-07-12","ctr":0.0,"imp":0,"cpc":0.0,"cost":0.0,"gLeads":96},
 ];
 
 const RAW_DES_ADS = [
@@ -4260,7 +4265,7 @@ const RAW_SOCIAL = [
 
 let data = { main: [...RAW_MAIN], engStatus: [...RAW_ENG_STATUS], desStatus: [...RAW_DES_STATUS], walkins: [...RAW_WALKINS], engAds: [...RAW_ENG_ADS], desAds: [...RAW_DES_ADS], social: [...RAW_SOCIAL] };
 const charts = {};
-const filters = { txn: { from:'2026-03-15', to:'2026-07-11' }, bgt: { from:'2026-03-15', to:'2026-07-11' }, eng: { from:'2026-03-15', to:'2026-07-11' }, des: { from:'2026-03-15', to:'2026-07-11' }, cum: { from:'2026-03-15', to:'2026-07-11' }, sm: { from:'2026-03-15', to:'2026-07-11' } };
+const filters = { txn: { from:'2026-03-15', to:'2026-07-12' }, bgt: { from:'2026-03-15', to:'2026-07-12' }, eng: { from:'2026-03-15', to:'2026-07-12' }, des: { from:'2026-03-15', to:'2026-07-12' }, cum: { from:'2026-03-15', to:'2026-07-12' }, sm: { from:'2026-03-15', to:'2026-07-12' } };
 let activeSubs = { eng:'leads', des:'leads', cum:'leads' };
 let activeMain = 'engineering';
 
@@ -5005,7 +5010,7 @@ function applyFilter(pfx) {
 
 function setPreset(pfx, preset, el) {
   // Dynamic today capped at latest data date
-  const DATA_LATEST = '2026-07-11';
+  const DATA_LATEST = '2026-07-12';
   const nowStr = new Date().toISOString().slice(0,10);
   const today = nowStr > DATA_LATEST ? DATA_LATEST : nowStr;
 
@@ -6815,15 +6820,15 @@ function renderBudget() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  filters.txn = { from: '2026-03-15', to: '2026-07-11' };
-  filters.bgt = { from: '2026-03-15', to: '2026-07-11' };
-  filters.eng.from = '2026-03-15'; filters.eng.to = '2026-07-11';
-  filters.des.from = '2026-03-15'; filters.des.to = '2026-07-11';
-  filters.cum.from = '2026-03-15'; filters.cum.to = '2026-07-11';
-  filters.sm.from = '2026-03-15'; filters.sm.to = '2026-07-11';
-  filters.brd = { from: '2026-03-15', to: '2026-07-11' };
-  filters.csr = { from: '2026-03-15', to: '2026-07-11' };
-  filters.ntc = { from: '2026-03-15', to: '2026-07-11' };
+  filters.txn = { from: '2026-03-15', to: '2026-07-12' };
+  filters.bgt = { from: '2026-03-15', to: '2026-07-12' };
+  filters.eng.from = '2026-03-15'; filters.eng.to = '2026-07-12';
+  filters.des.from = '2026-03-15'; filters.des.to = '2026-07-12';
+  filters.cum.from = '2026-03-15'; filters.cum.to = '2026-07-12';
+  filters.sm.from = '2026-03-15'; filters.sm.to = '2026-07-12';
+  filters.brd = { from: '2026-03-15', to: '2026-07-12' };
+  filters.csr = { from: '2026-03-15', to: '2026-07-12' };
+  filters.ntc = { from: '2026-03-15', to: '2026-07-12' };
 
   // ── Wire GROUP TABS (top-level nav) ─────────────────────
   document.querySelectorAll('.main-tab[data-group]').forEach(btn => {
@@ -6961,7 +6966,7 @@ function downloadDash(){
     .then(function(blob){
       var a=document.createElement('a');
       a.href=URL.createObjectURL(blob);
-      a.download='MIT_Admissions_Dashboard_2026-07-11.html';
+      a.download='MIT_Admissions_Dashboard_2026-07-12.html';
       document.body.appendChild(a);a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(a.href);
