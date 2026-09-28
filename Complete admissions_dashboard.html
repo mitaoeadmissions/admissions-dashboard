@@ -403,6 +403,128 @@ th.th-num { text-align: right; }
   .kpi-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
 </style>
+<style id="mobile-responsive">
+/* ═══════════════════════════════════════════════════
+   MOBILE RESPONSIVE OVERRIDES
+   Breakpoints: 768px (tablet), 480px (phone)
+═══════════════════════════════════════════════════ */
+
+/* ── Tablet (≤900px) ── already partially handled, reinforce ── */
+@media (max-width: 900px) {
+  .page-body { padding: 16px 16px; }
+  .header { padding: 0 16px; }
+  .header-inner { height: auto; min-height: 64px; padding: 10px 0; flex-wrap: wrap; gap: 8px; }
+  .main-nav { padding: 0 12px; top: auto; position: relative; }
+  .main-nav-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; padding-bottom: 2px; }
+  .main-nav-inner::-webkit-scrollbar { height: 3px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .chart-row { grid-template-columns: 1fr; gap: 14px; }
+  .insights-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .io-grid { grid-template-columns: 1fr; gap: 14px; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-wrap table { min-width: 600px; }
+}
+
+/* ── Phone (≤600px) ── */
+@media (max-width: 600px) {
+  /* Header */
+  .header-inner { flex-direction: row; flex-wrap: wrap; height: auto;
+    padding: 10px 0; gap: 6px; justify-content: space-between; }
+  .logo-block { gap: 10px; }
+  .logo-block img { height: 38px; }
+  .report-title { font-size: 15px; }
+  .report-subtitle { font-size: 10px; }
+  .header-divider { display: none; }
+  .header-actions { gap: 6px; }
+  .header-actions .btn { padding: 6px 10px; font-size: 11px; }
+  .badge-live { display: none; }
+
+  /* Nav tabs — horizontal scroll */
+  .main-nav { padding: 0 8px; overflow: hidden; }
+  .main-nav-inner { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap; gap: 0; padding-bottom: 2px; scrollbar-width: none; }
+  .main-nav-inner::-webkit-scrollbar { display: none; }
+  .main-tab { white-space: nowrap; padding: 12px 14px; font-size: 12px; gap: 5px; }
+  .main-tab svg { width: 13px; height: 13px; }
+
+  /* Sub-tabs */
+  .sub-tabs { display: flex; overflow-x: auto; flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch; gap: 6px; padding-bottom: 4px;
+    scrollbar-width: none; }
+  .sub-tabs::-webkit-scrollbar { display: none; }
+  .sub-tab { white-space: nowrap; padding: 6px 12px; font-size: 12px; }
+
+  /* Preset buttons */
+  .preset-btns { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px;
+    -webkit-overflow-scrolling: touch; padding-bottom: 4px; scrollbar-width: none; }
+  .preset-btns::-webkit-scrollbar { display: none; }
+  .preset-btn { white-space: nowrap; font-size: 11px; padding: 5px 10px; }
+
+  /* Filter bar */
+  .filter-bar { flex-direction: column; gap: 10px; align-items: stretch; }
+  .filter-group { flex-direction: column; gap: 6px; align-items: stretch; }
+  .filter-group label { font-size: 11px; }
+  .filter-group input[type="date"] { width: 100%; font-size: 13px; padding: 6px 8px; }
+  .filter-group select { width: 100%; font-size: 13px; padding: 6px 8px; }
+  .btn-apply { width: 100%; justify-content: center; }
+
+  /* KPI cards — 2 columns on phone */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .kpi-card { padding: 14px 12px; }
+  .kpi-value { font-size: 22px; }
+  .kpi-label { font-size: 11px; }
+  .kpi-change { font-size: 10px; }
+
+  /* Charts — single column, constrained height */
+  .chart-row { grid-template-columns: 1fr; gap: 12px; }
+  .chart-card { padding: 14px 12px; overflow: hidden; }
+  .chart-card canvas { max-width: 100% !important; height: auto !important; }
+
+  /* Insights / io grids */
+  .insights-grid { grid-template-columns: 1fr; gap: 10px; }
+  .io-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Section header */
+  .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .section-header h2 { font-size: 16px; }
+
+  /* Tables — horizontal scroll */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
+    border-radius: 8px; }
+  .table-wrap table { min-width: 560px; font-size: 12px; }
+  .table-wrap th, .table-wrap td { padding: 8px 10px; white-space: nowrap; }
+
+  /* Page body */
+  .page-body { padding: 12px 10px; }
+
+  /* Sect tabs (inside sections) */
+  .sect-tabs { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px;
+    -webkit-overflow-scrolling: touch; padding-bottom: 4px;
+    scrollbar-width: none; }
+  .sect-tabs::-webkit-scrollbar { display: none; }
+  .sect-tab { white-space: nowrap; font-size: 12px; padding: 6px 12px; }
+
+  /* Download button repositioned on small screens */
+  #dl-btn { bottom: 14px; right: 14px; padding: 9px 14px; font-size: 12px; }
+}
+
+/* ── Very small phones (≤380px) ── */
+@media (max-width: 380px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .kpi-value { font-size: 19px; }
+  .report-title { font-size: 13px; }
+  .main-tab { padding: 10px 10px; font-size: 11px; }
+}
+</style>
+<style>
+#dl-btn{position:fixed;bottom:24px;right:24px;z-index:9999;
+  display:flex;align-items:center;gap:8px;
+  background:#1b2a5c;color:#fff;border:none;border-radius:10px;
+  padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 16px rgba(27,42,92,0.35);transition:background 0.18s;}
+#dl-btn:hover{background:#2d3f7c;}
+#dl-btn svg{width:16px;height:16px;flex-shrink:0;}
+</style>
 </head>
 <body>
 
@@ -506,17 +628,11 @@ th.th-num { text-align: right; }
     <button class="sect-tab cum active" data-section="cumulative">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Cumulative Overview
     </button>
-    <button class="sect-tab scoreanalysis" data-section="scoreanalysis">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Score Analysis
-    </button>
     <button class="sect-tab branchscores" data-section="branch-scores">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Branch Score Analysis
     </button>
     <button class="sect-tab glv" data-section="google-leads">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Google Leads
-    </button>
-    <button class="sect-tab admst" data-section="admission-status">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Admission Status
     </button>
   </div>
 </nav>
@@ -1326,42 +1442,6 @@ th.th-num { text-align: right; }
     </div>
   </section>
 
-  <section class="tab-section" id="sec-admission-status">
-    <div style="max-width:1300px;margin:0 auto;padding:24px 20px 48px;">
-      <div style="margin-bottom:24px;">
-        <h2 style="font-size:22px;font-weight:700;color:#1b2a5c;margin:0 0 4px;">MITAOE Admission Status 2026-27</h2>
-        <div style="font-size:13px;color:#64748b;">Seat availability vs admissions as on 25th June 2026</div>
-      </div>
-
-      <!-- KPI summary row -->
-      <div id="adm-kpi" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;"></div>
-
-      <!-- Branch-wise table -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:14px;overflow:hidden;box-shadow:0 1px 6px rgba(27,42,92,0.08);">
-        <div style="background:#1b2a5c;padding:14px 18px;display:flex;align-items:center;gap:10px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          <span style="font-size:14px;font-weight:700;color:white;">Branch-wise Seat Matrix</span>
-        </div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-size:13px;">
-            <thead>
-              <tr style="background:#f8faff;border-bottom:2px solid #dde2ef;">
-                <th style="padding:12px 14px;text-align:left;font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Branch</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#1a56db;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">IL Intake<br>2026-27 (A)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">CAP Vacancy<br>2025-26 (B)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#0891b2;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Cancellation<br>Vacancy 2025-26 (C)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Total<br>(A+B+C)</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Admissions<br>as on 25th Jun</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Vacant<br>2026-27</th>
-              </tr>
-            </thead>
-            <tbody id="adm-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="tab-section" id="sec-notices">
     <div class="controls-bar">
       <label>Date Range:</label>
@@ -1476,14 +1556,21 @@ th.th-num { text-align: right; }
 
   <!-- ============ TRANSACTION UPDATES ============ -->
   <section class="tab-section" id="sec-transactions">
-    <div style="max-width:1400px;margin:0 auto;padding:32px 20px 40px;">
+    <div style="max-width:1400px;margin:24px auto 0;padding:0 20px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button id="txn-tab-all" onclick="switchTxnTab('all')"
+        style="padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid #1b2a5c;background:#1b2a5c;color:white;transition:all 0.15s;">
+        All Transactions
+      </button>
+      <button id="txn-tab-branch" onclick="switchTxnTab('branch')"
+        style="padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #dde2ef;background:white;color:#64748b;transition:all 0.15s;">
+        Branch Analysis
+      </button>
+    </div>
+    <div id="txn-panel-all" style="max-width:1400px;margin:0 auto;padding:32px 20px 40px;">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;margin-bottom:28px;">
 <div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#1b2a5c;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Total Students</div><div id="txn-kpi-total-students" style="font-size:28px;font-family:'DM Serif Display',serif;color:#1b2a5c;line-height:1;">132</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">paid applications</div></div>
-<div style="background:#f0fdf4;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#059669;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Confirmed Admissions</div><div id="txn-kpi-confirmed-admissions" style="font-size:28px;font-family:'DM Serif Display',serif;color:#059669;line-height:1;">126</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">admission confirmed</div></div>
-<div style="background:#fef2f2;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#dc2626;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Cancelled Admissions</div><div id="txn-kpi-cancelled-admissions" style="font-size:28px;font-family:'DM Serif Display',serif;color:#dc2626;line-height:1;">6</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">refund initiated</div></div>
-<div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#1d4ed8;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Total Amount Collected</div><div id="txn-kpi-total-amount" style="font-size:28px;font-family:'DM Serif Display',serif;color:#1d4ed8;line-height:1;">₹1,21,30,000</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">net after cancellations</div></div>
-<div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#0284c7;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Cashfree</div><div id="txn-kpi-cashfree" style="font-size:28px;font-family:'DM Serif Display',serif;color:#0284c7;line-height:1;">117</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">digital payments</div></div>
-<div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#d97706;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Other Payments</div><div id="txn-kpi-other-payments" style="font-size:28px;font-family:'DM Serif Display',serif;color:#d97706;line-height:1;">15</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">cheque / NEFT / RTGS</div></div>
+<div style="background:#f0fdf4;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#059669;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Confirmed Admissions</div><div id="txn-kpi-confirmed-admissions" style="font-size:28px;font-family:'DM Serif Display',serif;color:#059669;line-height:1;">126</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">provisional / confirmed</div></div>
+<div style="background:#fef2f2;border:1px solid #dde2ef;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(27,42,92,0.07);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#dc2626;border-radius:12px 12px 0 0;"></div><div style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Cancelled Admissions</div><div id="txn-kpi-cancelled-admissions" style="font-size:28px;font-family:'DM Serif Display',serif;color:#dc2626;line-height:1;">6</div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">admission cancelled</div></div>
       </div>
 
       <!-- Transaction Filters -->
@@ -1507,12 +1594,6 @@ th.th-num { text-align: right; }
           <option value="Product Design">Product Design</option>
           <option value="User Experience Design">User Experience Design</option>
         </select>
-        <select id="txn-f-adm" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
-          <option value="">All Admission Status</option><option value="Confirmed">Confirmed</option><option value="Cancelled">Cancelled</option>
-        </select>
-        <select id="txn-f-refund" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
-          <option value="">All Refund Status</option><option value="Refund Initiated">Refund Initiated</option><option value="Refund to be initiated">Refund to be initiated</option>
-        </select>
         <select id="txn-f-hsc" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
           <option value="">All HSC %</option>
           <option value="lt50">Below 50%</option><option value="50to60">50% &#8211; 60%</option>
@@ -1525,7 +1606,10 @@ th.th-num { text-align: right; }
           <option value="80to100">80 &#8211; 100</option><option value="100to150">100 &#8211; 150</option>
           <option value="above150">Above 150</option><option value="none">Not Available</option>
         </select>
-        <button onclick="document.querySelectorAll('#txn-f-ugpg,#txn-f-program,#txn-f-branch,#txn-f-adm,#txn-f-refund,#txn-f-hsc,#txn-f-jee').forEach(function(s){s.value='';});renderTransactions();" style="padding:6px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:11px;color:#7c3aed;background:#f5f3ff;cursor:pointer;font-weight:600;">&#10005; Clear</button>
+        <select id="txn-f-adm" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
+          <option value="">All Admission Status</option><option value="Confirmed">Confirmed</option><option value="Cancelled">Cancelled</option>
+        </select>
+        <button onclick="document.querySelectorAll('#txn-f-ugpg,#txn-f-program,#txn-f-branch,#txn-f-hsc,#txn-f-jee,#txn-f-adm').forEach(function(s){s.value='';});renderTransactions();" style="padding:6px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:11px;color:#7c3aed;background:#f5f3ff;cursor:pointer;font-weight:600;">&#10005; Clear</button>
       </div>
       <table style="width:100%;border-collapse:collapse;">
             <thead>
@@ -1542,11 +1626,7 @@ th.th-num { text-align: right; }
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 2</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Counsellor</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Date</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">Amount</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Txn ID</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Mode</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Adm. Status</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Cancellation</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Status</th>
               </tr>
             </thead>
             <tbody id="txn-tbody">
@@ -2391,6 +2471,27 @@ th.th-num { text-align: right; }
         </div>
       </div>
     </div>
+    <div id="txn-panel-branch" style="display:none;max-width:1400px;margin:0 auto;padding:0 20px 40px;">
+      <div style="margin-bottom:16px;">
+        <h3 style="font-size:16px;font-weight:700;color:#1b2a5c;margin:0 0 4px;">Branch-wise Admission Status</h3>
+        <div style="font-size:13px;color:#64748b;">Confirmed vs cancelled provisional admissions per branch</div>
+      </div>
+      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
+                <th style="padding:12px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">Branch</th>
+                <th style="padding:12px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Total Admissions Received</th>
+                <th style="padding:12px 14px;font-size:11px;font-weight:700;color:#dc2626;text-align:center;">Cancelled</th>
+                <th style="padding:12px 14px;font-size:11px;font-weight:700;color:#059669;text-align:center;">Confirmed</th>
+              </tr>
+            </thead>
+            <tbody id="txn-branch-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </section>
   <!-- Branch Score Analysis panel -->
   <div id="sec-branch-scores" class="tab-section" style="padding:0 0 40px;">
@@ -2419,12 +2520,6 @@ th.th-num { text-align: right; }
           <option value="70to85">70.01 to 85</option>
           <option value="85to90">85.01 to 90</option>
           <option value="above90">Above 90</option>
-        </select>
-        <label style="font-size:12px;font-weight:600;color:#475569;">Status:</label>
-        <select id="bs-adm-filter" onchange="renderBranchScores()" style="padding:6px 10px;border-radius:7px;border:1px solid #dde2ef;font-size:12px;color:#1b2a5c;">
-          <option value="">All</option>
-          <option value="Confirmed">Confirmed</option>
-          <option value="Cancelled">Cancelled</option>
         </select>
       </div>
       <div id="bs-container"></div>
@@ -2466,12 +2561,10 @@ th.th-num { text-align: right; }
     var progF   = (document.getElementById("bs-prog-filter")  ||{}).value||"";
     var courseF = (document.getElementById("bs-course-filter")||{}).value||"";
     var scoreF  = (document.getElementById("bs-score-filter") ||{}).value||"";
-    var admF    = (document.getElementById("bs-adm-filter")   ||{}).value||"";
 
     var data = RAW_TXN.filter(function(r){
       if (progF   && r.program   !== progF)  return false;
       if (courseF && r.branch    !== courseF) return false;
-      if (admF    && r.admStatus !== admF)    return false;
       // score range: check best score
       if (scoreF) {
         var scores = [];
@@ -2528,7 +2621,6 @@ th.th-num { text-align: right; }
         var bestBadge = best
           ? '<span style="background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;">' + best.val + ' (' + best.label + ')</span>'
           : '<span style="color:#9ca3af;">—</span>';
-        var admColor = r.admStatus === "Confirmed" ? "#059669" : r.admStatus === "Cancelled" ? "#dc2626" : "#64748b";
         return '<tr style="border-bottom:1px solid #f0f2f8;' + bg + '">' +
           '<td style="padding:10px 14px;font-size:13px;font-weight:500;color:#111827;">' + r.name + '</td>' +
           '<td style="padding:10px 14px;font-size:12px;color:#64748b;">' + (r.ugpg||"—") + '</td>' +
@@ -2538,12 +2630,8 @@ th.th-num { text-align: right; }
           '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + cet1Cell + '</td>' +
           '<td style="padding:10px 14px;font-size:12px;color:#475569;text-align:right;">' + cet2Cell + '</td>' +
           '<td style="padding:10px 14px;text-align:center;">' + bestBadge + '</td>' +
-          '<td style="padding:10px 14px;font-size:11px;font-weight:600;color:' + admColor + ';text-align:center;">' + (r.admStatus||"—") + '</td>' +
           '</tr>';
       }).join("");
-
-      var nConfirmed = students.filter(function(r){ return r.admStatus === "Confirmed"; }).length;
-      var nCancelled = students.filter(function(r){ return r.admStatus === "Cancelled"; }).length;
 
       container.innerHTML +=
         '<div style="margin-bottom:28px;background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">' +
@@ -2551,8 +2639,6 @@ th.th-num { text-align: right; }
         '<div style="font-size:15px;font-weight:700;color:#1b2a5c;">' + branch + '</div>' +
         '<div style="display:flex;gap:12px;align-items:center;">' +
         '<span style="font-size:12px;color:#64748b;">Total: <strong style="color:#1b2a5c;">' + students.length + '</strong></span>' +
-        '<span style="font-size:12px;background:#d1fae5;color:#065f46;padding:2px 10px;border-radius:10px;font-weight:700;">✓ ' + nConfirmed + ' Confirmed</span>' +
-        (nCancelled > 0 ? '<span style="font-size:12px;background:#fee2e2;color:#991b1b;padding:2px 10px;border-radius:10px;font-weight:700;">× ' + nCancelled + ' Cancelled</span>' : '') +
         '</div>' +
         '</div>' +
         '<div style="overflow-x:auto;">' +
@@ -2566,7 +2652,6 @@ th.th-num { text-align: right; }
         '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 1</th>' +
         '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 2</th>' +
         '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Best Score</th>' +
-        '<th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Status</th>' +
         '</tr></thead>' +
         '<tbody>' + tableRows + '</tbody>' +
         '</table></div></div>';
@@ -2574,341 +2659,11 @@ th.th-num { text-align: right; }
   }
   </script>
 
-  <!-- ============ SCORE ANALYSIS ============ -->
-  <section class="tab-section" id="sec-scoreanalysis">
-    <div style="max-width:1100px;margin:0 auto;padding:24px 20px 8px;">
-      <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
-        <button id="score-tab-design" onclick="switchScoreTab('design')"
-          style="padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid #f472b6;background:#fdf2f8;color:#be185d;transition:all 0.15s;">
-          Design
-        </button>
-        <button id="score-tab-eng" onclick="switchScoreTab('eng')"
-          style="padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #dde2ef;background:white;color:#64748b;transition:all 0.15s;">
-          Engineering (B.Tech)
-        </button>
-      </div>
-    </div>
-    <div id="score-panel-design">
-<div style="max-width:1100px;margin:0 auto;padding:32px 20px 40px;">
-
-      <!-- Header -->
-      <div style="margin-bottom:24px;">
-        <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin:0 0 6px;">Score Analysis of Provisional Admissions (Design)</h2>
-        <p style="font-size:13px;color:#64748b;margin:0;">Distribution of entrance exam scores across provisional admission categories</p>
-      </div>
-
-      <!-- Summary KPI Cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
-        <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-          <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">CET &amp; UCEED</div>
-          <div id="design-score-kpi-cu" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">—</div>
-          <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
-        </div>
-        <div style="background:#ede9fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-          <div style="font-size:11px;font-weight:700;color:#6d28d9;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only UCEED</div>
-          <div id="design-score-kpi-uu" style="font-size:34px;font-weight:700;color:#7c3aed;line-height:1;">—</div>
-          <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
-        </div>
-        <div style="background:#d1fae5;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-          <div style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only CET</div>
-          <div id="design-score-kpi-oc" style="font-size:34px;font-weight:700;color:#059669;line-height:1;">—</div>
-          <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
-        </div>
-        <div style="background:#eef1f9;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-          <div style="font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Total Provisional</div>
-          <div id="design-score-kpi-total" style="font-size:34px;font-weight:700;color:#1b2a5c;line-height:1;">—</div>
-          <div style="font-size:11px;color:#64748b;margin-top:4px;">across all categories</div>
-        </div>
-      </div>
-
-      <!-- Score Band Table -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
-        <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
-          <div style="font-size:14px;font-weight:700;color:#1b2a5c;">Score Band Distribution</div>
-          <div style="font-size:12px;color:#9ca3af;margin-top:2px;">CET percentile &amp; UCEED scores for provisional admissions</div>
-        </div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;min-width:500px;">
-            <thead>
-              <tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Score Range</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">CET &amp; UCEED</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#7c3aed;text-align:center;">Only UCEED</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:center;">Only CET</th>
-              </tr>
-            </thead>
-            <tbody id="design-score-tbody"><tr><td colspan="4" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">Loading...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Visual Bar Chart -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;padding:24px;margin-top:20px;box-shadow:0 1px 4px rgba(27,42,92,0.07);">
-        <div style="font-size:14px;font-weight:700;color:#1b2a5c;margin-bottom:20px;">CET &amp; UCEED vs Only UCEED — Score Distribution</div>
-        <div style="display:flex;flex-direction:column;gap:16px;">
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">Above 100</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 8 &nbsp;|&nbsp; Only UCEED: 5</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#1a56db;border-radius:4px;width:calc(8/16*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">8</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(5/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">5</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">75 &#8211; 100</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 0 &nbsp;|&nbsp; Only UCEED: 2</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#e2e8f0;border-radius:4px;width:5%;display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;color:#94a3b8;">0</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(2/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">2</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">50 &#8211; 75</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 6 &nbsp;|&nbsp; Only UCEED: 9</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#1a56db;border-radius:4px;width:calc(6/16*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">6</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(9/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">9</span></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;font-weight:600;color:#1b2a5c;">Below 50</span>
-              <span style="font-size:12px;color:#64748b;">CET+UCEED: 2 &nbsp;|&nbsp; Only UCEED: 2</span>
-            </div>
-            <div style="display:flex;gap:6px;height:24px;">
-              <div style="background:#1a56db;border-radius:4px;width:calc(2/16*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">2</span></div>
-              <div style="background:#7c3aed;border-radius:4px;width:calc(2/18*100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;font-weight:700;color:white;">2</span></div>
-            </div>
-          </div>
-          <div style="display:flex;gap:16px;margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;background:#1a56db;border-radius:2px;"></div><span style="font-size:11px;color:#64748b;">CET &amp; UCEED</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;background:#7c3aed;border-radius:2px;"></div><span style="font-size:11px;color:#64748b;">Only UCEED</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Note about Only CET -->
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin-top:16px;display:flex;gap:10px;align-items:flex-start;">
-        <span style="font-size:16px;">&#8505;&#65039;</span>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:#065f46;">Only CET: 9 Provisional Admissions</div>
-          <div style="font-size:11px;color:#047857;margin-top:2px;">Score band breakdown for Only CET category is not available (N/A). Total count: 9 provisional admissions.</div>
-        </div>
-      </div>
-
-    </div>
-  
-
-      
-      <!-- City-wise Analysis -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;margin-top:24px;">
-        <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-          <div><div style="font-size:14px;font-weight:700;color:#1b2a5c;">City of Provisional Admissions — Design + Engineering</div>
-          <div style="font-size:12px;color:#9ca3af;margin-top:2px;">Geographic distribution AY 2026-27</div></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <span style="background:#ede9fe;color:#6d28d9;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;">Design: 43</span>
-            <span style="background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;">Engg: 83</span>
-            <span style="background:#1b2a5c;color:white;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">Total: 126</span>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="overflow-x:auto;border-right:1px solid #f0f2f8;">
-            <table style="width:100%;border-collapse:collapse;">
-              <thead><tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
-                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">City</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#7c3aed;text-align:center;">Design</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1a56db;text-align:center;">Engg.</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Total</th>
-              </tr></thead>
-              <tbody id="city-tbody"><tr><td colspan="4" style="padding:24px;text-align:center;color:#9ca3af;font-size:13px;">Loading...</td></tr></tbody>
-            </table>
-          </div>
-          <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
-            <div style="font-size:13px;font-weight:700;color:#1b2a5c;">Key Insights</div>
-            <div style="background:#fef9c3;border-radius:10px;padding:14px 16px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:700;color:#92400e;">&#127960; Pune</span><span style="font-size:20px;font-weight:700;color:#d97706;">90</span></div>
-              <div style="background:#fde68a;border-radius:4px;height:6px;margin:6px 0;"><div style="background:#d97706;border-radius:4px;height:6px;width:71.4%;"></div></div>
-              <div style="font-size:11px;color:#b45309;">71.4% · Des:26 | Eng:64</div>
-            </div>
-            <div style="background:#f0f9ff;border-radius:8px;padding:12px 14px;">
-              <div style="font-size:11px;font-weight:600;color:#0369a1;">Pimpri-Chinchwad #2</div>
-              <div style="font-size:18px;font-weight:700;color:#0284c7;">5 <span style="font-size:11px;color:#64748b;">Des:2|Eng:3</span></div>
-            </div>
-            <div style="background:#f0fdf4;border-radius:8px;padding:12px 14px;">
-              <div style="font-size:11px;font-weight:600;color:#065f46;">Pune+PCMC Belt</div>
-              <div style="font-size:18px;font-weight:700;color:#059669;">95 <span style="font-size:11px;color:#64748b;">of 126 (75.4%)</span></div>
-            </div>
-            <div style="background:#fef2f2;border-radius:8px;padding:12px 14px;">
-              <div style="font-size:11px;font-weight:600;color:#b91c1c;">Out-of-Maharashtra: 7</div>
-              <div style="font-size:10px;color:#9ca3af;margin-top:3px;">Bhagalpur·Bhilai·Bokaro·Coimbatore·Kolkata·Khandwa</div>
-            </div>
-            <div style="background:#eef1f9;border-radius:8px;padding:10px 14px;">
-              <div style="font-size:11px;font-weight:600;color:#1b2a5c;">Maharashtra: 119/126 (94.4%)</div>
-              <div style="font-size:11px;color:#64748b;margin-top:2px;">Total cities: 24</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-    </div>
-    <div id="score-panel-eng" style="display:none;">
-      <div style="max-width:1100px;margin:0 auto;padding:0 20px 40px;">
-        <div style="margin-bottom:24px;">
-          <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin:0 0 6px;">Score Analysis of Provisional Admissions (Engineering)</h2>
-          <p style="font-size:13px;color:#64748b;margin:0;">Distribution of entrance exam scores across provisional admission categories</p>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
-          <div style="background:#dbeafe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">JEE &amp; CET</div>
-            <div id="eng-score-kpi-cj" style="font-size:34px;font-weight:700;color:#1a56db;line-height:1;">\u2014</div>
-            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
-          </div>
-          <div style="background:#ede9fe;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#6d28d9;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only JEE</div>
-            <div id="eng-score-kpi-j" style="font-size:34px;font-weight:700;color:#7c3aed;line-height:1;">\u2014</div>
-            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
-          </div>
-          <div style="background:#d1fae5;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Only CET</div>
-            <div id="eng-score-kpi-c" style="font-size:34px;font-weight:700;color:#059669;line-height:1;">\u2014</div>
-            <div style="font-size:11px;color:#64748b;margin-top:4px;">provisional admissions</div>
-          </div>
-          <div style="background:#eef1f9;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <div style="font-size:11px;font-weight:700;color:#1b2a5c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Total Provisional</div>
-            <div id="eng-score-kpi-total" style="font-size:34px;font-weight:700;color:#1b2a5c;line-height:1;">\u2014</div>
-            <div style="font-size:11px;color:#64748b;margin-top:4px;">across all categories</div>
-          </div>
-        </div>
-        <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
-          <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
-            <div style="font-size:14px;font-weight:700;color:#1b2a5c;">Score Band Distribution</div>
-            <div style="font-size:12px;color:#9ca3af;margin-top:2px;">CET percentile &amp; JEE scores for provisional admissions</div>
-          </div>
-          <div style="overflow-x:auto;">
-            <table style="width:100%;border-collapse:collapse;min-width:500px;">
-              <thead><tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1b2a5c;text-align:left;">Score Range</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#1a56db;text-align:center;">JEE &amp; CET</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#7c3aed;text-align:center;">Only JEE</th>
-                <th style="padding:12px 18px;font-size:12px;font-weight:700;color:#059669;text-align:center;">Only CET</th>
-              </tr></thead>
-              <tbody id="eng-score-tbody">
-                <tr><td colspan="4" style="padding:32px;text-align:center;color:#9ca3af;font-size:13px;">
-                  Add Engineering Score Analysis data to Excel (same format as Design) to populate this table.
-                </td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ============ LEADS VS PROVISIONAL ============ -->
 
   <script>
   const RAW_LEADS_VS_PROV = []; // kept for backward-compat; unused
-  const RAW_CITY = [];
-  const RAW_DESIGN_SCORE = [];
-  const RAW_ENG_SCORE = [];
-  const RAW_ADMISSION_STATUS = [];
-  function switchScoreTab(tab){
-    ["design","eng"].forEach(function(p){
-      document.getElementById("score-panel-"+p).style.display=(p===tab)?"block":"none";
-      var b=document.getElementById("score-tab-"+p);
-      if(p===tab){b.style.borderColor=p==="design"?"#f472b6":"#6366f1";b.style.background=p==="design"?"#fdf2f8":"#eef2ff";b.style.color=p==="design"?"#be185d":"#4338ca";b.style.fontWeight="700";}
-      else{b.style.borderColor="#dde2ef";b.style.background="white";b.style.color="#64748b";b.style.fontWeight="600";}
-    });
-  }
-  (function(){
-    if(typeof RAW_ENG_SCORE==="undefined"||!RAW_ENG_SCORE.length)return;
-    var kpi=RAW_ENG_SCORE[RAW_ENG_SCORE.length-1];
-    var bands=RAW_ENG_SCORE.slice(0,-1);
-    document.getElementById("eng-score-kpi-cj").textContent=kpi.cu;
-    document.getElementById("eng-score-kpi-j").textContent=kpi.uu;
-    document.getElementById("eng-score-kpi-c").textContent=kpi.oc;
-    document.getElementById("eng-score-kpi-total").textContent=kpi.total;
-    var tb=document.getElementById("eng-score-tbody");tb.innerHTML="";
-    bands.forEach(function(b,i){
-      var bg=i%2===1?"background:#f8faff;":"";
-      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
-        '<td style="padding:14px 18px;font-size:13px;font-weight:600;color:#1b2a5c;"><span style="background:#f1f5f9;color:#334155;padding:3px 10px;border-radius:20px;font-size:12px;">'+b.label+'</span></td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+( b.cu!==null?b.cu:"N/A")+'</td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+( b.uu!==null?b.uu:"N/A")+'</td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+( b.oc!==null?b.oc:"N/A")+'</td></tr>';
-    });
-    tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
-      '<td style="padding:14px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total Provisional Admissions</td>'+
-      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+kpi.cu+'</td>'+
-      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+kpi.uu+'</td>'+
-      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+kpi.oc+'</td></tr>';
-  })();
-
-  (function(){
-    if(typeof RAW_DESIGN_SCORE==="undefined"||!RAW_DESIGN_SCORE.length)return;
-    var kpi=RAW_DESIGN_SCORE[RAW_DESIGN_SCORE.length-1];
-    var bands=RAW_DESIGN_SCORE.slice(0,-1);
-    var cu=document.getElementById("design-score-kpi-cu");
-    var uu=document.getElementById("design-score-kpi-uu");
-    var oc=document.getElementById("design-score-kpi-oc");
-    var tot=document.getElementById("design-score-kpi-total");
-    if(cu) cu.textContent=kpi.cu;
-    if(uu) uu.textContent=kpi.uu;
-    if(oc) oc.textContent=kpi.oc!==null?kpi.oc:"N/A";
-    if(tot) tot.textContent=kpi.total;
-    var tb=document.getElementById("design-score-tbody");
-    if(!tb)return;
-    tb.innerHTML="";
-    bands.forEach(function(b,i){
-      var bg=i%2===1?"background:#f8faff;":"";
-      var ocCell=b.oc!==null
-        ?'<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+b.oc+'</td>'
-        :'<td style="padding:14px 18px;font-size:13px;color:#9ca3af;text-align:center;font-style:italic;">N/A</td>';
-      tb.innerHTML+='<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
-        '<td style="padding:14px 18px;font-size:13px;font-weight:600;color:#1b2a5c;"><span style="background:#f1f5f9;color:#334155;padding:3px 10px;border-radius:20px;font-size:12px;">'+b.label+'</span></td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+( b.cu!==null?b.cu:"N/A")+'</td>'+
-        '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+( b.uu!==null?b.uu:"N/A")+'</td>'+
-        ocCell+'</tr>';
-    });
-    tb.innerHTML+='<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
-      '<td style="padding:14px 18px;font-size:13px;font-weight:700;color:#1b2a5c;">Total Provisional Admissions</td>'+
-      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#1a56db;text-align:center;">'+kpi.cu+'</td>'+
-      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#7c3aed;text-align:center;">'+kpi.uu+'</td>'+
-      '<td style="padding:14px 18px;font-size:22px;font-weight:700;color:#059669;text-align:center;">'+(kpi.oc!==null?kpi.oc:"N/A")+'</td></tr>';
-  })();
-
-  (function(){
-    if(typeof RAW_CITY==="undefined"||!RAW_CITY.length)return;
-    var tb=document.getElementById("city-tbody");
-    if(!tb)return;
-    tb.innerHTML="";
-    RAW_CITY.forEach(function(r,i){
-      var isTotal=(r.city==="Grand Total");
-      var rowStyle=isTotal
-        ?"background:#eef1f9;border-top:2px solid #1b2a5c;"
-        :(i%2===1?"border-bottom:1px solid #f0f2f8;background:#f8faff;":"border-bottom:1px solid #f0f2f8;");
-      var cityCell=isTotal
-        ?'<td style="padding:10px 14px;font-size:13px;font-weight:700;color:#1b2a5c;">'+r.city+'</td>'
-        :'<td style="padding:9px 14px;font-size:12px;font-weight:500;color:#1b2a5c;">'+r.city+'</td>';
-      var desCell=isTotal
-        ?'<td style="padding:10px 10px;text-align:center;font-size:13px;font-weight:700;color:#7c3aed;">'+r.design+'</td>'
-        :'<td style="padding:9px 10px;text-align:center;font-size:12px;font-weight:600;color:#7c3aed;">'+r.design+'</td>';
-      var engCell=isTotal
-        ?'<td style="padding:10px 10px;text-align:center;font-size:13px;font-weight:700;color:#1a56db;">'+r.eng+'</td>'
-        :'<td style="padding:9px 10px;text-align:center;font-size:12px;font-weight:600;color:#1a56db;">'+r.eng+'</td>';
-      var totCell=isTotal
-        ?'<td style="padding:10px 10px;text-align:center;"><span style="background:#1b2a5c;color:white;font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;">'+r.total+'</span></td>'
-        :'<td style="padding:9px 10px;text-align:center;font-size:13px;font-weight:700;color:#1b2a5c;">'+r.total+'</td>';
-      tb.innerHTML+='<tr style="'+rowStyle+'">'+cityCell+desCell+engCell+totCell+'</tr>';
-    });
-  })();
-
   /* ── AVERAGES TAB ──────────────────────────────────────────────────── */
   var _avgTab = 'overview';
 
@@ -3169,65 +2924,6 @@ th.th-num { text-align: right; }
   }
 
 
-  /* ── MITAOE ADMISSION STATUS ──────────────────────────────────── */
-  function renderAdmissionStatus() {
-    var data = typeof RAW_ADMISSION_STATUS !== 'undefined' ? RAW_ADMISSION_STATUS : [];
-    var totRow = data.find(function(r){ return r.branch.toUpperCase() === 'TOTAL'; });
-    var rows   = data.filter(function(r){ return r.branch.toUpperCase() !== 'TOTAL'; });
-
-    // KPI cards
-    var kEl = document.getElementById('adm-kpi');
-    if (kEl && totRow) {
-      function kCard(label, val, color, bg) {
-        return '<div style="background:'+bg+';border:1px solid #dde2ef;border-radius:12px;padding:16px 18px;">' +
-          '<div style="font-size:11px;font-weight:700;color:'+color+';text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">'+label+'</div>' +
-          '<div style="font-size:28px;font-weight:700;color:'+color+';line-height:1.1;margin-bottom:3px;">'+val+'</div></div>';
-      }
-      kEl.innerHTML =
-        kCard('IL Intake 2026-27', totRow.ilIntake, '#1a56db', '#eff6ff') +
-        kCard('CAP Vacancy (Last Yr)', totRow.capVac, '#7c3aed', '#f5f3ff') +
-        kCard('Cancellation Vacancy', totRow.cancVac, '#0891b2', '#ecfeff') +
-        kCard('Total Available (A+B+C)', totRow.total, '#059669', '#f0fdf4') +
-        kCard('Admissions (25th Jun)', totRow.admitted, '#b45309', '#fffbeb') +
-        kCard('Vacant 2026-27', totRow.vacant, '#dc2626', '#fef2f2');
-    }
-
-    // Table
-    var tb = document.getElementById('adm-tbody');
-    if (!tb) return;
-    tb.innerHTML = '';
-    rows.forEach(function(r, i) {
-      var fillPct = r.total > 0 ? Math.round(r.admitted / r.total * 100) : 0;
-      var fillColor = fillPct >= 70 ? '#059669' : fillPct >= 40 ? '#b45309' : '#dc2626';
-      var bg = i % 2 === 1 ? 'background:#f8faff;' : '';
-      var isTotal = r.branch.toUpperCase() === 'TOTAL';
-      var rowStyle = isTotal ? 'background:#1b2a5c;font-weight:700;' : bg;
-      var textColor = isTotal ? 'color:white;' : '';
-      tb.innerHTML += '<tr style="border-bottom:1px solid #f0f2f8;' + rowStyle + '">' +
-        '<td style="padding:11px 14px;font-size:12px;font-weight:600;' + textColor + '">' + r.branch + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#1a56db') + ';">' + r.ilIntake + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#7c3aed') + ';">' + r.capVac + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#0891b2') + ';">' + r.cancVac + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:14px;font-weight:700;color:' + (isTotal ? 'white' : '#059669') + ';">' + r.total + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#b45309') + ';">' + r.admitted +
-          (isTotal ? '' : ' <span style="font-size:10px;color:' + fillColor + ';font-weight:600;">(' + fillPct + '%)</span>') + '</td>' +
-        '<td style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:' + (isTotal ? 'white' : '#dc2626') + ';">' + r.vacant + '</td>' +
-        '</tr>';
-    });
-    // Add total row at bottom
-    if (totRow) {
-      tb.innerHTML += '<tr style="background:#1b2a5c;">' +
-        '<td style="padding:12px 14px;font-size:13px;font-weight:700;color:white;">TOTAL</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.ilIntake + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.capVac + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.cancVac + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.total + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.admitted + '</td>' +
-        '<td style="padding:12px 14px;text-align:center;font-size:14px;font-weight:700;color:white;">' + totRow.vacant + '</td>' +
-        '</tr>';
-    }
-  }
-
   </script>
 
   <!-- ============ VENDORS ============ -->
@@ -3311,703 +3007,27 @@ th.th-num { text-align: right; }
 // ═══════════════════════════════════════════
 // RAW DATA
 // ═══════════════════════════════════════════
-const RAW_MAIN = [
-  {d:'2026-03-15',eLeads:2820,dLeads:7573,ePaid:23,dPaid:32,eSign:200,dSign:75,eProv:0,dProv:0,eRevPaid:23000,dRevPaid:32000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-16',eLeads:97,dLeads:269,ePaid:4,dPaid:2,eSign:32,dSign:12,eProv:0,dProv:0,eRevPaid:4000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-17',eLeads:94,dLeads:135,ePaid:3,dPaid:6,eSign:23,dSign:11,eProv:0,dProv:0,eRevPaid:3000,dRevPaid:6000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-18',eLeads:96,dLeads:151,ePaid:5,dPaid:4,eSign:28,dSign:14,eProv:0,dProv:1,eRevPaid:5000,dRevPaid:4000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-19',eLeads:101,dLeads:179,ePaid:7,dPaid:6,eSign:12,dSign:6,eProv:0,dProv:0,eRevPaid:7000,dRevPaid:6000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-20',eLeads:98,dLeads:600,ePaid:8,dPaid:7,eSign:16,dSign:8,eProv:0,dProv:0,eRevPaid:8000,dRevPaid:7000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-21',eLeads:96,dLeads:15,ePaid:5,dPaid:4,eSign:18,dSign:9,eProv:0,dProv:0,eRevPaid:5000,dRevPaid:4000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-22',eLeads:102,dLeads:11,ePaid:2,dPaid:5,eSign:21,dSign:10,eProv:0,dProv:0,eRevPaid:2000,dRevPaid:5000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-23',eLeads:171,dLeads:66,ePaid:4,dPaid:7,eSign:28,dSign:14,eProv:0,dProv:1,eRevPaid:4000,dRevPaid:7000,eRevProv:0,dRevProv:100000},
-  {d:'2026-03-24',eLeads:147,dLeads:88,ePaid:6,dPaid:5,eSign:32,dSign:12,eProv:0,dProv:0,eRevPaid:6000,dRevPaid:5000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-25',eLeads:160,dLeads:76,ePaid:10,dPaid:9,eSign:18,dSign:9,eProv:1,dProv:1,eRevPaid:10000,dRevPaid:9000,eRevProv:75000,dRevProv:100000},
-  {d:'2026-03-26',eLeads:164,dLeads:106,ePaid:7,dPaid:6,eSign:15,dSign:7,eProv:1,dProv:0,eRevPaid:7000,dRevPaid:6000,eRevProv:100000,dRevProv:0},
-  {d:'2026-03-27',eLeads:162,dLeads:900,ePaid:5,dPaid:4,eSign:16,dSign:8,eProv:0,dProv:1,eRevPaid:5000,dRevPaid:4000,eRevProv:0,dRevProv:100000},
-  {d:'2026-03-28',eLeads:185,dLeads:10,ePaid:3,dPaid:5,eSign:19,dSign:10,eProv:0,dProv:0,eRevPaid:3000,dRevPaid:5000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-29',eLeads:119,dLeads:7,ePaid:2,dPaid:6,eSign:21,dSign:10,eProv:0,dProv:0,eRevPaid:2000,dRevPaid:6000,eRevProv:0,dRevProv:0},
-  {d:'2026-03-30',eLeads:184,dLeads:90,ePaid:6,dPaid:5,eSign:25,dSign:12,eProv:0,dProv:4,eRevPaid:6000,dRevPaid:5000,eRevProv:0,dRevProv:400000},
-  {d:'2026-03-31',eLeads:199,dLeads:160,ePaid:9,dPaid:8,eSign:33,dSign:12,eProv:0,dProv:0,eRevPaid:9000,dRevPaid:8000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-01',eLeads:179,dLeads:111,ePaid:10,dPaid:9,eSign:21,dSign:10,eProv:0,dProv:0,eRevPaid:10000,dRevPaid:9000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-02',eLeads:168,dLeads:130,ePaid:9,dPaid:8,eSign:19,dSign:9,eProv:0,dProv:0,eRevPaid:9000,dRevPaid:8000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-03',eLeads:221,dLeads:13,ePaid:7,dPaid:6,eSign:23,dSign:11,eProv:0,dProv:0,eRevPaid:7000,dRevPaid:6000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-04',eLeads:217,dLeads:165,ePaid:7,dPaid:6,eSign:18,dSign:9,eProv:0,dProv:2,eRevPaid:7000,dRevPaid:6000,eRevProv:0,dRevProv:200000},
-  {d:'2026-04-05',eLeads:130,dLeads:15,ePaid:2,dPaid:4,eSign:27,dSign:13,eProv:0,dProv:0,eRevPaid:2000,dRevPaid:4000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-06',eLeads:205,dLeads:99,ePaid:12,dPaid:9,eSign:15,dSign:7,eProv:0,dProv:0,eRevPaid:24000,dRevPaid:12000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-07',eLeads:227,dLeads:1573,ePaid:8,dPaid:7,eSign:14,dSign:7,eProv:0,dProv:3,eRevPaid:16000,dRevPaid:14000,eRevProv:0,dRevProv:300000},
-  {d:'2026-04-08',eLeads:255,dLeads:234,ePaid:12,dPaid:8,eSign:32,dSign:12,eProv:0,dProv:0,eRevPaid:24000,dRevPaid:16000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-09',eLeads:222,dLeads:186,ePaid:8,dPaid:7,eSign:44,dSign:10,eProv:1,dProv:0,eRevPaid:16000,dRevPaid:14000,eRevProv:50000,dRevProv:0},
-  {d:'2026-04-10',eLeads:224,dLeads:237,ePaid:7,dPaid:6,eSign:31,dSign:12,eProv:0,dProv:1,eRevPaid:14000,dRevPaid:12000,eRevProv:0,dRevProv:100000},
-  {d:'2026-04-11',eLeads:153,dLeads:10,ePaid:5,dPaid:4,eSign:29,dSign:9,eProv:0,dProv:0,eRevPaid:10000,dRevPaid:8000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-12',eLeads:216,dLeads:12,ePaid:7,dPaid:6,eSign:23,dSign:11,eProv:0,dProv:0,eRevPaid:14000,dRevPaid:12000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-13',eLeads:250,dLeads:201,ePaid:6,dPaid:9,eSign:39,dSign:18,eProv:0,dProv:1,eRevPaid:12000,dRevPaid:18000,eRevProv:0,dRevProv:100000},
-  {d:'2026-04-14',eLeads:237,dLeads:187,ePaid:8,dPaid:7,eSign:17,dSign:14,eProv:1,dProv:2,eRevPaid:16000,dRevPaid:14000,eRevProv:100000,dRevProv:200000},
-  {d:'2026-04-15',eLeads:265,dLeads:119,ePaid:8,dPaid:4,eSign:16,dSign:8,eProv:2,dProv:0,eRevPaid:16000,dRevPaid:8000,eRevProv:200000,dRevProv:0},
-  {d:'2026-04-16',eLeads:218,dLeads:153,ePaid:8,dPaid:7,eSign:38,dSign:16,eProv:2,dProv:0,eRevPaid:16000,dRevPaid:14000,eRevProv:200000,dRevProv:0},
-  {d:'2026-04-17',eLeads:78,dLeads:7588,ePaid:6,dPaid:1,eSign:17,dSign:3,eProv:0,dProv:1,eRevPaid:12000,dRevPaid:2000,eRevProv:0,dRevProv:100000},
-  {d:'2026-04-18',eLeads:292,dLeads:7,ePaid:7,dPaid:2,eSign:19,dSign:3,eProv:1,dProv:1,eRevPaid:14000,dRevPaid:4000,eRevProv:100000,dRevProv:100000},
-  {d:'2026-04-19',eLeads:79,dLeads:2,ePaid:7,dPaid:2,eSign:21,dSign:3,eProv:2,dProv:0,eRevPaid:14000,dRevPaid:4000,eRevProv:200000,dRevProv:0},
-  {d:'2026-04-20',eLeads:203,dLeads:10,ePaid:9,dPaid:2,eSign:30,dSign:2,eProv:2,dProv:1,eRevPaid:18000,dRevPaid:4000,eRevProv:200000,dRevProv:100000},
-  {d:'2026-04-21',eLeads:218,dLeads:6,ePaid:7,dPaid:0,eSign:38,dSign:8,eProv:1,dProv:2,eRevPaid:14000,dRevPaid:0,eRevProv:100000,dRevProv:200000},
-  {d:'2026-04-22',eLeads:217,dLeads:113,ePaid:5,dPaid:3,eSign:38,dSign:6,eProv:1,dProv:1,eRevPaid:10000,dRevPaid:6000,eRevProv:100000,dRevProv:100000},
-  {d:'2026-04-23',eLeads:214,dLeads:110,ePaid:5,dPaid:2,eSign:26,dSign:7,eProv:1,dProv:0,eRevPaid:10000,dRevPaid:4000,eRevProv:100000,dRevProv:0},
-  {d:'2026-04-24',eLeads:185,dLeads:61,ePaid:5,dPaid:0,eSign:8,dSign:2,eProv:0,dProv:1,eRevPaid:10000,dRevPaid:0,eRevProv:0,dRevProv:100000},
-  {d:'2026-04-25',eLeads:193,dLeads:7,ePaid:6,dPaid:2,eSign:25,dSign:2,eProv:0,dProv:0,eRevPaid:12000,dRevPaid:4000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-26',eLeads:96,dLeads:4,ePaid:6,dPaid:2,eSign:25,dSign:6,eProv:0,dProv:0,eRevPaid:12000,dRevPaid:4000,eRevProv:0,dRevProv:0},
-  {d:'2026-04-27',eLeads:178,dLeads:147,ePaid:7,dPaid:2,eSign:22,dSign:6,eProv:0,dProv:3,eRevPaid:14000,dRevPaid:4000,eRevProv:0,dRevProv:300000},
-  {d:'2026-04-28',eLeads:195,dLeads:177,ePaid:10,dPaid:2,eSign:26,dSign:1,eProv:3,dProv:0,eRevPaid:20000,dRevPaid:4000,eRevProv:300000,dRevProv:0},
-  {d:'2026-04-29',eLeads:200,dLeads:123,ePaid:6,dPaid:2,eSign:21,dSign:2,eProv:0,dProv:1,eRevPaid:12000,dRevPaid:4000,eRevProv:0,dRevProv:100000},
-  {d:'2026-04-30',eLeads:165,dLeads:101,ePaid:8,dPaid:1,eSign:24,dSign:1,eProv:0,dProv:0,eRevPaid:16000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-01',eLeads:190,dLeads:5,ePaid:6,dPaid:1,eSign:34,dSign:4,eProv:2,dProv:1,eRevPaid:12000,dRevPaid:2000,eRevProv:200000,dRevProv:100000},
-  {d:'2026-05-02',eLeads:192,dLeads:28,ePaid:3,dPaid:1,eSign:45,dSign:4,eProv:1,dProv:1,eRevPaid:6000,dRevPaid:2000,eRevProv:100000,dRevProv:100000},
-  {d:'2026-05-03',eLeads:138,dLeads:6,ePaid:8,dPaid:1,eSign:38,dSign:4,eProv:1,dProv:1,eRevPaid:16000,dRevPaid:2000,eRevProv:100000,dRevProv:100000},
-  {d:'2026-05-04',eLeads:242,dLeads:19,ePaid:12,dPaid:2,eSign:35,dSign:3,eProv:5,dProv:1,eRevPaid:24000,dRevPaid:4000,eRevProv:400000,dRevProv:100000},
-  {d:'2026-05-05',eLeads:265,dLeads:28,ePaid:9,dPaid:1,eSign:45,dSign:2,eProv:2,dProv:0,eRevPaid:18000,dRevPaid:2000,eRevProv:200000,dRevProv:0},
-  {d:'2026-05-06',eLeads:193,dLeads:53,ePaid:7,dPaid:0,eSign:30,dSign:2,eProv:2,dProv:0,eRevPaid:14000,dRevPaid:0,eRevProv:200000,dRevProv:0},
-  {d:'2026-05-07',eLeads:199,dLeads:30,ePaid:13,dPaid:0,eSign:32,dSign:0,eProv:1,dProv:1,eRevPaid:26000,dRevPaid:0,eRevProv:100000,dRevProv:100000},
-  {d:'2026-05-08',eLeads:235,dLeads:18,ePaid:7,dPaid:1,eSign:50,dSign:4,eProv:1,dProv:1,eRevPaid:14000,dRevPaid:2000,eRevProv:100000,dRevProv:100000},
-  {d:'2026-05-09',eLeads:178,dLeads:5,ePaid:13,dPaid:1,eSign:50,dSign:6,eProv:0,dProv:0,eRevPaid:26000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-10',eLeads:132,dLeads:2,ePaid:14,dPaid:1,eSign:51,dSign:6,eProv:0,dProv:0,eRevPaid:28000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-11',eLeads:198,dLeads:9,ePaid:12,dPaid:0,eSign:48,dSign:1,eProv:2,dProv:2,eRevPaid:24000,dRevPaid:0,eRevProv:150000,dRevProv:200000},
-  {d:'2026-05-12',eLeads:217,dLeads:13,ePaid:11,dPaid:1,eSign:52,dSign:5,eProv:5,dProv:1,eRevPaid:22000,dRevPaid:2000,eRevProv:475000,dRevProv:100000},
-  {d:'2026-05-13',eLeads:187,dLeads:7,ePaid:9,dPaid:0,eSign:49,dSign:2,eProv:0,dProv:1,eRevPaid:18000,dRevPaid:0,eRevProv:0,dRevProv:100000},
-  {d:'2026-05-14',eLeads:208,dLeads:7,ePaid:8,dPaid:1,eSign:31,dSign:3,eProv:0,dProv:0,eRevPaid:16000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-15',eLeads:202,dLeads:12,ePaid:6,dPaid:1,eSign:38,dSign:2,eProv:2,dProv:0,eRevPaid:12000,dRevPaid:2000,eRevProv:200000,dRevProv:0},
-  {d:'2026-05-16',eLeads:176,dLeads:27,ePaid:8,dPaid:2,eSign:48,dSign:9,eProv:3,dProv:0,eRevPaid:16000,dRevPaid:4000,eRevProv:300000,dRevProv:0},
-  {d:'2026-05-17',eLeads:150,dLeads:38,ePaid:10,dPaid:1,eSign:48,dSign:6,eProv:0,dProv:0,eRevPaid:20000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-18',eLeads:170,dLeads:59,ePaid:14,dPaid:3,eSign:38,dSign:1,eProv:1,dProv:0,eRevPaid:28000,dRevPaid:6000,eRevProv:100000,dRevProv:0},
-  {d:'2026-05-19',eLeads:195,dLeads:23,ePaid:9,dPaid:0,eSign:29,dSign:2,eProv:0,dProv:0,eRevPaid:18000,dRevPaid:0,eRevProv:0,dRevProv:0},
-  {d:'2026-05-20',eLeads:220,dLeads:26,ePaid:9,dPaid:1,eSign:49,dSign:6,eProv:0,dProv:0,eRevPaid:18000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-21',eLeads:248,dLeads:12,ePaid:19,dPaid:1,eSign:59,dSign:11,eProv:3,dProv:0,eRevPaid:38000,dRevPaid:2000,eRevProv:300000,dRevProv:0},
-  {d:'2026-05-22',eLeads:199,dLeads:7,ePaid:11,dPaid:1,eSign:40,dSign:3,eProv:0,dProv:0,eRevPaid:22000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-23',eLeads:190,dLeads:6,ePaid:13,dPaid:1,eSign:38,dSign:2,eProv:2,dProv:0,eRevPaid:26000,dRevPaid:2000,eRevProv:200000,dRevProv:0},
-  {d:'2026-05-24',eLeads:117,dLeads:5,ePaid:15,dPaid:1,eSign:35,dSign:3,eProv:0,dProv:0,eRevPaid:30000,dRevPaid:2000,eRevProv:0,dRevProv:0},
-  {d:'2026-05-25',eLeads:204,dLeads:24,ePaid:10,dPaid:1,eSign:42,dSign:2,eProv:2,dProv:1,eRevPaid:20000,dRevPaid:2000,eRevProv:200000,dRevProv:100000},
-  {d:'2026-05-26',eLeads:205,dLeads:23,ePaid:9,dPaid:1,eSign:35,dSign:3,eProv:4,dProv:0,eRevPaid:18000,dRevPaid:2000,eRevProv:400000,dRevProv:0},
-  {d:'2026-05-27',eLeads:234,dLeads:6,ePaid:10,dPaid:1,eSign:45,dSign:3,eProv:1,dProv:0,eRevPaid:20000,dRevPaid:2000,eRevProv:100000,dRevProv:0},
-  {d:'2026-05-28',eLeads:180,dLeads:4,ePaid:11,dPaid:1,eSign:43,dSign:2,eProv:1,dProv:0,eRevPaid:22000,dRevPaid:2000,eRevProv:100000,dRevProv:0},
-  {d:'2026-05-29',eLeads:178,dLeads:17,ePaid:12,dPaid:1,eSign:31,dSign:4,eProv:2,dProv:0,eRevPaid:24000,dRevPaid:2000,eRevProv:200000,dRevProv:0},
-  {d:'2026-05-30',eLeads:167,dLeads:23,ePaid:14,dPaid:0,eSign:31,dSign:4,eProv:0,dProv:1,eRevPaid:28000,dRevPaid:0,eRevProv:0,dRevProv:100000},
-  {d:'2026-05-31',eLeads:100,dLeads:5,ePaid:18,dPaid:0,eSign:31,dSign:6,eProv:0,dProv:0,eRevPaid:36000,dRevPaid:0,eRevProv:0,dRevProv:0},
-  {d:'2026-06-01',eLeads:247,dLeads:26,ePaid:12,dPaid:1,eSign:59,dSign:8,eProv:10,dProv:0,eRevPaid:24000,dRevPaid:2000,eRevProv:1000000,dRevProv:0},
-  {d:'2026-06-02',eLeads:256,dLeads:31,ePaid:28,dPaid:1,eSign:47,dSign:3,eProv:5,dProv:1,eRevPaid:56000,dRevPaid:2000,eRevProv:500000,dRevProv:100000},
-  {d:'2026-06-03',eLeads:238,dLeads:30,ePaid:17,dPaid:2,eSign:47,dSign:4,eProv:6,dProv:1,eRevPaid:34000,dRevPaid:4000,eRevProv:490000,dRevProv:100000},
-  {d:'2026-06-04',eLeads:355,dLeads:37,ePaid:19,dPaid:2,eSign:47,dSign:4,eProv:0,dProv:1,eRevPaid:38000,dRevPaid:4000,eRevProv:0,dRevProv:100000}
-];
+const RAW_MAIN = [];
 
-const RAW_ENG_STATUS = [
-  {d:'2026-03-15',pa:2,su:3,cet:205,d2y:15,fu:142,fp:80,in:280,jk:933,ni:0,nr:0},
-  {d:'2026-03-16',pa:0,su:4,cet:53,d2y:2,fu:18,fp:5,in:61,jk:69,ni:0,nr:0},
-  {d:'2026-03-17',pa:0,su:5,cet:43,d2y:1,fu:4,fp:4,in:72,jk:69,ni:0,nr:0},
-  {d:'2026-03-18',pa:1,su:8,cet:69,d2y:1,fu:12,fp:3,in:51,jk:69,ni:0,nr:0},
-  {d:'2026-03-19',pa:0,su:5,cet:62,d2y:0,fu:19,fp:2,in:45,jk:69,ni:0,nr:0},
-  {d:'2026-03-20',pa:1,su:3,cet:55,d2y:0,fu:17,fp:4,in:48,jk:69,ni:0,nr:0},
-  {d:'2026-03-21',pa:0,su:4,cet:49,d2y:1,fu:8,fp:6,in:51,jk:69,ni:0,nr:0},
-  {d:'2026-03-22',pa:0,su:3,cet:67,d2y:0,fu:6,fp:7,in:52,jk:69,ni:0,nr:0},
-  {d:'2026-03-23',pa:1,su:9,cet:58,d2y:2,fu:12,fp:9,in:44,jk:69,ni:0,nr:0},
-  {d:'2026-03-24',pa:0,su:4,cet:56,d2y:3,fu:2,fp:4,in:56,jk:69,ni:0,nr:0},
-  {d:'2026-03-25',pa:1,su:11,cet:73,d2y:4,fu:14,fp:9,in:58,jk:69,ni:0,nr:0},
-  {d:'2026-03-26',pa:0,su:9,cet:42,d2y:0,fu:6,fp:3,in:42,jk:69,ni:0,nr:0},
-  {d:'2026-03-27',pa:1,su:2,cet:61,d2y:0,fu:8,fp:6,in:51,jk:69,ni:0,nr:0},
-  {d:'2026-03-28',pa:0,su:8,cet:58,d2y:1,fu:11,fp:5,in:43,jk:69,ni:0,nr:0},
-  {d:'2026-03-29',pa:1,su:5,cet:44,d2y:0,fu:14,fp:4,in:62,jk:69,ni:0,nr:0},
-  {d:'2026-03-30',pa:0,su:8,cet:60,d2y:0,fu:4,fp:13,in:61,jk:69,ni:0,nr:0},
-  {d:'2026-03-31',pa:0,su:6,cet:72,d2y:1,fu:12,fp:6,in:43,jk:69,ni:0,nr:0},
-  {d:'2026-04-01',pa:2,su:4,cet:38,d2y:0,fu:5,fp:5,in:36,jk:69,ni:0,nr:0},
-  {d:'2026-04-02',pa:3,su:6,cet:53,d2y:0,fu:0,fp:0,in:39,jk:127,ni:0,nr:0},
-  {d:'2026-04-03',pa:0,su:3,cet:47,d2y:0,fu:8,fp:7,in:29,jk:121,ni:0,nr:0},
-  {d:'2026-04-04',pa:1,su:7,cet:39,d2y:0,fu:7,fp:4,in:21,jk:115,ni:0,nr:0},
-  {d:'2026-04-05',pa:0,su:3,cet:53,d2y:0,fu:2,fp:8,in:14,jk:117,ni:0,nr:0},
-  {d:'2026-04-06',pa:0,su:4,cet:36,d2y:1,fu:2,fp:9,in:18,jk:107,ni:0,nr:0},
-  {d:'2026-04-07',pa:0,su:3,cet:44,d2y:3,fu:1,fp:6,in:31,jk:123,ni:0,nr:0},
-  {d:'2026-04-08',pa:0,su:3,cet:54,d2y:2,fu:8,fp:5,in:15,jk:133,ni:0,nr:0},
-  {d:'2026-04-09',pa:0,su:1,cet:46,d2y:1,fu:12,fp:1,in:28,jk:107,ni:0,nr:0},
-  {d:'2026-04-10',pa:3,su:1,cet:38,d2y:3,fu:6,fp:4,in:36,jk:117,ni:0,nr:0},
-  {d:'2026-04-11',pa:2,su:3,cet:66,d2y:0,fu:4,fp:1,in:23,jk:124,ni:0,nr:0},
-  {d:'2026-04-12',pa:1,su:2,cet:39,d2y:0,fu:14,fp:3,in:33,jk:108,ni:0,nr:0},
-  {d:'2026-04-13',pa:3,su:3,cet:49,d2y:2,fu:9,fp:1,in:10,jk:124,ni:0,nr:0},
-  {d:'2026-04-14',pa:4,su:3,cet:68,d2y:0,fu:11,fp:2,in:18,jk:113,ni:0,nr:0},
-  {d:'2026-04-15',pa:3,su:0,cet:71,d2y:0,fu:12,fp:1,in:21,jk:124,ni:0,nr:0},
-  {d:'2026-04-16',pa:2,su:7,cet:53,d2y:3,fu:11,fp:7,in:78,jk:245,ni:0,nr:0},
-  {d:'2026-04-17',pa:0,su:1,cet:27,d2y:1,fu:5,fp:3,in:15,jk:55,ni:0,nr:0},
-  {d:'2026-04-18',pa:3,su:50,cet:6,d2y:1,fu:6,fp:0,in:0,jk:260,ni:0,nr:0},
-  {d:'2026-04-19',pa:0,su:0,cet:13,d2y:0,fu:8,fp:0,in:3,jk:91,ni:0,nr:0},
-  {d:'2026-04-20',pa:2,su:1,cet:45,d2y:0,fu:4,fp:3,in:10,jk:81,ni:0,nr:0},
-  {d:'2026-04-21',pa:5,su:0,cet:62,d2y:0,fu:11,fp:3,in:10,jk:99,ni:0,nr:0},
-  {d:'2026-04-22',pa:2,su:2,cet:83,d2y:0,fu:8,fp:5,in:14,jk:103,ni:0,nr:0},
-  {d:'2026-04-23',pa:0,su:1,cet:152,d2y:0,fu:5,fp:0,in:9,jk:47,ni:0,nr:0},
-  {d:'2026-04-24',pa:1,su:2,cet:82,d2y:0,fu:10,fp:4,in:9,jk:78,ni:0,nr:0},
-  {d:'2026-04-25',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-04-26',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-04-27',pa:1,su:1,cet:40,d2y:0,fu:6,fp:1,in:9,jk:64,ni:0,nr:0},
-  {d:'2026-04-28',pa:1,su:0,cet:40,d2y:0,fu:8,fp:3,in:7,jk:66,ni:0,nr:0},
-  {d:'2026-04-29',pa:1,su:0,cet:22,d2y:0,fu:1,fp:2,in:6,jk:78,ni:0,nr:0},
-  {d:'2026-04-30',pa:0,su:0,cet:71,d2y:0,fu:0,fp:0,in:7,jk:87,ni:0,nr:0},
-  {d:'2026-05-01',pa:0,su:0,cet:8,d2y:2,fu:6,fp:8,in:8,jk:26,ni:0,nr:0},
-  {d:'2026-05-02',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-03',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-04',pa:6,su:1,cet:56,d2y:0,fu:0,fp:6,in:8,jk:66,ni:0,nr:0},
-  {d:'2026-05-05',pa:1,su:1,cet:45,d2y:0,fu:12,fp:6,in:20,jk:55,ni:0,nr:0},
-  {d:'2026-05-06',pa:0,su:1,cet:40,d2y:0,fu:8,fp:0,in:9,jk:49,ni:0,nr:0},
-  {d:'2026-05-07',pa:4,su:2,cet:39,d2y:0,fu:8,fp:5,in:13,jk:51,ni:0,nr:0},
-  {d:'2026-05-08',pa:3,su:3,cet:50,d2y:0,fu:11,fp:4,in:25,jk:67,ni:0,nr:0},
-  {d:'2026-05-09',pa:0,su:0,cet:53,d2y:1,fu:14,fp:3,in:16,jk:82,ni:0,nr:0},
-  {d:'2026-05-10',pa:3,su:1,cet:39,d2y:0,fu:8,fp:5,in:9,jk:62,ni:0,nr:0},
-  {d:'2026-05-11',pa:3,su:0,cet:62,d2y:0,fu:6,fp:4,in:10,jk:57,ni:0,nr:0},
-  {d:'2026-05-12',pa:5,su:2,cet:52,d2y:0,fu:10,fp:3,in:14,jk:56,ni:0,nr:0},
-  {d:'2026-05-13',pa:1,su:5,cet:39,d2y:0,fu:7,fp:3,in:14,jk:36,ni:0,nr:0},
-  {d:'2026-05-14',pa:5,su:4,cet:57,d2y:1,fu:17,fp:7,in:26,jk:69,ni:0,nr:0},
-  {d:'2026-05-15',pa:4,su:1,cet:60,d2y:1,fu:16,fp:1,in:13,jk:63,ni:0,nr:0},
-  {d:'2026-05-16',pa:0,su:2,cet:42,d2y:0,fu:9,fp:1,in:4,jk:17,ni:0,nr:0},
-  {d:'2026-05-17',pa:0,su:0,cet:11,d2y:0,fu:1,fp:0,in:0,jk:1,ni:0,nr:0},
-  {d:'2026-05-18',pa:1,su:2,cet:39,d2y:1,fu:8,fp:3,in:7,jk:31,ni:0,nr:0},
-  {d:'2026-05-19',pa:1,su:4,cet:28,d2y:0,fu:8,fp:4,in:12,jk:53,ni:0,nr:0},
-  {d:'2026-05-20',pa:5,su:4,cet:47,d2y:0,fu:14,fp:2,in:8,jk:29,ni:0,nr:0},
-  {d:'2026-05-21',pa:6,su:2,cet:52,d2y:0,fu:16,fp:2,in:10,jk:46,ni:0,nr:0},
-  {d:'2026-05-22',pa:8,su:2,cet:81,d2y:1,fu:12,fp:4,in:21,jk:59,ni:0,nr:0},
-  {d:'2026-05-23',pa:2,su:2,cet:76,d2y:2,fu:10,fp:3,in:21,jk:57,ni:0,nr:0},
-  {d:'2026-05-24',pa:2,su:1,cet:42,d2y:0,fu:7,fp:2,in:12,jk:46,ni:0,nr:0},
-  {d:'2026-05-25',pa:6,su:1,cet:55,d2y:1,fu:31,fp:4,in:25,jk:67,ni:0,nr:0},
-  {d:'2026-05-26',pa:4,su:5,cet:48,d2y:3,fu:18,fp:5,in:27,jk:68,ni:0,nr:0},
-  {d:'2026-05-27',pa:1,su:1,cet:49,d2y:0,fu:27,fp:2,in:15,jk:66,ni:0,nr:0},
-  {d:'2026-05-28',pa:0,su:0,cet:39,d2y:0,fu:22,fp:0,in:3,jk:10,ni:0,nr:0},
-  {d:'2026-05-29',pa:5,su:2,cet:53,d2y:0,fu:20,fp:0,in:4,jk:39,ni:0,nr:0},
-  {d:'2026-05-30',pa:0,su:1,cet:31,d2y:3,fu:11,fp:0,in:7,jk:13,ni:0,nr:0},
-  {d:'2026-05-31',pa:0,su:0,cet:10,d2y:0,fu:5,fp:0,in:1,jk:0,ni:0,nr:0},
-  {d:'2026-06-01',pa:15,su:3,cet:51,d2y:0,fu:22,fp:4,in:2,jk:32,ni:0,nr:0},
-  {d:'2026-06-02',pa:6,su:2,cet:61,d2y:0,fu:20,fp:3,in:14,jk:37,ni:0,nr:0},
-  {d:'2026-06-03',pa:7,su:4,cet:59,d2y:0,fu:14,fp:4,in:15,jk:46,ni:89,nr:0},
-  {d:'2026-06-04',pa:0,su:5,cet:53,d2y:0,fu:12,fp:4,in:9,jk:38,ni:90,nr:0}
-];
+const RAW_ENG_STATUS = [];
 
-const RAW_DES_STATUS = [
-  {d:'2026-03-15',pa:50,su:2,cet:513,d2y:39,fu:216,fp:125,in:1743,jk:2761,ni:0,nr:0},
-  {d:'2026-03-16',pa:2,su:0,cet:32,d2y:1,fu:6,fp:2,in:56,jk:206,ni:0,nr:0},
-  {d:'2026-03-17',pa:1,su:0,cet:29,d2y:2,fu:8,fp:6,in:44,jk:157,ni:0,nr:0},
-  {d:'2026-03-18',pa:2,su:0,cet:38,d2y:0,fu:5,fp:2,in:57,jk:156,ni:0,nr:0},
-  {d:'2026-03-19',pa:0,su:1,cet:26,d2y:0,fu:7,fp:4,in:63,jk:147,ni:0,nr:0},
-  {d:'2026-03-20',pa:1,su:0,cet:33,d2y:1,fu:5,fp:3,in:58,jk:181,ni:0,nr:0},
-  {d:'2026-03-21',pa:2,su:0,cet:31,d2y:0,fu:6,fp:4,in:39,jk:155,ni:0,nr:0},
-  {d:'2026-03-22',pa:2,su:0,cet:51,d2y:1,fu:3,fp:1,in:41,jk:186,ni:0,nr:0},
-  {d:'2026-03-23',pa:1,su:0,cet:39,d2y:0,fu:2,fp:0,in:57,jk:158,ni:0,nr:0},
-  {d:'2026-03-24',pa:1,su:0,cet:43,d2y:0,fu:6,fp:5,in:51,jk:151,ni:0,nr:0},
-  {d:'2026-03-25',pa:0,su:0,cet:54,d2y:0,fu:8,fp:3,in:46,jk:148,ni:0,nr:0},
-  {d:'2026-03-26',pa:1,su:0,cet:42,d2y:1,fu:6,fp:6,in:49,jk:157,ni:0,nr:0},
-  {d:'2026-03-27',pa:2,su:0,cet:47,d2y:0,fu:5,fp:2,in:64,jk:205,ni:0,nr:0},
-  {d:'2026-03-28',pa:1,su:0,cet:48,d2y:0,fu:9,fp:1,in:55,jk:167,ni:0,nr:0},
-  {d:'2026-03-29',pa:3,su:0,cet:43,d2y:1,fu:7,fp:3,in:51,jk:223,ni:0,nr:0},
-  {d:'2026-03-30',pa:0,su:0,cet:57,d2y:0,fu:5,fp:5,in:42,jk:162,ni:0,nr:0},
-  {d:'2026-03-31',pa:2,su:0,cet:16,d2y:1,fu:4,fp:4,in:32,jk:100,ni:0,nr:0},
-  {d:'2026-04-01',pa:5,su:1,cet:11,d2y:0,fu:2,fp:6,in:19,jk:132,ni:0,nr:0},
-  {d:'2026-04-02',pa:6,su:0,cet:24,d2y:0,fu:16,fp:2,in:44,jk:121,ni:0,nr:0},
-  {d:'2026-04-03',pa:4,su:0,cet:15,d2y:1,fu:9,fp:0,in:29,jk:156,ni:0,nr:0},
-  {d:'2026-04-04',pa:3,su:0,cet:19,d2y:0,fu:11,fp:8,in:25,jk:149,ni:0,nr:0},
-  {d:'2026-04-05',pa:8,su:0,cet:19,d2y:0,fu:8,fp:7,in:27,jk:119,ni:0,nr:0},
-  {d:'2026-04-06',pa:1,su:0,cet:18,d2y:1,fu:3,fp:4,in:31,jk:156,ni:0,nr:0},
-  {d:'2026-04-07',pa:0,su:0,cet:22,d2y:0,fu:6,fp:5,in:42,jk:143,ni:0,nr:0},
-  {d:'2026-04-08',pa:7,su:0,cet:16,d2y:1,fu:2,fp:1,in:39,jk:159,ni:0,nr:0},
-  {d:'2026-04-09',pa:9,su:0,cet:15,d2y:0,fu:3,fp:7,in:33,jk:132,ni:0,nr:0},
-  {d:'2026-04-10',pa:8,su:1,cet:18,d2y:0,fu:3,fp:2,in:35,jk:111,ni:0,nr:0},
-  {d:'2026-04-11',pa:6,su:0,cet:21,d2y:1,fu:5,fp:5,in:26,jk:98,ni:0,nr:0},
-  {d:'2026-04-12',pa:5,su:0,cet:38,d2y:0,fu:6,fp:1,in:23,jk:118,ni:0,nr:0},
-  {d:'2026-04-13',pa:7,su:0,cet:22,d2y:1,fu:5,fp:6,in:38,jk:157,ni:0,nr:0},
-  {d:'2026-04-14',pa:5,su:0,cet:14,d2y:0,fu:3,fp:0,in:22,jk:139,ni:0,nr:0},
-  {d:'2026-04-15',pa:4,su:0,cet:18,d2y:1,fu:2,fp:4,in:27,jk:122,ni:0,nr:0},
-  {d:'2026-04-16',pa:1,su:0,cet:11,d2y:1,fu:2,fp:3,in:39,jk:95,ni:0,nr:0},
-  {d:'2026-04-17',pa:0,su:0,cet:3,d2y:0,fu:0,fp:0,in:1,jk:0,ni:0,nr:0},
-  {d:'2026-04-18',pa:0,su:0,cet:7,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-04-19',pa:0,su:0,cet:2,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-04-20',pa:0,su:0,cet:5,d2y:0,fu:1,fp:1,in:0,jk:3,ni:0,nr:0},
-  {d:'2026-04-21',pa:0,su:0,cet:4,d2y:0,fu:0,fp:1,in:0,jk:1,ni:0,nr:0},
-  {d:'2026-04-22',pa:0,su:0,cet:58,d2y:0,fu:0,fp:2,in:7,jk:47,ni:0,nr:0},
-  {d:'2026-04-23',pa:0,su:0,cet:76,d2y:0,fu:1,fp:2,in:5,jk:26,ni:0,nr:0},
-  {d:'2026-04-24',pa:0,su:0,cet:2,d2y:0,fu:0,fp:2,in:18,jk:38,ni:0,nr:0},
-  {d:'2026-04-25',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:1,ni:0,nr:0},
-  {d:'2026-04-26',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-04-27',pa:1,su:0,cet:6,d2y:0,fu:0,fp:0,in:16,jk:42,ni:0,nr:0},
-  {d:'2026-04-28',pa:0,su:0,cet:0,d2y:0,fu:1,fp:2,in:2,jk:4,ni:0,nr:0},
-  {d:'2026-04-29',pa:1,su:0,cet:61,d2y:0,fu:3,fp:1,in:5,jk:52,ni:0,nr:0},
-  {d:'2026-04-30',pa:2,su:0,cet:32,d2y:0,fu:2,fp:0,in:6,jk:59,ni:0,nr:0},
-  {d:'2026-05-01',pa:0,su:0,cet:5,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-02',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-03',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-04',pa:0,su:0,cet:0,d2y:0,fu:0,fp:1,in:0,jk:7,ni:0,nr:0},
-  {d:'2026-05-05',pa:0,su:0,cet:1,d2y:0,fu:0,fp:0,in:3,jk:7,ni:0,nr:0},
-  {d:'2026-05-06',pa:0,su:0,cet:1,d2y:0,fu:1,fp:1,in:2,jk:10,ni:0,nr:0},
-  {d:'2026-05-07',pa:0,su:0,cet:1,d2y:0,fu:1,fp:0,in:2,jk:8,ni:0,nr:0},
-  {d:'2026-05-08',pa:0,su:0,cet:4,d2y:0,fu:0,fp:1,in:4,jk:9,ni:0,nr:0},
-  {d:'2026-05-09',pa:0,su:0,cet:2,d2y:0,fu:3,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-10',pa:0,su:0,cet:2,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-11',pa:0,su:0,cet:6,d2y:0,fu:0,fp:1,in:1,jk:1,ni:0,nr:0},
-  {d:'2026-05-12',pa:0,su:0,cet:2,d2y:0,fu:0,fp:0,in:3,jk:3,ni:0,nr:0},
-  {d:'2026-05-13',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:2,jk:2,ni:0,nr:0},
-  {d:'2026-05-14',pa:0,su:0,cet:2,d2y:0,fu:0,fp:0,in:2,jk:3,ni:0,nr:0},
-  {d:'2026-05-15',pa:0,su:0,cet:7,d2y:0,fu:1,fp:0,in:1,jk:3,ni:0,nr:0},
-  {d:'2026-05-16',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-17',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-18',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:13,ni:0,nr:0},
-  {d:'2026-05-19',pa:0,su:0,cet:0,d2y:0,fu:0,fp:1,in:5,jk:5,ni:0,nr:0},
-  {d:'2026-05-20',pa:0,su:0,cet:0,d2y:1,fu:0,fp:0,in:3,jk:4,ni:0,nr:0},
-  {d:'2026-05-21',pa:0,su:0,cet:0,d2y:0,fu:1,fp:0,in:2,jk:0,ni:0,nr:0},
-  {d:'2026-05-22',pa:0,su:0,cet:1,d2y:0,fu:1,fp:1,in:2,jk:0,ni:0,nr:0},
-  {d:'2026-05-23',pa:0,su:0,cet:3,d2y:0,fu:0,fp:0,in:1,jk:0,ni:0,nr:0},
-  {d:'2026-05-24',pa:0,su:0,cet:1,d2y:0,fu:0,fp:0,in:0,jk:3,ni:0,nr:0},
-  {d:'2026-05-25',pa:0,su:0,cet:1,d2y:0,fu:1,fp:1,in:0,jk:9,ni:0,nr:0},
-  {d:'2026-05-26',pa:0,su:0,cet:1,d2y:0,fu:0,fp:0,in:4,jk:3,ni:0,nr:0},
-  {d:'2026-05-27',pa:0,su:0,cet:0,d2y:0,fu:1,fp:0,in:1,jk:1,ni:0,nr:0},
-  {d:'2026-05-28',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-29',pa:0,su:0,cet:0,d2y:0,fu:1,fp:0,in:1,jk:1,ni:0,nr:0},
-  {d:'2026-05-30',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-05-31',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-06-01',pa:0,su:0,cet:0,d2y:0,fu:0,fp:1,in:2,jk:0,ni:0,nr:0},
-  {d:'2026-06-02',pa:0,su:0,cet:1,d2y:0,fu:0,fp:0,in:0,jk:0,ni:0,nr:0},
-  {d:'2026-06-03',pa:0,su:0,cet:2,d2y:0,fu:1,fp:0,in:1,jk:0,ni:26,nr:0},
-  {d:'2026-06-04',pa:0,su:0,cet:0,d2y:0,fu:0,fp:0,in:6,jk:8,ni:24,nr:0}
-];
+const RAW_DES_STATUS = [];
 
-const RAW_WALKINS = [
-  {d:'2026-03-15',eng:16,des:15},
-  {d:'2026-03-16',eng:2,des:2},
-  {d:'2026-03-17',eng:2,des:0},
-  {d:'2026-03-18',eng:2,des:0},
-  {d:'2026-03-19',eng:0,des:0},
-  {d:'2026-03-20',eng:3,des:3},
-  {d:'2026-03-21',eng:0,des:0},
-  {d:'2026-03-22',eng:0,des:0},
-  {d:'2026-03-23',eng:4,des:2},
-  {d:'2026-03-24',eng:8,des:2},
-  {d:'2026-03-25',eng:4,des:0},
-  {d:'2026-03-26',eng:0,des:0},
-  {d:'2026-03-27',eng:2,des:0},
-  {d:'2026-03-28',eng:5,des:0},
-  {d:'2026-03-29',eng:0,des:0},
-  {d:'2026-03-30',eng:2,des:2},
-  {d:'2026-03-31',eng:1,des:0},
-  {d:'2026-04-01',eng:7,des:0},
-  {d:'2026-04-02',eng:1,des:0},
-  {d:'2026-04-03',eng:3,des:2},
-  {d:'2026-04-04',eng:1,des:2},
-  {d:'2026-04-05',eng:0,des:0},
-  {d:'2026-04-06',eng:0,des:0},
-  {d:'2026-04-07',eng:0,des:4},
-  {d:'2026-04-08',eng:1,des:1},
-  {d:'2026-04-09',eng:1,des:3},
-  {d:'2026-04-10',eng:1,des:0},
-  {d:'2026-04-11',eng:7,des:3},
-  {d:'2026-04-12',eng:0,des:0},
-  {d:'2026-04-13',eng:4,des:4},
-  {d:'2026-04-14',eng:0,des:0},
-  {d:'2026-04-15',eng:7,des:1},
-  {d:'2026-04-16',eng:6,des:0},
-  {d:'2026-04-17',eng:5,des:1},
-  {d:'2026-04-18',eng:6,des:1},
-  {d:'2026-04-19',eng:0,des:0},
-  {d:'2026-04-20',eng:7,des:0},
-  {d:'2026-04-21',eng:3,des:1},
-  {d:'2026-04-22',eng:6,des:1},
-  {d:'2026-04-23',eng:3,des:0},
-  {d:'2026-04-24',eng:5,des:2},
-  {d:'2026-04-25',eng:10,des:1},
-  {d:'2026-04-26',eng:0,des:0},
-  {d:'2026-04-27',eng:2,des:4},
-  {d:'2026-04-28',eng:7,des:0},
-  {d:'2026-04-29',eng:5,des:2},
-  {d:'2026-04-30',eng:6,des:3},
-  {d:'2026-05-01',eng:0,des:0},
-  {d:'2026-05-02',eng:4,des:0},
-  {d:'2026-05-03',eng:0,des:0},
-  {d:'2026-05-04',eng:18,des:2},
-  {d:'2026-05-05',eng:9,des:2},
-  {d:'2026-05-06',eng:9,des:2},
-  {d:'2026-05-07',eng:3,des:4},
-  {d:'2026-05-08',eng:16,des:3},
-  {d:'2026-05-09',eng:12,des:3},
-  {d:'2026-05-10',eng:0,des:0},
-  {d:'2026-05-11',eng:10,des:3},
-  {d:'2026-05-12',eng:14,des:3},
-  {d:'2026-05-13',eng:8,des:1},
-  {d:'2026-05-14',eng:19,des:1},
-  {d:'2026-05-15',eng:17,des:1},
-  {d:'2026-05-16',eng:21,des:3},
-  {d:'2026-05-17',eng:0,des:0},
-  {d:'2026-05-18',eng:22,des:0},
-  {d:'2026-05-19',eng:13,des:1},
-  {d:'2026-05-20',eng:20,des:1},
-  {d:'2026-05-21',eng:26,des:4},
-  {d:'2026-05-22',eng:22,des:1},
-  {d:'2026-05-23',eng:34,des:6},
-  {d:'2026-05-24',eng:0,des:0},
-  {d:'2026-05-25',eng:43,des:4},
-  {d:'2026-05-26',eng:30,des:0},
-  {d:'2026-05-27',eng:17,des:0},
-  {d:'2026-05-28',eng:15,des:0},
-  {d:'2026-05-29',eng:30,des:2},
-  {d:'2026-05-30',eng:7,des:0},
-  {d:'2026-05-31',eng:0,des:0},
-  {d:'2026-06-01',eng:40,des:2},
-  {d:'2026-06-02',eng:20,des:1},
-  {d:'2026-06-03',eng:36,des:1},
-  {d:'2026-06-04',eng:36,des:1}
-];
+const RAW_WALKINS = [];
 
-const RAW_ENG_ADS = [
-  {d:'2026-01-10',ctr:1615.0,imp:161,cpc:89.85,cost:2336.09,gLeads:116},
-  {d:'2026-01-13',ctr:901.0,imp:233,cpc:114.27,cost:2399.66,gLeads:49},
-  {d:'2026-01-14',ctr:1132.0,imp:698,cpc:30.87,cost:2438.97,gLeads:41},
-  {d:'2026-01-15',ctr:909.0,imp:847,cpc:19.46,cost:1498.05,gLeads:134},
-  {d:'2026-01-16',ctr:910.0,imp:1352,cpc:13.34,cost:1640.67,gLeads:72},
-  {d:'2026-01-17',ctr:850.0,imp:647,cpc:16.08,cost:884.43,gLeads:69},
-  {d:'2026-01-18',ctr:786.0,imp:1437,cpc:13.84,cost:1563.84,gLeads:63},
-  {d:'2026-01-19',ctr:1123.0,imp:935,cpc:14.26,cost:1496.94,gLeads:48},
-  {d:'2026-01-20',ctr:1021.0,imp:1430,cpc:10.41,cost:1519.78,gLeads:126},
-  {d:'2026-01-21',ctr:608.0,imp:2335,cpc:17.64,cost:2504.85,gLeads:46},
-  {d:'2026-01-22',ctr:334.0,imp:3898,cpc:20.15,cost:2619.75,gLeads:122},
-  {d:'2026-01-23',ctr:589.0,imp:2072,cpc:20.33,cost:2479.83,gLeads:131},
-  {d:'2026-01-24',ctr:456.0,imp:2192,cpc:27.81,cost:2781.47,gLeads:149},
-  {d:'2026-01-25',ctr:376.0,imp:3826,cpc:22.74,cost:3274.22,gLeads:105},
-  {d:'2026-01-26',ctr:306.0,imp:5026,cpc:24.36,cost:3751.01,gLeads:45},
-  {d:'2026-01-27',ctr:335.0,imp:6385,cpc:20.14,cost:4309.49,gLeads:113},
-  {d:'2026-01-28',ctr:309.0,imp:7433,cpc:10.43,cost:2398.52,gLeads:88},
-  {d:'2026-01-29',ctr:263.0,imp:10533,cpc:13.18,cost:3651.19,gLeads:40},
-  {d:'2026-01-30',ctr:367.0,imp:4743,cpc:19.38,cost:3372.07,gLeads:41},
-  {d:'2026-01-31',ctr:219.0,imp:11656,cpc:9.56,cost:2436.9,gLeads:46},
-  {d:'2026-02-01',ctr:254.0,imp:4919,cpc:18.86,cost:2357.26,gLeads:60},
-  {d:'2026-02-02',ctr:429.0,imp:1795,cpc:19.62,cost:1511.07,gLeads:65},
-  {d:'2026-02-05',ctr:334.0,imp:2454,cpc:15.98,cost:1309.99,gLeads:103},
-  {d:'2026-02-06',ctr:256.0,imp:4651,cpc:15.26,cost:1816.16,gLeads:115},
-  {d:'2026-02-07',ctr:244.0,imp:5122,cpc:18.69,cost:2336.68,gLeads:39},
-  {d:'2026-02-08',ctr:296.0,imp:3447,cpc:30.23,cost:3083.72,gLeads:109},
-  {d:'2026-02-09',ctr:259.0,imp:4526,cpc:20.8,cost:2433.17,gLeads:62},
-  {d:'2026-02-10',ctr:227.0,imp:5371,cpc:21.36,cost:2606.32,gLeads:124},
-  {d:'2026-02-11',ctr:232.0,imp:5002,cpc:24.0,cost:2783.45,gLeads:119},
-  {d:'2026-02-12',ctr:221.0,imp:26589,cpc:30.35,cost:17814.9,gLeads:126},
-  {d:'2026-02-13',ctr:259.0,imp:60282,cpc:9.35,cost:14619.61,gLeads:103},
-  {d:'2026-02-14',ctr:224.0,imp:133213,cpc:6.59,cost:19644.89,gLeads:85},
-  {d:'2026-02-15',ctr:241.0,imp:100636,cpc:5.72,cost:13882.18,gLeads:66},
-  {d:'2026-02-16',ctr:160.0,imp:136185,cpc:6.41,cost:13995.66,gLeads:86},
-  {d:'2026-02-17',ctr:168.0,imp:150117,cpc:5.87,cost:14781.07,gLeads:110},
-  {d:'2026-02-18',ctr:155.0,imp:152839,cpc:6.98,cost:16559.15,gLeads:72},
-  {d:'2026-02-19',ctr:149.0,imp:160909,cpc:7.88,cost:18923.73,gLeads:140},
-  {d:'2026-02-20',ctr:143.0,imp:123918,cpc:13.26,cost:23472.14,gLeads:149},
-  {d:'2026-02-21',ctr:160.0,imp:90829,cpc:14.7,cost:21403.75,gLeads:36},
-  {d:'2026-02-22',ctr:146.0,imp:102273,cpc:14.23,cost:21320.52,gLeads:135},
-  {d:'2026-02-23',ctr:160.0,imp:90165,cpc:19.24,cost:27800.75,gLeads:137},
-  {d:'2026-02-24',ctr:162.0,imp:56403,cpc:25.16,cost:22922.31,gLeads:58},
-  {d:'2026-02-25',ctr:266.0,imp:18886,cpc:40.99,cost:20618.86,gLeads:127},
-  {d:'2026-02-26',ctr:218.0,imp:42203,cpc:38.67,cost:35495.91,gLeads:90},
-  {d:'2026-02-27',ctr:155.0,imp:57676,cpc:30.09,cost:26965.11,gLeads:82},
-  {d:'2026-02-28',ctr:170.0,imp:40667,cpc:34.32,cost:23717.19,gLeads:74},
-  {d:'2026-03-01',ctr:191.0,imp:51335,cpc:39.6,cost:38724.18,gLeads:57},
-  {d:'2026-03-02',ctr:207.0,imp:39554,cpc:46.25,cost:37782.78,gLeads:63},
-  {d:'2026-03-03',ctr:180.0,imp:39210,cpc:39.94,cost:28154.96,gLeads:134},
-  {d:'2026-03-04',ctr:181.0,imp:62453,cpc:38.47,cost:43471.77,gLeads:81},
-  {d:'2026-03-05',ctr:187.0,imp:106232,cpc:24.05,cost:47780.2,gLeads:51},
-  {d:'2026-03-06',ctr:434.0,imp:173808,cpc:5.39,cost:40635.39,gLeads:45},
-  {d:'2026-03-07',ctr:196.0,imp:79028,cpc:31.34,cost:48454.4,gLeads:85},
-  {d:'2026-03-08',ctr:133.0,imp:76371,cpc:37.21,cost:37734.69,gLeads:51},
-  {d:'2026-03-09',ctr:145.0,imp:83817,cpc:45.35,cost:55240.82,gLeads:77},
-  {d:'2026-03-10',ctr:242.0,imp:82830,cpc:28.14,cost:56514.55,gLeads:146},
-  {d:'2026-03-11',ctr:246.0,imp:106026,cpc:25.33,cost:65989.37,gLeads:80},
-  {d:'2026-03-12',ctr:271.0,imp:88374,cpc:24.78,cost:59316.19,gLeads:115},
-  {d:'2026-03-13',ctr:288.0,imp:71650,cpc:33.26,cost:68680.17,gLeads:68},
-  {d:'2026-03-14',ctr:310.0,imp:56324,cpc:26.81,cost:46788.44,gLeads:139},
-  {d:'2026-03-15',ctr:235.0,imp:147475,cpc:12.22,cost:42307.41,gLeads:42},
-  {d:'2026-03-16',ctr:238.0,imp:106805,cpc:20.4,cost:51766.43,gLeads:131},
-  {d:'2026-03-17',ctr:198.0,imp:112118,cpc:21.02,cost:46639.54,gLeads:92},
-  {d:'2026-03-18',ctr:213.0,imp:101112,cpc:22.34,cost:48031.73,gLeads:106},
-  {d:'2026-03-19',ctr:227.0,imp:116124,cpc:19.58,cost:51705.31,gLeads:49},
-  {d:'2026-03-20',ctr:224.0,imp:105455,cpc:22.88,cost:54106.96,gLeads:155},
-  {d:'2026-03-21',ctr:235.0,imp:92492,cpc:19.13,cost:41655.49,gLeads:86},
-  {d:'2026-03-22',ctr:220.0,imp:88150,cpc:20.33,cost:39329.38,gLeads:45},
-  {d:'2026-03-23',ctr:220.0,imp:90771,cpc:25.54,cost:51023.45,gLeads:104},
-  {d:'2026-03-24',ctr:183.0,imp:129719,cpc:20.36,cost:48261.82,gLeads:70},
-  {d:'2026-03-25',ctr:213.0,imp:97932,cpc:21.41,cost:44633.56,gLeads:138},
-  {d:'2026-03-26',ctr:187.0,imp:76324,cpc:33.24,cost:47526.21,gLeads:116},
-  {d:'2026-03-27',ctr:208.0,imp:63420,cpc:37.93,cost:49994.04,gLeads:114},
-  {d:'2026-03-28',ctr:223.0,imp:60728,cpc:37.18,cost:50378.91,gLeads:151},
-  {d:'2026-03-29',ctr:273.0,imp:60748,cpc:41.29,cost:68455.23,gLeads:143},
-  {d:'2026-03-30',ctr:261.0,imp:71052,cpc:38.22,cost:70819.86,gLeads:84},
-  {d:'2026-03-31',ctr:211.0,imp:87879,cpc:33.51,cost:61991.35,gLeads:108},
-  {d:'2026-04-01',ctr:206.0,imp:79031,cpc:33.57,cost:54719.88,gLeads:60},
-  {d:'2026-04-02',ctr:205.0,imp:69924,cpc:38.7,cost:55570.08,gLeads:129},
-  {d:'2026-04-03',ctr:234.0,imp:41686,cpc:55.48,cost:54203.07,gLeads:46},
-  {d:'2026-04-04',ctr:217.0,imp:52945,cpc:45.3,cost:52144.25,gLeads:42},
-  {d:'2026-04-05',ctr:226.0,imp:51988,cpc:49.56,cost:58139.12,gLeads:118},
-  {d:'2026-04-06',ctr:180.0,imp:99274,cpc:30.25,cost:53911.16,gLeads:64},
-  {d:'2026-04-07',ctr:553.0,imp:91233,cpc:12.43,cost:62684.61,gLeads:133},
-  {d:'2026-04-08',ctr:699.0,imp:109196,cpc:7.32,cost:55844.62,gLeads:72},
-  {d:'2026-04-09',ctr:221.0,imp:108512,cpc:23.11,cost:55355.21,gLeads:45},
-  {d:'2026-04-10',ctr:148.0,imp:143274,cpc:25.34,cost:53648.84,gLeads:147},
-  {d:'2026-04-11',ctr:152.0,imp:147621,cpc:34.35,cost:76950.12,gLeads:63},
-  {d:'2026-04-12',ctr:126.0,imp:147789,cpc:35.31,cost:65956.43,gLeads:147},
-  {d:'2026-04-13',ctr:145.0,imp:123824,cpc:32.89,cost:59079.17,gLeads:50},
-  {d:'2026-04-14',ctr:178.0,imp:101166,cpc:30.68,cost:55318.59,gLeads:85},
-  {d:'2026-04-15',ctr:209.0,imp:113137,cpc:29.98,cost:70809.23,gLeads:70},
-  {d:'2026-04-16',ctr:2.03,imp:86643,cpc:35.23,cost:61907.59,gLeads:94},
-  {d:'2026-04-17',ctr:1.95,imp:84686,cpc:27.25,cost:45090.84,gLeads:115},
-  {d:'2026-04-18',ctr:1.95,imp:109629,cpc:23.94,cost:51127.92,gLeads:144},
-  {d:'2026-04-19',ctr:2.11,imp:94553,cpc:28.74,cost:57257.49,gLeads:82},
-  {d:'2026-04-20',ctr:1.79,imp:111942,cpc:33.67,cost:67512.26,gLeads:55},
-  {d:'2026-04-21',ctr:2.64,imp:74812,cpc:32.67,cost:64546.66,gLeads:84},
-  {d:'2026-04-22',ctr:2.18,imp:92300,cpc:29.75,cost:60000.0,gLeads:81},
-  {d:'2026-04-23',ctr:2.45,imp:89699,cpc:26.61,cost:58300.0,gLeads:64},
-  {d:'2026-04-24',ctr:2.52,imp:98632,cpc:23.3,cost:57980.31,gLeads:121},
-  {d:'2026-04-25',ctr:2.62,imp:88882,cpc:24.61,cost:57221.12,gLeads:62},
-  {d:'2026-04-26',ctr:2.2,imp:88357,cpc:26.38,cost:51361.16,gLeads:59},
-  {d:'2026-04-27',ctr:1.95,imp:91806,cpc:22.35,cost:40104.0,gLeads:65},
-  {d:'2026-04-28',ctr:1.94,imp:109795,cpc:29.63,cost:63230.0,gLeads:86},
-  {d:'2026-04-29',ctr:2.01,imp:101291,cpc:25.61,cost:58291.0,gLeads:78},
-  {d:'2026-04-30',ctr:1.86,imp:90123,cpc:24.51,cost:52981.0,gLeads:65},
-  {d:'2026-05-01',ctr:1.89,imp:122934,cpc:25.75,cost:59834.0,gLeads:52},
-  {d:'2026-05-02',ctr:2.01,imp:113605,cpc:27.92,cost:63885.0,gLeads:61},
-  {d:'2026-05-03',ctr:2.56,imp:118902,cpc:31.09,cost:62142.0,gLeads:58},
-  {d:'2026-05-04',ctr:2.19,imp:110417,cpc:24.66,cost:59640.0,gLeads:140},
-  {d:'2026-05-05',ctr:2.04,imp:116770,cpc:28.49,cost:67854.0,gLeads:142},
-  {d:'2026-05-06',ctr:1.96,imp:117086,cpc:29.54,cost:67867.0,gLeads:193},
-  {d:'2026-05-07',ctr:2.07,imp:116580,cpc:30.05,cost:72455.0,gLeads:157},
-  {d:'2026-05-08',ctr:2.14,imp:112741,cpc:28.23,cost:68125.0,gLeads:160},
-  {d:'2026-05-09',ctr:1.98,imp:121048,cpc:25.2,cost:60368.0,gLeads:138},
-  {d:'2026-05-10',ctr:2.05,imp:116504,cpc:29.36,cost:70240.0,gLeads:165},
-  {d:'2026-05-11',ctr:2.02,imp:106000,cpc:26.72,cost:57000.0,gLeads:120},
-  {d:'2026-05-12',ctr:2.11,imp:161892,cpc:32.07,cost:109102.0,gLeads:138},
-  {d:'2026-05-13',ctr:2.01,imp:149872,cpc:32.67,cost:98337.0,gLeads:131},
-  {d:'2026-05-14',ctr:2.18,imp:133706,cpc:32.11,cost:93465.0,gLeads:128},
-  {d:'2026-05-15',ctr:2.29,imp:108921,cpc:34.12,cost:85258.0,gLeads:115},
-  {d:'2026-05-16',ctr:2.38,imp:97222,cpc:32.1,cost:74251.0,gLeads:120},
-  {d:'2026-05-17',ctr:2.32,imp:104524,cpc:32.53,cost:78711.0,gLeads:111},
-  {d:'2026-05-18',ctr:2.24,imp:103481,cpc:32.59,cost:75389.0,gLeads:98},
-  {d:'2026-05-19',ctr:2.28,imp:105539,cpc:34.6,cost:83415.0,gLeads:108},
-  {d:'2026-05-20',ctr:2.21,imp:109331,cpc:38.83,cost:93628.42,gLeads:119},
-  {d:'2026-05-21',ctr:2.18,imp:112704,cpc:35.22,cost:86711.81,gLeads:146},
-  {d:'2026-05-22',ctr:2.18,imp:101834,cpc:36.21,cost:80497.59,gLeads:113},
-  {d:'2026-05-23',ctr:2.14,imp:96274,cpc:42.25,cost:86998.16,gLeads:103},
-  {d:'2026-05-24',ctr:2.11,imp:84911,cpc:43.83,cost:78454.61,gLeads:84},
-  {d:'2026-05-25',ctr:1.99,imp:102290,cpc:39.04,cost:79296.23,gLeads:89},
-  {d:'2026-05-26',ctr:2.13,imp:107233,cpc:37.62,cost:85776.9,gLeads:110},
-  {d:'2026-05-27',ctr:1.98,imp:114364,cpc:34.93,cost:78940.94,gLeads:115},
-  {d:'2026-05-28',ctr:2.23,imp:88411,cpc:39.99,cost:78732.61,gLeads:135},
-  {d:'2026-05-29',ctr:2.41,imp:88724,cpc:36.21,cost:77427.38,gLeads:90},
-  {d:'2026-05-30',ctr:2.86,imp:84019,cpc:30.68,cost:73784.24,gLeads:93},
-  {d:'2026-05-31',ctr:2.42,imp:73170,cpc:31.71,cost:56133.21,gLeads:71},
-  {d:'2026-06-01',ctr:2.35,imp:101896,cpc:36.42,cost:87337.0,gLeads:141},
-  {d:'2026-06-02',ctr:2.2,imp:101443,cpc:39.45,cost:87864.86,gLeads:143},
-  {d:'2026-06-03',ctr:1.97,imp:116593,cpc:36.58,cost:83952.49,gLeads:141},
-  {d:'2026-06-04',ctr:1.84,imp:134920,cpc:36.15,cost:89835.64,gLeads:125}
-];
+const RAW_ENG_ADS = [];
 
-const RAW_DES_ADS = [
-  {d:'2025-11-27',ctr:17.79,imp:298,cpc:17.22,cost:912.54,gLeads:8},
-  {d:'2025-11-28',ctr:3.65,imp:5309,cpc:40.65,cost:7887.04,gLeads:9},
-  {d:'2025-11-29',ctr:7.07,imp:3464,cpc:37.19,cost:9112.66,gLeads:6},
-  {d:'2025-11-30',ctr:5.14,imp:2878,cpc:48.39,cost:7161.51,gLeads:7},
-  {d:'2025-12-01',ctr:7.67,imp:2400,cpc:39.66,cost:7297.73,gLeads:7},
-  {d:'2025-12-02',ctr:7.03,imp:2333,cpc:47.01,cost:7708.88,gLeads:5},
-  {d:'2025-12-03',ctr:8.31,imp:1781,cpc:53.57,cost:7928.75,gLeads:8},
-  {d:'2025-12-04',ctr:6.73,imp:2379,cpc:61.02,cost:9763.18,gLeads:11},
-  {d:'2025-12-05',ctr:5.69,imp:2213,cpc:55.44,cost:6985.01,gLeads:12},
-  {d:'2025-12-06',ctr:4.9,imp:2247,cpc:57.64,cost:6340.86,gLeads:13},
-  {d:'2025-12-07',ctr:4.67,imp:2700,cpc:52.69,cost:6639.21,gLeads:7},
-  {d:'2025-12-08',ctr:4.99,imp:3530,cpc:56.29,cost:9907.4,gLeads:6},
-  {d:'2025-12-09',ctr:5.08,imp:3737,cpc:64.87,cost:12325.73,gLeads:12},
-  {d:'2025-12-10',ctr:4.72,imp:2925,cpc:64.9,cost:8955.59,gLeads:14},
-  {d:'2025-12-11',ctr:4.5,imp:2823,cpc:61.47,cost:7806.28,gLeads:14},
-  {d:'2025-12-12',ctr:4.48,imp:3059,cpc:57.37,cost:7860.11,gLeads:12},
-  {d:'2025-12-13',ctr:5.13,imp:2513,cpc:63.68,cost:8215.18,gLeads:4},
-  {d:'2025-12-14',ctr:5.34,imp:2396,cpc:61.21,cost:7835.2,gLeads:8},
-  {d:'2025-12-15',ctr:4.85,imp:2702,cpc:60.87,cost:7973.72,gLeads:4},
-  {d:'2025-12-16',ctr:5.88,imp:1548,cpc:58.62,cost:5334.61,gLeads:11},
-  {d:'2025-12-17',ctr:5.65,imp:1875,cpc:57.65,cost:6110.69,gLeads:6},
-  {d:'2025-12-18',ctr:5.27,imp:3494,cpc:64.91,cost:11943.55,gLeads:6},
-  {d:'2025-12-19',ctr:4.94,imp:3015,cpc:73.23,cost:10911.35,gLeads:11},
-  {d:'2025-12-20',ctr:4.6,imp:2415,cpc:78.25,cost:8686.15,gLeads:9},
-  {d:'2025-12-21',ctr:4.36,imp:3759,cpc:81.52,cost:13368.83,gLeads:6},
-  {d:'2025-12-22',ctr:5.15,imp:4191,cpc:88.18,cost:19047.95,gLeads:9},
-  {d:'2025-12-23',ctr:6.64,imp:3011,cpc:71.03,cost:14206.92,gLeads:9},
-  {d:'2025-12-24',ctr:6.43,imp:3359,cpc:64.05,cost:13834.62,gLeads:3},
-  {d:'2025-12-25',ctr:6.63,imp:2834,cpc:40.44,cost:7603.14,gLeads:5},
-  {d:'2025-12-26',ctr:8.93,imp:2553,cpc:34.75,cost:7923.53,gLeads:12},
-  {d:'2025-12-27',ctr:8.69,imp:2866,cpc:38.44,cost:9572.58,gLeads:8},
-  {d:'2025-12-28',ctr:9.18,imp:3422,cpc:31.96,cost:10036.08,gLeads:12},
-  {d:'2025-12-29',ctr:10.14,imp:4013,cpc:26.18,cost:10656.66,gLeads:11},
-  {d:'2025-12-30',ctr:7.14,imp:2325,cpc:52.15,cost:8656.24,gLeads:7},
-  {d:'2025-12-31',ctr:5.87,imp:2078,cpc:56.06,cost:6839.43,gLeads:7},
-  {d:'2026-01-01',ctr:5.08,imp:2323,cpc:59.91,cost:7069.88,gLeads:7},
-  {d:'2026-01-02',ctr:3.56,imp:53305,cpc:6.71,cost:12723.09,gLeads:5},
-  {d:'2026-01-03',ctr:5.4,imp:34365,cpc:4.49,cost:8333.98,gLeads:5},
-  {d:'2026-01-04',ctr:2.89,imp:28290,cpc:10.53,cost:8599.22,gLeads:7},
-  {d:'2026-01-05',ctr:2.12,imp:16593,cpc:40.19,cost:14146.44,gLeads:12},
-  {d:'2026-01-06',ctr:2.16,imp:13492,cpc:45.49,cost:13282.35,gLeads:11},
-  {d:'2026-01-07',ctr:2.78,imp:10079,cpc:58.16,cost:16285.15,gLeads:13},
-  {d:'2026-01-08',ctr:3.13,imp:8309,cpc:58.72,cost:15265.96,gLeads:11},
-  {d:'2026-01-09',ctr:2.28,imp:8622,cpc:42.4,cost:8352.85,gLeads:5},
-  {d:'2026-01-10',ctr:2.52,imp:9039,cpc:62.17,cost:14174.46,gLeads:5},
-  {d:'2026-01-11',ctr:5.03,imp:7362,cpc:64.06,cost:23701.55,gLeads:7},
-  {d:'2026-01-12',ctr:2.79,imp:14382,cpc:57.56,cost:23080.59,gLeads:9},
-  {d:'2026-01-13',ctr:1.58,imp:24571,cpc:52.26,cost:20275.04,gLeads:5},
-  {d:'2026-01-14',ctr:7.43,imp:4951,cpc:73.91,cost:27199.36,gLeads:5},
-  {d:'2026-01-15',ctr:6.26,imp:4267,cpc:67.46,cost:18010.56,gLeads:11},
-  {d:'2026-01-16',ctr:5.94,imp:4092,cpc:62.27,cost:15132.37,gLeads:11},
-  {d:'2026-01-17',ctr:5.67,imp:3419,cpc:69.34,cost:13451.3,gLeads:5},
-  {d:'2026-01-18',ctr:5.55,imp:4003,cpc:59.01,cost:13100.72,gLeads:11},
-  {d:'2026-01-19',ctr:5.97,imp:4285,cpc:61.16,cost:15657.67,gLeads:5},
-  {d:'2026-01-20',ctr:5.61,imp:3651,cpc:50.25,cost:10302.12,gLeads:8},
-  {d:'2026-01-21',ctr:6.11,imp:4911,cpc:64.32,cost:19297.26,gLeads:11},
-  {d:'2026-01-22',ctr:6.97,imp:4560,cpc:65.61,cost:20865.48,gLeads:14},
-  {d:'2026-01-23',ctr:5.87,imp:4637,cpc:65.81,cost:17899.16,gLeads:12},
-  {d:'2026-01-24',ctr:5.93,imp:4570,cpc:64.68,cost:17527.84,gLeads:5},
-  {d:'2026-01-25',ctr:5.81,imp:4444,cpc:69.58,cost:17952.48,gLeads:9},
-  {d:'2026-01-26',ctr:5.73,imp:4883,cpc:70.63,cost:19777.1,gLeads:12},
-  {d:'2026-01-27',ctr:6.9,imp:4896,cpc:66.41,cost:22448.22,gLeads:4},
-  {d:'2026-01-28',ctr:6.78,imp:4777,cpc:77.52,cost:25117.51,gLeads:10},
-  {d:'2026-01-29',ctr:6.95,imp:5669,cpc:81.57,cost:32140.24,gLeads:13},
-  {d:'2026-01-30',ctr:7.01,imp:5824,cpc:74.03,cost:30204.79,gLeads:12},
-  {d:'2026-01-31',ctr:8.3,imp:3204,cpc:74.25,cost:19751.36,gLeads:12},
-  {d:'2026-02-01',ctr:6.79,imp:4548,cpc:79.6,cost:24595.26,gLeads:7},
-  {d:'2026-02-02',ctr:7.57,imp:2193,cpc:84.83,cost:14081.77,gLeads:7},
-  {d:'2026-02-03',ctr:0.0,imp:0,cpc:0.0,cost:0.0,gLeads:0},
-  {d:'2026-02-04',ctr:0.0,imp:0,cpc:0.0,cost:0.0,gLeads:0},
-  {d:'2026-02-05',ctr:10.0,imp:2101,cpc:63.94,cost:13427.92,gLeads:10},
-  {d:'2026-02-06',ctr:8.92,imp:4240,cpc:41.07,cost:15523.65,gLeads:5},
-  {d:'2026-02-07',ctr:3.56,imp:20049,cpc:24.03,cost:17132.84,gLeads:8},
-  {d:'2026-02-08',ctr:3.63,imp:18391,cpc:20.74,cost:13836.17,gLeads:4},
-  {d:'2026-02-09',ctr:3.55,imp:18022,cpc:20.09,cost:12857.7,gLeads:4},
-  {d:'2026-02-10',ctr:2.86,imp:16112,cpc:17.91,cost:8238.36,gLeads:4},
-  {d:'2026-02-11',ctr:2.01,imp:15043,cpc:21.66,cost:6542.42,gLeads:11},
-  {d:'2026-02-12',ctr:2.47,imp:14821,cpc:21.39,cost:7829.08,gLeads:14},
-  {d:'2026-02-13',ctr:2.93,imp:9991,cpc:28.58,cost:8372.59,gLeads:4},
-  {d:'2026-02-14',ctr:2.58,imp:16092,cpc:20.5,cost:8505.6,gLeads:9},
-  {d:'2026-02-15',ctr:2.92,imp:16010,cpc:42.35,cost:19776.97,gLeads:9},
-  {d:'2026-02-16',ctr:3.48,imp:15592,cpc:45.71,cost:24773.5,gLeads:5},
-  {d:'2026-02-17',ctr:4.2,imp:16801,cpc:50.09,cost:35366.17,gLeads:7},
-  {d:'2026-02-18',ctr:3.45,imp:17339,cpc:36.31,cost:21748.78,gLeads:12},
-  {d:'2026-02-19',ctr:3.58,imp:12568,cpc:33.65,cost:15143.88,gLeads:13},
-  {d:'2026-02-20',ctr:3.45,imp:14036,cpc:33.28,cost:16107.7,gLeads:11},
-  {d:'2026-02-21',ctr:3.39,imp:15040,cpc:32.55,cost:16599.84,gLeads:4},
-  {d:'2026-02-22',ctr:3.37,imp:11018,cpc:35.76,cost:13267.27,gLeads:14},
-  {d:'2026-02-23',ctr:3.59,imp:8280,cpc:45.28,cost:13447.06,gLeads:11},
-  {d:'2026-02-24',ctr:3.05,imp:5679,cpc:44.83,cost:7755.67,gLeads:14},
-  {d:'2026-02-25',ctr:2.68,imp:9417,cpc:35.54,cost:8955.51,gLeads:5},
-  {d:'2026-02-26',ctr:2.78,imp:9548,cpc:30.37,cost:8049.32,gLeads:6},
-  {d:'2026-02-27',ctr:3.08,imp:9380,cpc:30.99,cost:8955.66,gLeads:8},
-  {d:'2026-02-28',ctr:3.71,imp:7887,cpc:31.04,cost:9095.25,gLeads:12},
-  {d:'2026-03-01',ctr:2.08,imp:10076,cpc:24.64,cost:5174.15,gLeads:17},
-  {d:'2026-03-02',ctr:2.03,imp:14358,cpc:16.51,cost:4805.08,gLeads:15},
-  {d:'2026-03-03',ctr:2.56,imp:7920,cpc:14.38,cost:2918.33,gLeads:11},
-  {d:'2026-03-04',ctr:2.13,imp:9785,cpc:26.08,cost:5424.43,gLeads:9},
-  {d:'2026-03-05',ctr:4.14,imp:6959,cpc:65.44,cost:18845.85,gLeads:9},
-  {d:'2026-03-06',ctr:3.67,imp:12410,cpc:54.01,cost:24573.11,gLeads:13},
-  {d:'2026-03-07',ctr:3.43,imp:11949,cpc:48.99,cost:20084.39,gLeads:3},
-  {d:'2026-03-08',ctr:3.33,imp:7786,cpc:45.44,cost:11768.99,gLeads:4},
-  {d:'2026-03-09',ctr:3.88,imp:13326,cpc:61.47,cost:31778.69,gLeads:10},
-  {d:'2026-03-10',ctr:3.55,imp:9760,cpc:72.66,cost:25138.74,gLeads:6},
-  {d:'2026-03-11',ctr:3.31,imp:14873,cpc:55.45,cost:27280.0,gLeads:4},
-  {d:'2026-03-12',ctr:4.45,imp:6470,cpc:75.44,cost:21725.28,gLeads:4},
-  {d:'2026-03-13',ctr:7.49,imp:2029,cpc:90.88,cost:13813.73,gLeads:7},
-  {d:'2026-03-14',ctr:11.21,imp:669,cpc:78.43,cost:5882.39,gLeads:5},
-  {d:'2026-03-15',ctr:9.61,imp:385,cpc:83.22,cost:3079.11,gLeads:13},
-  {d:'2026-03-16',ctr:7.64,imp:576,cpc:77.62,cost:3415.36,gLeads:10},
-  {d:'2026-03-17',ctr:8.69,imp:426,cpc:90.53,cost:3349.79,gLeads:5},
-  {d:'2026-03-18',ctr:12.68,imp:284,cpc:99.11,cost:3567.98,gLeads:10},
-  {d:'2026-03-19',ctr:9.35,imp:428,cpc:85.5,cost:3420.09,gLeads:11},
-  {d:'2026-03-20',ctr:6.86,imp:510,cpc:96.34,cost:3372.03,gLeads:5},
-  {d:'2026-03-21',ctr:8.89,imp:315,cpc:78.35,cost:2193.79,gLeads:6},
-  {d:'2026-03-22',ctr:7.53,imp:372,cpc:76.46,cost:2140.95,gLeads:7},
-  {d:'2026-03-23',ctr:10.42,imp:307,cpc:68.93,cost:2205.65,gLeads:8},
-  {d:'2026-03-24',ctr:10.56,imp:284,cpc:72.87,cost:2186.03,gLeads:6},
-  {d:'2026-03-25',ctr:7.1,imp:507,cpc:65.49,cost:2357.56,gLeads:5},
-  {d:'2026-03-26',ctr:5.76,imp:469,cpc:107.3,cost:2897.19,gLeads:6},
-  {d:'2026-03-27',ctr:10.56,imp:767,cpc:69.6,cost:5637.45,gLeads:6},
-  {d:'2026-03-28',ctr:6.64,imp:1054,cpc:102.79,cost:7195.24,gLeads:6},
-  {d:'2026-03-29',ctr:9.92,imp:595,cpc:88.21,cost:5204.41,gLeads:3},
-  {d:'2026-03-30',ctr:8.0,imp:963,cpc:68.78,cost:5295.84,gLeads:4},
-  {d:'2026-03-31',ctr:7.45,imp:671,cpc:93.32,cost:4666.05,gLeads:7},
-  {d:'2026-04-01',ctr:6.98,imp:1648,cpc:82.61,cost:9500.71,gLeads:13},
-  {d:'2026-04-02',ctr:8.76,imp:1130,cpc:98.34,cost:9735.93,gLeads:12},
-  {d:'2026-04-03',ctr:8.9,imp:1146,cpc:89.56,cost:9135.4,gLeads:10},
-  {d:'2026-04-04',ctr:9.14,imp:1017,cpc:88.15,cost:8197.53,gLeads:13},
-  {d:'2026-04-05',ctr:9.8,imp:1123,cpc:82.01,cost:9020.65,gLeads:13},
-  {d:'2026-04-06',ctr:11.1,imp:766,cpc:84.47,cost:7180.12,gLeads:9},
-  {d:'2026-04-07',ctr:8.28,imp:1026,cpc:93.82,cost:7974.28,gLeads:11},
-  {d:'2026-04-08',ctr:9.96,imp:843,cpc:87.75,cost:7371.07,gLeads:12},
-  {d:'2026-04-09',ctr:13.09,imp:489,cpc:62.86,cost:4023.05,gLeads:8},
-  {d:'2026-04-10',ctr:6.86,imp:845,cpc:72.45,cost:4202.23,gLeads:11},
-  {d:'2026-04-11',ctr:10.66,imp:563,cpc:70.6,cost:4236.19,gLeads:5},
-  {d:'2026-04-12',ctr:5.76,imp:1041,cpc:54.26,cost:3255.8,gLeads:10},
-  {d:'2026-04-13',ctr:6.69,imp:1076,cpc:68.74,cost:4949.52,gLeads:13},
-  {d:'2026-04-14',ctr:11.73,imp:554,cpc:61.0,cost:3965.13,gLeads:10},
-  {d:'2026-04-15',ctr:6.42,imp:934,cpc:66.96,cost:4017.8,gLeads:8},
-  {d:'2026-04-16',ctr:8.68,imp:899,cpc:55.58,cost:4334.86,gLeads:12},
-  {d:'2026-04-17',ctr:9.09,imp:781,cpc:57.69,cost:4095.74,gLeads:8},
-  {d:'2026-04-18',ctr:7.44,imp:739,cpc:65.03,cost:3576.61,gLeads:8},
-  {d:'2026-04-19',ctr:8.92,imp:527,cpc:55.95,cost:2629.56,gLeads:11},
-  {d:'2026-04-20',ctr:5.64,imp:1560,cpc:68.95,cost:6067.46,gLeads:7},
-  {d:'2026-04-21',ctr:5.71,imp:1068,cpc:74.94,cost:4571.37,gLeads:4},
-  {d:'2026-04-22',ctr:6.09,imp:1002,cpc:64.27,cost:3920.63,gLeads:13},
-  {d:'2026-04-23',ctr:7.56,imp:754,cpc:66.42,cost:3785.84,gLeads:11},
-  {d:'2026-04-24',ctr:6.72,imp:818,cpc:49.58,cost:2726.95,gLeads:5},
-  {d:'2026-04-25',ctr:8.9,imp:663,cpc:62.3,cost:3675.56,gLeads:4},
-  {d:'2026-04-26',ctr:6.88,imp:989,cpc:72.54,cost:4932.6,gLeads:4},
-  {d:'2026-04-27',ctr:9.43,imp:742,cpc:61.21,cost:4284.93,gLeads:6},
-  {d:'2026-04-28',ctr:11.83,imp:558,cpc:51.67,cost:3410.28,gLeads:5},
-  {d:'2026-04-29',ctr:8.94,imp:649,cpc:54.41,cost:3155.86,gLeads:10},
-  {d:'2026-04-30',ctr:9.29,imp:624,cpc:56.42,cost:3272.2,gLeads:7},
-  {d:'2026-05-01',ctr:9.79,imp:623,cpc:57.85,cost:3528.57,gLeads:6},
-  {d:'2026-05-02',ctr:6.83,imp:1025,cpc:48.38,cost:3386.7,gLeads:4},
-  {d:'2026-05-03',ctr:6.77,imp:827,cpc:62.69,cost:3510.76,gLeads:5},
-  {d:'2026-05-04',ctr:6.24,imp:1571,cpc:65.39,cost:6408.58,gLeads:15},
-  {d:'2026-05-05',ctr:4.18,imp:6960,cpc:11.68,cost:3399.72,gLeads:12},
-  {d:'2026-05-06',ctr:3.33,imp:9332,cpc:15.6,cost:4851.43,gLeads:53},
-  {d:'2026-05-07',ctr:3.86,imp:8168,cpc:12.31,cost:3878.49,gLeads:17},
-  {d:'2026-05-08',ctr:5.72,imp:13346,cpc:5.01,cost:3828.02,gLeads:9},
-  {d:'2026-05-09',ctr:3.43,imp:9291,cpc:12.68,cost:4046.13,gLeads:5},
-  {d:'2026-05-10',ctr:3.2,imp:11905,cpc:9.3,cost:3545.04,gLeads:4},
-  {d:'2026-05-11',ctr:2.57,imp:12119,cpc:12.57,cost:3910.41,gLeads:3},
-  {d:'2026-05-12',ctr:1.95,imp:13100,cpc:12.64,cost:3235.0,gLeads:5},
-  {d:'2026-05-13',ctr:1.74,imp:15475,cpc:13.72,cost:3690.0,gLeads:2},
-  {d:'2026-05-14',ctr:1.89,imp:9775,cpc:13.46,cost:2490.0,gLeads:1},
-  {d:'2026-05-15',ctr:2.47,imp:6274,cpc:12.92,cost:2001.0,gLeads:1},
-  {d:'2026-05-16',ctr:3.19,imp:4143,cpc:16.4,cost:2164.0,gLeads:1},
-  {d:'2026-05-17',ctr:3.06,imp:3855,cpc:10.85,cost:1280.0,gLeads:0},
-  {d:'2026-05-18',ctr:2.55,imp:5169,cpc:13.11,cost:1730.0,gLeads:4},
-  {d:'2026-05-19',ctr:2.65,imp:6313,cpc:12.19,cost:2035.77,gLeads:2},
-  {d:'2026-05-20',ctr:3.44,imp:5239,cpc:13.14,cost:2365.0,gLeads:10},
-  {d:'2026-05-21',ctr:2.94,imp:9095,cpc:10.74,cost:2868.0,gLeads:8},
-  {d:'2026-05-22',ctr:3.77,imp:1273,cpc:41.42,cost:1988.02,gLeads:0},
-  {d:'2026-05-23',ctr:2.93,imp:4945,cpc:13.66,cost:1981.29,gLeads:1},
-  {d:'2026-05-24',ctr:3.13,imp:4476,cpc:14.37,cost:2011.63,gLeads:1},
-  {d:'2026-05-25',ctr:3.48,imp:7377,cpc:7.74,cost:1988.82,gLeads:0},
-  {d:'2026-05-26',ctr:2.29,imp:6057,cpc:13.48,cost:1873.36,gLeads:1},
-  {d:'2026-05-27',ctr:3.15,imp:6385,cpc:10.12,cost:2034.47,gLeads:1},
-  {d:'2026-05-28',ctr:3.27,imp:3577,cpc:15.66,cost:1832.05,gLeads:0},
-  {d:'2026-05-29',ctr:4.9,imp:3840,cpc:10.19,cost:1915.84,gLeads:6},
-  {d:'2026-05-30',ctr:3.55,imp:5190,cpc:12.49,cost:2298.16,gLeads:8},
-  {d:'2026-05-31',ctr:2.85,imp:4674,cpc:12.67,cost:1684.77,gLeads:5},
-  {d:'2026-06-01',ctr:2.55,imp:6700,cpc:14.4,cost:2460.0,gLeads:8},
-  {d:'2026-06-02',ctr:3.09,imp:5920,cpc:13.65,cost:2500.0,gLeads:10},
-  {d:'2026-06-03',ctr:2.21,imp:6280,cpc:15.88,cost:2210.0,gLeads:6},
-  {d:'2026-06-04',ctr:2.3,imp:3950,cpc:23.16,cost:2110.0,gLeads:4}
-];
+const RAW_DES_ADS = [];
 
 // ═══════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════
-const RAW_SOCIAL = [
-  {period:'04-04-2026 to 10-04-2026',fb:234830,ig:564487,yt:6700,li:8872,posts:2,paid:0,paidAmt:0},
-  {period:'11-04-2026 to 17-04-2026',fb:247939,ig:1355526,yt:21900,li:25804,posts:2,paid:0,paidAmt:0},
-  {period:'18-04-2026 to 24-04-2026',fb:943947,ig:3705576,yt:947,li:12614,posts:5,paid:5,paidAmt:100000},
-  {period:'25-04-2026 to 30-04-2026',fb:4496085,ig:8464407,yt:1200,li:10160,posts:0,paid:0,paidAmt:0},
-  {period:'01-05-2026 to 07-05-2026',fb:7104304,ig:10965328,yt:1500,li:10546,posts:0,paid:0,paidAmt:30000},
-  {period:'08-05-2026 to 14-05-2026',fb:8274351,ig:10157671,yt:1900,li:12494,posts:2,paid:2,paidAmt:20000},
-  {period:'15-05-2026 to 21-05-2026',fb:5458227,ig:6770406,yt:1400,li:19620,posts:1,paid:1,paidAmt:7500},
-  {period:'22-05-2026 to 28-05-2026',fb:7572450,ig:9477512,yt:2600,li:17567,posts:0,paid:0,paidAmt:0},
-  {period:'29-05-2026 to 04-06-2026',fb:5958613,ig:37219653,yt:2100,li:13176,posts:6,paid:1,paidAmt:7500}
-];
+const RAW_SOCIAL = [];
 
 
 let data = { main: [...RAW_MAIN], engStatus: [...RAW_ENG_STATUS], desStatus: [...RAW_DES_STATUS], walkins: [...RAW_WALKINS], engAds: [...RAW_ENG_ADS], desAds: [...RAW_DES_ADS], social: [...RAW_SOCIAL] };
 const charts = {};
-const filters = { txn: { from:'2026-01-01', to:'2026-06-01' }, bgt: { from:'2026-01-01', to:'2026-06-01' }, eng: { from:'2026-01-01', to:'2026-06-01' }, des: { from:'2026-01-01', to:'2026-06-01' }, cum: { from:'2026-01-01', to:'2026-06-01' }, sm: { from:'2026-01-01', to:'2026-06-01' } };
+const filters = { txn: { from:'2026-03-15', to:'2026-08-06' }, bgt: { from:'2026-03-15', to:'2026-08-06' }, eng: { from:'2026-03-15', to:'2026-08-06' }, des: { from:'2026-03-15', to:'2026-08-06' }, cum: { from:'2026-03-15', to:'2026-08-06' }, sm: { from:'2026-03-15', to:'2026-08-06' } };
 let activeSubs = { eng:'leads', des:'leads', cum:'leads' };
 let activeMain = 'engineering';
 
@@ -4660,7 +3680,6 @@ function switchMain(section) {
   else if (section==='google-leads') renderGLeads();
   else if (section==='eng-gleads') renderEngGLeads();
   else if (section==='des-gleads') renderDesGLeads();
-  else if (section==='admission-status') renderAdmissionStatus();
 }
 
 // Group → first-section mapping
@@ -4753,11 +3772,11 @@ function applyFilter(pfx) {
 
 function setPreset(pfx, preset, el) {
   // Dynamic today capped at latest data date
-  const DATA_LATEST = '2026-06-04';
+  const DATA_LATEST = '2026-08-06';
   const nowStr = new Date().toISOString().slice(0,10);
   const today = nowStr > DATA_LATEST ? DATA_LATEST : nowStr;
 
-  const allFrom = '2025-01-01';
+  const allFrom = '2026-03-15';
   let from;  if (preset === 'month') {
     const d = new Date(); d.setDate(d.getDate() - 30);
     const m = d.toISOString().slice(0,10);
@@ -5397,10 +4416,10 @@ function exportCSV(type) {
 
     // SECTION 31 : TRANSACTIONS
     rows.push(...sep('TRANSACTION UPDATES'));
-    rows.push(['Sr.No','Student Name','Branch','Counsellor','Payment Date','Amount (INR)','Transaction ID','Mode','Verified with Accounts']);
-    fTxn.forEach((r,i) => rows.push([i+1, r.name, r.branch, r.counsellor, r.dDisp, r.amt, r.txnId, r.mode, r.accounts || 'Pending']));
+    rows.push(['Sr.No','Student Name','Branch','Counsellor','Payment Date','Admission Status']);
+    fTxn.forEach((r,i) => rows.push([i+1, r.name, r.branch, r.csl, r.d, r.admStatus]));
     rows.push(blank);
-    rows.push(['Total Students', fTxn.length, '', '', '', 'Total Amount (INR)', fTxn.reduce((a,r)=>a+r.amt,0), '', '']);
+    rows.push(['Total Students', fTxn.length, '', '', 'Confirmed', fTxn.filter(r=>r.admStatus==='Confirmed').length, 'Cancelled', fTxn.filter(r=>r.admStatus==='Cancelled').length]);
 
     // SECTION 32 : BRANDING
     rows.push(...sep('BRANDING ACTIVITIES'));
@@ -5541,61 +4560,13 @@ function exportCSV(type) {
 // COUNSELOR & NOTICES DATA + RENDERERS
 // ═══════════════════════════════════════════
 
-const RAW_COUNSELORS = [
-  {name:'Aarti Koli',pa:8,prov:1},
-  {name:'Amisha Bandiwadekar',pa:6,prov:0},
-  {name:'Chetan Borse',pa:64,prov:10},
-  {name:'Gayatri Sawant',pa:41,prov:0},
-  {name:'Kedar Nalawade',pa:31,prov:0},
-  {name:'Nikita Arukar',pa:69,prov:20},
-  {name:'Nitin Waghode',pa:0,prov:0},
-  {name:'Prajwal Badage',pa:45,prov:0},
-  {name:'Prateeksha Paliwal',pa:68,prov:7},
-  {name:'Pratiksha Bhandwalkar',pa:78,prov:21},
-  {name:'Rishikesh Mhamane',pa:55,prov:0},
-  {name:'Sayali Jadhav',pa:58,prov:14},
-  {name:'Shivani Sarnaik',pa:60,prov:0},
-  {name:'Sonal Varma',pa:55,prov:0},
-  {name:'Tamanna Khandare',pa:47,prov:0},
-  {name:'Tushar Pachpande',pa:72,prov:13},
-  {name:'Usha Sangale',pa:12,prov:0},
-  {name:'Vaibhav Bhong',pa:71,prov:12},
-  {name:'Vaishnavi Hule',pa:66,prov:0},
-  {name:'Vidya Bhalsing',pa:72,prov:20}
-];
+const RAW_COUNSELORS = [];
 // Counselor data covers the full campaign period — no per-day breakdown available
 // Date filter controls which summary period label is shown
 const COUNSELOR_PERIOD_START = '2026-03-15';
 const COUNSELOR_PERIOD_END   = '2026-06-04';
 
-const RAW_NOTICES = [
-  {d:'2025-11-21',category:'CET',programme:'All CET',   title:'Syllabus — Technical 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Syllabus-Technical-2026.pdf'},
-  {d:'2025-11-21',category:'CET',programme:'All CET',   title:'Tentative Schedule CET 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Tentative-Schedule-CET-2026-.pdf'},
-  {d:'2025-12-22',category:'CET',programme:'All CET',   title:'CET Notice Dec 2025',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/2025122218023922122025.pdf'},
-  {d:'2026-01-16',category:'CET',programme:'All CET',   title:'B.Ed Eligibility Criteria 2024',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/B.Ed-EligibilityCriteria24.pdf'},
-  {d:'2026-01-22',category:'CET',programme:'Design',   title:'CET Registration — B.Design CET 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CET-Registration-Notice_B-Design_-CET-2026-1.pdf'},
-  {d:'2026-01-23',category:'CET',programme:'All CET',   title:'SEBC/OBC Caste Validity Extension',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/07.01.2024-SEBC-OBC-Caste-validity-3-months-extension-1.pdf'},
-  {d:'2026-01-24',category:'CET',programme:'All CET',   title:'Notice Regarding Website',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Notice-Regarding-Website.pdf'},
-  {d:'2026-02-12',category:'CET',programme:'All CET',   title:'Aadhaar Authentication Notice',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Adhar-aunthetication-notice12022026.pdf'},
-  {d:'2026-02-17',category:'CET',programme:'All CET',   title:'CET Cell Malpractice Rules',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CET-Cell-Malpractice-Rules.pdf'},
-  {d:'2026-02-20',category:'CET',programme:'Engineering',   title:'CET Registration Final Extension — MHT-CET 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CET-Registration-Final-Extenstion-Notice_-MHT-CET-2026-.pdf'},
-  {d:'2026-02-24',category:'CET',programme:'Design',   title:'CET Registration Final Notice — B.Design CET 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CET-Registration-final-Notice_B-Design_-CET-2026.pdf'},
-  {d:'2026-03-04',category:'CET',programme:'Engineering',   title:'MHT-CET 2026 Edit Facility Notice',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/MHT-CET-2026-Edit-Facility-Notice-.pdf'},
-  {d:'2026-03-08',category:'CET',programme:'Design',   title:'B-Design CET 2026 Edit Facility Notice',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/B-Design-CET-2026-Edit-Facility-Notice.pdf'},
-  {d:'2026-03-16',category:'CET',programme:'All CET',   title:'Public Notice — CET Final Dates 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Public-Notice_CET-final-dates_2026.pdf'},
-  {d:'2026-03-17',category:'CET',programme:'All CET',   title:'Technical Education CET Final Dates 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Technical-Education-CET-final-dates_2026.pdf'},
-  {d:'2026-03-17',category:'CET',programme:'Engineering',   title:'CET Registration Notice MHT-CET 2026 with Late Fees',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CET-Registration-Notice_-MHT-CET-2026-final-with-late-fees-17-03-2026.pdf'},
-  {d:'2026-03-17',category:'CET',programme:'All CET',   title:'Important Notice — Admit Card CET 2026',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Important-Notice-Admit-Card-CET-2026.pdf'},
-  {d:'2026-04-09',category:'CET',programme:'Engineering',   title:'MHT-CET 2026 Result Processing Methodology',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/MHT-CET-2026-Result-Processing-Methodology.pdf'},
-  {d:'2026-04-13',category:'CET',programme:'Engineering',   title:'CET Registration Notice — Second Attempt',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CET-Registration-Notice_-MHT-CET-2026-Second-attempt.pdf'},
-  {d:'2026-04-13',category:'CET',programme:'All CET',   title:'CVC Not Submitted 2024',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/CVC_Notsubmitted_2024.pdf'},
-  {d:'2026-04-15',category:'CET',programme:'All CET',   title:'CVC 2025 Update',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2023/12/Cvc2025up.pdf'},
-  {d:'2026-04-22',category:'CET',programme:'Engineering',   title:'MHT-CET 2026 Registration — 2nd Attempt',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2026/04/Notice-MHT-CET-Registration_2-attempt.pdf'},
-  {d:'2026-04-27',category:'CET',programme:'Engineering',   title:'Public Notice MBA/MHT Second Attempt Exam Date',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2026/04/PUBLIC-NOTICE-for-MBA_MHT_Second-Attmp.-Exam-Date-1.pdf'},
-  {d:'2026-05-12',category:'CET',programme:'Engineering',   title:'OT Notice MHT-CET PCB – First Attempt',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2026/05/OT-Notice-MHT-CET-PCB_first-attempt.pdf'},
-  {d:'2026-05-21',category:'CET',programme:'Engineering',   title:'Objection Notice MHT-CET 2026 – First Attempt',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2026/05/Objection_MHT-CET-2026-First-Attempt_Notice.pdf'},
-  {d:'2026-06-01',category:'CET',programme:'Engineering',   title:'MHT-CET 2026 Second Attempt – Revised Schedule Notice',                                                   link:'https://cetcell.mahacet.org/wp-content/uploads/2026/06/MHT-CET-2026-Second-Attempt-Revised-Schedule.pdf'}
-];
+const RAW_NOTICES = [];
 
 function fmtDateShort(d) {
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -5717,45 +4688,7 @@ function renderNotices() {
   if (countEl) countEl.textContent = filtered.length + ' records';
 }
 
-const RAW_STATES = [
-  {state:'Andaman And Nicobar',total:3,eng:1,des:3},
-  {state:'Andhra Pradesh',total:275,eng:205,des:79},
-  {state:'Arunachal Pradesh',total:12,eng:8,des:4},
-  {state:'Assam',total:218,eng:187,des:36},
-  {state:'Bihar',total:395,eng:173,des:273},
-  {state:'Chandigarh',total:92,eng:82,des:11},
-  {state:'Chhattisgarh',total:147,eng:106,des:57},
-  {state:'Dadra And Nagar Haveli',total:9,eng:4,des:6},
-  {state:'Daman And Diu',total:3,eng:3,des:2},
-  {state:'Delhi',total:1992,eng:1939,des:86},
-  {state:'Goa',total:45,eng:23,des:26},
-  {state:'Gujarat',total:816,eng:652,des:249},
-  {state:'Haryana',total:401,eng:337,des:81},
-  {state:'Himachal Pradesh',total:75,eng:68,des:9},
-  {state:'Jammu And Kashmir',total:79,eng:66,des:17},
-  {state:'Jharkhand',total:211,eng:152,des:74},
-  {state:'Karnataka',total:1039,eng:1060,des:92},
-  {state:'Kerala',total:1667,eng:1642,des:32},
-  {state:'Lakshadweep',total:1,eng:1,des:0},
-  {state:'Madhya Pradesh',total:757,eng:587,des:245},
-  {state:'Maharashtra',total:16411,eng:10467,des:8416},
-  {state:'Manipur',total:11,eng:8,des:3},
-  {state:'Meghalaya',total:17,eng:16,des:1},
-  {state:'Mizoram',total:2,eng:2,des:0},
-  {state:'Nagaland',total:9,eng:9,des:0},
-  {state:'Odisha',total:222,eng:196,des:33},
-  {state:'Puducherry',total:27,eng:27,des:0},
-  {state:'Punjab',total:250,eng:220,des:37},
-  {state:'Rajasthan',total:711,eng:594,des:152},
-  {state:'Sikkim',total:2,eng:1,des:1},
-  {state:'State Not Available',total:1501,eng:955,des:2262},
-  {state:'Tamil Nadu',total:406,eng:1249,des:260},
-  {state:'Telangana',total:12,eng:348,des:79},
-  {state:'Tripura',total:919,eng:7,des:6},
-  {state:'Uttar Pradesh',total:263,eng:672,des:315},
-  {state:'Uttarakhand',total:294,eng:243,des:22},
-  {state:'West Bengal',total:294,eng:228,des:90}
-];
+const RAW_STATES = [];
 
 
 function renderStateWise(tab) {
@@ -5839,18 +4772,7 @@ function renderStateWise(tab) {
 // ═══════════════════════════════════════════
 // BRANDING DATA
 // ═══════════════════════════════════════════
-const RAW_BRANDING = [
-  {d:'2026-02-09',type:'Newspaper Ad',location:'Pudhari',link:'https://drive.google.com/file/d/1USTwUktheUsX_MbCx0TWPVFytzE8fkVt/view?usp=sharing'},
-  {d:'2026-03-15',type:'Hoarding',location:'Campus',link:'https://drive.google.com/file/d/1Pwa791qMUeRWwVnd7nQ2mEVIDmZ5lbBE/view?usp=sharing'},
-  {d:'2026-03-28',type:'Hoarding',location:'Pune, Lohegaon',link:'https://drive.google.com/file/d/1qoRMXoTor8IIEhPSw8aC8aeDUI703k6f/view?usp=sharing'},
-  {d:'2026-03-29',type:'Hoarding',location:'PCMC, Moshi',link:'https://drive.google.com/file/d/1cAifcc1ZROSXEIGrjSC5OqH-X8aKvZVC/view?usp=sharing'},
-  {d:'2026-04-02',type:'Hoarding',location:'Chakan, Nashik Road',link:'https://drive.google.com/file/d/1I_elmKEg-rFMrV88JqnrhCBoIQmpW3d1/view?usp=sharing'},
-  {d:'2026-04-05',type:'Newspaper Ad',location:'Pudhari',link:'https://drive.google.com/file/d/1w0AR0ScKAGW3UpmYcO1DLsd3ivA64LfW/view?usp=sharing'},
-  {d:'2026-04-06',type:'Hoarding',location:'PCMC, Pimple Gurav',link:'https://drive.google.com/file/d/1SiS_7lfl-EI8277wDW7xnIU1XQhB78Ql/view?usp=sharing'},
-  {d:'2026-04-07',type:'Hoarding',location:'PCMC, Kharalwadi',link:'https://drive.google.com/file/d/1trwOx3HdYmx5eFJogeTFa1mCof-jHacc/view?usp=sharing'},
-  {d:'2026-04-08',type:'Newspaper Ad',location:'Pudhari',link:'https://drive.google.com/file/d/19d-rEzYXTESgDZcvH7NPJcmQYXAsMRei/view?usp=drive_link'},
-  {d:'2026-04-20',type:'Hoarding',location:'Campus',link:'https://drive.google.com/file/d/1wG4fft0GvOu11hI6Z5dGftHRDNBHqxLJ/view?usp=sharing'}
-];
+const RAW_BRANDING = [];
 
 function renderBranding() {
   const from = filters.brd.from;
@@ -5966,147 +4888,57 @@ function addNotice() {
 
 
 
-const RAW_TXN = [
-  {sr:'1',name:'Piyush Amol Jadhav',ugpg:'UG',program:'Engineering',branch:'Civil Engineering',gender:'Male',category:'OBC',cet:'CET',csl:'Vaibhav',d:'2026-03-26',amt:100000,txid:'5235975874',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:148},
-  {sr:'2',name:'Aryan Avinash Jadhav',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'CET',csl:'Vaibhav',d:'2026-04-09',amt:100000,txid:'5330654550',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'3',name:'Mohammad Aamil',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'CET',csl:'Pratiksha',d:'2026-04-13',amt:100000,txid:'5356983217',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:75,jee:75.93},
-  {sr:'4',name:'Diksha Rajendra Jadhav',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'CET',csl:'Nikita',d:'2026-04-15',amt:100000,txid:'536352',mode:'Cheque',admStatus:'Cancelled',refundStatus:'Refund Initiated',hsc:null,jee:0.14},
-  {sr:'5',name:'Arnavi Sandip Thavsar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'CET',csl:'Nikita',d:'2026-04-14',amt:100000,txid:'5361663391',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'6',name:'Soham Babasaheb Dighe',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'CET',csl:'Vaibhav',d:'2026-04-15',amt:100000,txid:'610512177566',mode:'NEFT',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:75},
-  {sr:'7',name:'Soumya Dattaraj Parab',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'CET',csl:'Pratiksha',d:'2026-04-17',amt:100000,txid:'5383214747',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:77.8,jee:57.58},
-  {sr:'8',name:'Srushti Sachin Khirid',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'CET',csl:'Usha',d:'2026-04-18',amt:100000,txid:'4186',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:54.83,jee:42.19},
-  {sr:'9',name:'Raj Praveen Dubey',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'CET',csl:'Usha',d:'2026-04-18',amt:100000,txid:'5391033374',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'10',name:'Anirudha Deshpande',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'CET',csl:'Vaibhav',d:'2026-04-17',amt:100000,txid:'11',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'11',name:'siddhi Ashok Unmegh',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'CET',csl:'Vaibhav',d:'2026-04-18',amt:100000,txid:'5391115612',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'12',name:'Shrey Sameer Dighe',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'CET',csl:'Usha',d:'2026-04-20',amt:100000,txid:'5402031173',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:71.46},
-  {sr:'13',name:'Saanvi Sahu',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'CET',csl:'Usha',d:'2026-04-20',amt:100000,txid:'5403491314',mode:'Cashfree',admStatus:'Cancelled',refundStatus:'Refund to be initiated',hsc:null,jee:31.4},
-  {sr:'14',name:'Shaheen Attarwala',ugpg:'UG',program:'Engineering',branch:'Chemical Engineering',gender:'Female',category:'Open',cet:'CET',csl:'Pratiksha',d:'2026-04-21',amt:100000,txid:'5409269553',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:95,jee:null},
-  {sr:'15',name:'rohan Gajanan Gadhave',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'CET',csl:'Pratiksha(P)',d:'2026-04-22',amt:100000,txid:'5416330728',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:72,jee:77.55},
-  {sr:'16',name:'Shambhavee Sameer Rajurkar',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'OMS',cet:'JEE',csl:'Tushar',d:'2026-03-18',amt:100000,txid:'5186158022',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:125},
-  {sr:'17',name:'Daphale Akshata Gunwant',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'SEBC',cet:'JEE',csl:'Chetan',d:'2026-03-23',amt:100000,txid:'5216442407',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:59.33,jee:143},
-  {sr:'18',name:'Swanandi Badgujar',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'Open',cet:'CET',csl:'Aarti',d:'2026-03-25',amt:100000,txid:'4886630418',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'19',name:'Kasturi Anand Patil',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'Open',cet:'CET',csl:'Chetan',d:'2026-03-30',amt:100000,txid:'5259157215',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:69.67,jee:null},
-  {sr:'20',name:'Kesarkar Juili Mahadeo',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'OBC',cet:'CET',csl:'Chetan',d:'2026-03-30',amt:100000,txid:'5259271697',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:80,jee:147},
-  {sr:'21',name:'tanvi pankaj chopda',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'Open',cet:'JEE',csl:'Nikita',d:'2026-03-27',amt:100000,txid:'629050',mode:'RTGS',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'22',name:'Isha Jayesh Dhake',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'OBC',cet:'CET',csl:'Pratiksha',d:'2026-03-30',amt:100000,txid:'5259795110',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'23',name:'Yutika Kalpesh Patil',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'OBC',cet:'JEE',csl:'Vaibhav',d:'2026-03-30',amt:100000,txid:'5259874579',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:73.5,jee:98},
-  {sr:'24',name:'Samhita Samir Kulkarni',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'JEE',csl:'Pratiksha',d:'2026-04-04',amt:100000,txid:'5293192687',mode:'Cashfree',admStatus:'Cancelled',refundStatus:'Refund to be initiated',hsc:null,jee:70.74},
-  {sr:'25',name:'Vaibhavi Sanjeev Dhuri',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'JEE',csl:'Chetan',d:'2026-04-04',amt:100000,txid:'5294522069',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:68},
-  {sr:'26',name:'samira Shakil Mulani',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'JEE',csl:'Nikita',d:'2026-04-07',amt:100000,txid:'5313659826',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:70,jee:71},
-  {sr:'27',name:'Salve srushti rajebhau',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'SC',cet:'CET',csl:'Tushar',d:'2026-04-07',amt:50000,txid:'5315903639',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:68.83,jee:null},
-  {sr:'28',name:'Tanishka Shailesh Sharma',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'open',cet:'UCEED',csl:'Vaibhav',d:'2026-04-07',amt:100000,txid:'5316138029',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:74.17,jee:53.77},
-  {sr:'29',name:'Gunja Das',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'open',cet:'UCEED',csl:'Chetan',d:'2026-04-10',amt:100000,txid:'5331465779',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:149.24},
-  {sr:'30',name:'shraddha chandrasen chavan',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'SEBC',cet:'CET',csl:'Pratiksha',d:'2026-04-13',amt:100000,txid:'5356231654',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:52.35},
-  {sr:'31',name:'Swanand Kulkarni',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Male',category:'open',cet:'CET',csl:'Nikita',d:'2026-04-14',amt:100000,txid:'5364288915',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:61,jee:103},
-  {sr:'32',name:'siddhi yogesh kodarkar',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'',cet:'CET',csl:'Nikita',d:'2026-04-14',amt:100000,txid:'5362419842',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:45},
-  {sr:'33',name:'shravani Jaiprakash Patil',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'OBC',cet:'CET',csl:'Aarti',d:'2026-04-17',amt:100000,txid:'5382554531',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:56.83,jee:41},
-  {sr:'34',name:'Sudiksha.',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'Open',cet:'CET',csl:'Chetan',d:'2026-04-17',amt:100000,txid:'5383385816',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:64.8,jee:60.16},
-  {sr:'35',name:'Shruti Ravikant Mirgane',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'OBC',cet:'CET',csl:'Pratiksha',d:'2026-04-20',amt:100000,txid:'5403565121',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:54.5,jee:null},
-  {sr:'36',name:'vaishanvi Sachin matkar',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'open',cet:'UCEED',csl:'Vaibhav',d:'2026-04-21',amt:100000,txid:'5409303239',mode:'Cashfree',admStatus:'Cancelled',refundStatus:'Refund to be initiated',hsc:59,jee:55},
-  {sr:'37',name:'S KEERTHANA MANASSWINI',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'Open',cet:'UCEED',csl:'Vidya',d:'2026-04-21',amt:100000,txid:'5409851024',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:47.35},
-  {sr:'38',name:'riya sandeep lombar',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'UCEED',csl:'Nikita',d:'2026-04-21',amt:100000,txid:'5409057155',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:45,jee:null},
-  {sr:'39',name:'Patil Aakansha Vijaysinh',ugpg:'PG',program:'Engineering',branch:'Computer Engineering',gender:'Female',category:'NTC',cet:'JEE',csl:'Sayali',d:'2026-03-25',amt:25000,txid:'5229111610',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:60.31,jee:null},
-  {sr:'40',name:'sharwari nanaware',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'',cet:'CET',csl:'Nikita',d:'2026-04-22',amt:100000,txid:'5416382315',mode:'Cashfree',admStatus:'Cancelled',refundStatus:'Refund to be initiated',hsc:null,jee:null},
-  {sr:'41',name:'Aryan Mutke',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'CET',csl:'Vidya',d:'2026-04-23',amt:100000,txid:'5422759098',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:8},
-  {sr:'42',name:'Nisarga Sonune',ugpg:'UG',program:'Design',branch:'Product Design',gender:'',category:'',cet:'CET',csl:'Chetan',d:'2026-04-24',amt:100000,txid:'5425063133',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'43',name:'aditi dere',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'CET',csl:'Prateeksha',d:'2026-04-27',amt:100000,txid:'5449197226',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:66.61},
-  {sr:'44',name:'ved siddharth sonawane',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Male',category:'OBC',cet:'CET',csl:'Prateeksha',d:'2026-04-27',amt:100000,txid:'5449666290',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:116.66},
-  {sr:'45',name:'Trupti vaibhav Mohite',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'Open',cet:'CET',csl:'Vaibhav',d:'2026-04-27',amt:100000,txid:'5450630464',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:83.33,jee:73.45},
-  {sr:'46',name:'Parth Pankaj Bhamre',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'CET',csl:'Sayali',d:'2026-04-28',amt:100000,txid:'5456900345',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:77.67,jee:null},
-  {sr:'47',name:'Aditi Nanaso Phadatare',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'CET',csl:'Sayali',d:'2026-04-28',amt:100000,txid:'5449666291',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:74,jee:null},
-  {sr:'48',name:'Sudarshan Surajkumar Pawar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'CET',csl:'Pratiksha',d:'2026-04-28',amt:100000,txid:'5458126698',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:83.22},
-  {sr:'49',name:'Trushna Karpe',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'OBC',cet:'CET',csl:'Aarti',d:'2026-04-29',amt:100000,txid:'5458126692',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'50',name:'Drrishya jayadev',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Nikita',d:'2026-04-29',amt:100000,txid:'5465153360',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:77.9},
-  {sr:'51',name:'Komal upadhyay',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'',cet:'No',csl:'',d:'2026-05-02',amt:100000,txid:'5487027561',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:34.74},
-  {sr:'52',name:'Swara pravin tapkir',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-02',amt:100000,txid:'5488263670',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:56,jee:null},
-  {sr:'53',name:'Anushka Ajay Bhosale',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Sayali',d:'2026-05-04',amt:100000,txid:'5501933194',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:56,jee:null},
-  {sr:'54',name:'Prajwal jagtap',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Nikita',d:'2026-04-28',amt:100000,txid:'5456946747',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:63,jee:null},
-  {sr:'55',name:'Prathamesh Mukesh Gole',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-04-30',amt:100000,txid:'57736',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:78,jee:58},
-  {sr:'56',name:'Swayam Tushar Satpute',ugpg:'UG',program:'Engineering',branch:'Mechanical Engineering',gender:'Male',category:'OPen',cet:'Appeared',csl:'Sayali',d:'2026-04-30',amt:50000,txid:'5471443171',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:53.33,jee:59.04},
-  {sr:'57',name:'Praveen Murugesan Pillai',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-01',amt:100000,txid:'941471',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:49.1},
-  {sr:'58',name:'Aditi Balkrishna Kadam',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Vidya',d:'2026-05-04',amt:100000,txid:'5500882243',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:63,jee:null},
-  {sr:'59',name:'Yetiksha Ravindranath Patil',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Tushar',d:'2026-05-04',amt:100000,txid:'5501362809',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:77.83,jee:78.73},
-  {sr:'60',name:'Anjeleena deen',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OPEN',cet:'Appeared',csl:'Pratiksha(P)',d:'2026-05-04',amt:100000,txid:'5502417801',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:52,jee:null},
-  {sr:'61',name:'Diya Dhiraj Deshpande',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'open',cet:'Appeared',csl:'Vaibhav',d:'2026-05-04',amt:100000,txid:'5502120097',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'62',name:'Karyappa Anushka Adinath',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'open',cet:'Appeared',csl:'Chetan',d:'2026-05-04',amt:100000,txid:'',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:68.33,jee:74},
-  {sr:'63',name:'Aditya Ganesh Polekar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'open',cet:'Appeared',csl:'Pratiksha(P)',d:'2026-05-05',amt:100000,txid:'5510542532',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:55,jee:null},
-  {sr:'64',name:'Mayank Manoj Bhosale',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-05',amt:100000,txid:'5510984573',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:58.17,jee:14.24},
-  {sr:'65',name:'Srushti Dhananjay Nemade',ugpg:'UG',program:'Engineering',branch:'E & Tc Engineering',gender:'Female',category:'OBC',cet:'Appeared',csl:'Vaibhav',d:'2026-05-06',amt:100000,txid:'5517563116',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:55.33,jee:70.38},
-  {sr:'66',name:'Anvita Ganesh Kanade',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'SC',cet:'Appeared',csl:'Tushar',d:'2026-05-06',amt:100000,txid:'612614142117',mode:'IMPS',admStatus:'Confirmed',refundStatus:'',hsc:47.33,jee:49.22},
-  {sr:'67',name:'Shivaraj Mahadev Ligade',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-07',amt:100000,txid:'5526479770',mode:'Cashfree',admStatus:'Cancelled',refundStatus:'Refund to be initiated',hsc:66.5,jee:25.02},
-  {sr:'68',name:'Abhay Bhagwan Adhav',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Sayali',d:'2026-05-08',amt:100000,txid:'5532437608',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:75.83,jee:41.05},
-  {sr:'69',name:'Samruddhi Ganesh Kshirsagar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-07',amt:100000,txid:'5527456054',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:83.86},
-  {sr:'70',name:'Arya Ajit',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'OMS',cet:'No',csl:'Vidya',d:'2026-05-07',amt:100000,txid:'5525881697',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:61,jee:null},
-  {sr:'71',name:'Sardesai saee Vishvesh',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Aarti',d:'2026-05-08',amt:100000,txid:'5532404166',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:77,jee:null},
-  {sr:'72',name:'Archismaan Vadanagekar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Vidya',d:'2026-05-11',amt:100000,txid:'5553756108',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:86.28},
-  {sr:'73',name:'Sanskruti Alpesh Shinde',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-11',amt:100000,txid:'390066',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:69.67,jee:null},
-  {sr:'74',name:'Jainab Dastagir Sayyad',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Sayali',d:'2026-05-11',amt:100000,txid:'5554835959',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:74.33,jee:42.48},
-  {sr:'75',name:'aabha amar kumar',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Nikita',d:'2026-05-11',amt:100000,txid:'5553797749',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:68,jee:59.77},
-  {sr:'76',name:'Angel pia thapa',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-11',amt:100000,txid:'5553991986',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:100.4},
-  {sr:'77',name:'Saumya sagar pasalkar',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-05-12',amt:100000,txid:'5559869261',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:null},
-  {sr:'78',name:'Reehan Raju Patel',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Chetan',d:'2026-05-12',amt:100000,txid:'Cash',mode:'Cash Deposit',admStatus:'Confirmed',refundStatus:'',hsc:67,jee:166},
-  {sr:'79',name:'Divya Pradeep Dangale',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Chetan',d:'2026-05-12',amt:100000,txid:'5561143463',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:66,jee:168},
-  {sr:'80',name:'Swara Ganesh Ranganekar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Chetan',d:'2026-05-12',amt:100000,txid:'5562889327',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:64,jee:146},
-  {sr:'81',name:'Tasneem Nairahamad Sayyad',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Sayali',d:'2026-05-12',amt:100000,txid:'5563054372',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:54,jee:157},
-  {sr:'82',name:'Ashwini Sujit Patil',ugpg:'PG',program:'Engineering',branch:'Computer Engineering',gender:'Female',category:'OBC',cet:'Yes',csl:'Sayali',d:'2026-05-12',amt:25000,txid:'5561049680',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:74,jee:null},
-  {sr:'83',name:'Advait Mahesh Lohokare',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Vidya',d:'2026-05-15',amt:100000,txid:'5582421348',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:65,jee:167},
-  {sr:'84',name:'ADHISH ASHISH NAIK',ugpg:'UG',program:'Engineering',branch:'Chemical Engineering',gender:'Male',category:'Open/OMS',cet:'NA',csl:'Tushar',d:'2026-05-15',amt:100000,txid:'CNRBH00132265859',mode:'Bank Transfer',admStatus:'Confirmed',refundStatus:'',hsc:71,jee:202},
-  {sr:'85',name:'Arpita Nanda',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open/OMS',cet:'Appeared',csl:'Usha',d:'2026-05-16',amt:100000,txid:'5590336920',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:77.4,jee:201},
-  {sr:'86',name:'Vedant Mahesh Yadav',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Usha',d:'2026-05-16',amt:100000,txid:'5591670065',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:52.5,jee:153},
-  {sr:'87',name:'Sanskar Subhash dalvi',ugpg:'UG',program:'Engineering',branch:'E & Tc Engineering',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vaibhav',d:'2026-05-16',amt:100000,txid:'5590742421',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:73,jee:196},
-  {sr:'88',name:'ARUN RAGHU PARUTHARAYIL',ugpg:'UG',program:'Design',branch:'Communication Design',gender:'Male',category:'Open',cet:'Appeared',csl:'Chetan',d:'2026-05-15',amt:100000,txid:'5583047922',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:58,jee:null},
-  {sr:'89',name:'Tanishka Vinayak Borude',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Sayali',d:'2026-05-18',amt:100000,txid:'5604061480',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:66.5,jee:188},
-  {sr:'90',name:'Vanshika Laxmi',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'No',csl:'Vidya',d:'2026-05-16',amt:100000,txid:'5592458745',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:71.8,jee:61},
-  {sr:'91',name:'diishaa kumar gaurav ghodpage',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'No',csl:'Nikita',d:'2026-05-21',amt:100000,txid:'5626805836',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:135},
-  {sr:'92',name:'Devanshu Rushikesh Zope',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-05-21',amt:100000,txid:'303574',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:62.17,jee:137},
-  {sr:'93',name:'Aum Patel',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OMS',cet:'Appeared',csl:'Vidya',d:'2026-05-21',amt:100000,txid:'5625882400',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:59.5,jee:154},
-  {sr:'94',name:'Auti om Satish',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'open',cet:'Appeared',csl:'Vaibhav',d:'2026-05-21',amt:100000,txid:'5626151096',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:73.4,jee:204},
-  {sr:'95',name:'Eashan Vijay Pawar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'',cet:'Appeared',csl:'Pratiksha(P)',d:'2026-05-23',amt:100000,txid:'5640228059',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:63,jee:44},
-  {sr:'96',name:'Prajyot Shivaji Patil',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Pratiksha(P)',d:'2026-05-23',amt:100000,txid:'5639915866',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:61,jee:null},
-  {sr:'97',name:'Arvind Anil Nair',ugpg:'UG',program:'Engineering',branch:'Mechanical Engineering',gender:'Male',category:'Open',cet:'No',csl:'Sayali',d:'2026-05-25',amt:100000,txid:'5653394671',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:82,jee:54.91},
-  {sr:'98',name:'ISHAN SUHAS SHETE',ugpg:'UG',program:'Engineering',branch:'Mechanical Engineering',gender:'Male',category:'OBC',cet:'Appeared',csl:'Pratiksha',d:'2026-05-25',amt:100000,txid:'5653312847',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:46.17,jee:56.26},
-  {sr:'99',name:'Aditya Ganesh Ingale',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-05-26',amt:100000,txid:'5660160982',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:73,jee:null},
-  {sr:'100',name:'Sanskruti Bhosale',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Nikita',d:'2026-05-26',amt:100000,txid:'5660717176',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:83,jee:65},
-  {sr:'101',name:'Advait Kiran Mahale',ugpg:'UG',program:'Engineering',branch:'Computer Engineering',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-05-26',amt:100000,txid:'5661406389',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:64.33,jee:91.64},
-  {sr:'102',name:'Aryan Narasimharaju Porandla',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OPEN /OMS',cet:'Appeared',csl:'Pratiksha',d:'2026-05-26',amt:100000,txid:'5661553825',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:68.83,jee:51.53},
-  {sr:'103',name:'Ayushi sanjay bagade',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Pratiksha(P)',d:'2026-05-27',amt:100000,txid:'5666635376',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:57.17,jee:null},
-  {sr:'104',name:'Vedant Pratap Korade',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'SEBC',cet:'Appeared',csl:'Vaibhav',d:'2026-05-28',amt:100000,txid:'5673524377',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:76.33,jee:42},
-  {sr:'105',name:'Sanskruti Pritam Tilekar',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'No',csl:'Sayali',d:'2026-05-25',amt:50000,txid:'5654302113',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:66.17,jee:118.37},
-  {sr:'106',name:'Prathamesh Pramod Sathe',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Nikita',d:'2026-05-29',amt:100000,txid:'',mode:'Bank Transfer',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:77},
-  {sr:'107',name:'Sunidhi Kotwal',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Nikita',d:'2026-05-29',amt:100000,txid:'',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:83,jee:null},
-  {sr:'108',name:'madhura bhong',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Nikita',d:'2026-05-30',amt:100000,txid:'5686944381',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:72,jee:122},
-  {sr:'109',name:'Atharva Rajendrakumar Gunjal',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-06-01',amt:100000,txid:'10910',mode:'Cheque',admStatus:'Confirmed',refundStatus:'',hsc:56.67,jee:62.07},
-  {sr:'110',name:'Hardik Sachin Badhe',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Chetan',d:'2026-06-01',amt:100000,txid:'5701330813',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:64.5,jee:null},
-  {sr:'111',name:'Pragati Govinda Belokar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Sayali',d:'2026-06-01',amt:100000,txid:'5702162939',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:71.67,jee:null},
-  {sr:'112',name:'Yashraj Sanjay Ubale',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Pratiksha',d:'2026-06-01',amt:100000,txid:'5702148881',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:61.17,jee:77.15},
-  {sr:'113',name:'Rudra Anirudha Walekar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-06-01',amt:100000,txid:'5702362110',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:86.17,jee:null},
-  {sr:'114',name:'Andya Nitin Babar',ugpg:'UG',program:'Engineering',branch:'E & Tc Engineering',gender:'Female',category:'Open',cet:'Appeared',csl:'Sayali',d:'2026-06-01',amt:100000,txid:'5703004271',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:68.17,jee:77.57},
-  {sr:'115',name:'Vaibhavi Fitwe',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-06-01',amt:100000,txid:'5702915227',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:84.17,jee:null},
-  {sr:'116',name:'Ruchi Santosh Mansukh',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Pratiksha',d:'2026-06-01',amt:100000,txid:'5702618199',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:77.8,jee:null},
-  {sr:'117',name:'Atharva Hemant Jadhav',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Pratiksha',d:'2026-06-01',amt:100000,txid:'5703404313',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:55.5,jee:null},
-  {sr:'118',name:'Harsh Sanjay Patil',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vaibhav',d:'2026-06-01',amt:100000,txid:'5703401049',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:62.33,jee:null},
-  {sr:'119',name:'Ishika Anand Patil',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Vidya',d:'2026-06-02',amt:100000,txid:'',mode:'Bank Transfer',admStatus:'Confirmed',refundStatus:'',hsc:76.66,jee:null},
-  {sr:'120',name:'Kunal Sanjay gargote',ugpg:'UG',program:'Engineering',branch:'Civil Engineering',gender:'Male',category:'OBC',cet:'Appeared',csl:'Nikita',d:'2026-06-02',amt:100000,txid:'5709744578',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:50.55,jee:56.7},
-  {sr:'121',name:'Shree Vighnahar Lonkar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-06-02',amt:100000,txid:'5709911255',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:55,jee:51},
-  {sr:'122',name:'Vrushank Navnit Bijamwar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Vidya',d:'2026-06-02',amt:100000,txid:'5710161838',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:64.33,jee:null},
-  {sr:'123',name:'Rishita Jain',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'Open',cet:'Appeared',csl:'Pratiksha',d:'2026-06-02',amt:100000,txid:'5710302682',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:81.2,jee:null},
-  {sr:'124',name:'Niyati Anil Panchal',ugpg:'UG',program:'Design',branch:'User Experience Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Nikita',d:'2026-06-02',amt:100000,txid:'5708703633',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:62,jee:163},
-  {sr:'125',name:'Sawani Pradeep Lanjewar',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-06-03',amt:50000,txid:'5717327178',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:93.8,jee:137.45},
-  {sr:'126',name:'shivaranjini hariharan',ugpg:'UG',program:'Design',branch:'Product Design',gender:'Female',category:'Open',cet:'NO',csl:'Vaibhav',d:'2026-06-04',amt:100000,txid:'5726298090',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:null,jee:66},
-  {sr:'127',name:'Talekar Aryan Suryabhan',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-06-03',amt:90000,txid:'5716672030',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:57,jee:30},
-  {sr:'128',name:'Aryan Yogesh Yerolkar',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'Open',cet:'Appeared',csl:'Tushar',d:'2026-06-03',amt:100000,txid:'5717118369',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:58.33,jee:69.18},
-  {sr:'129',name:'Ashvika Vishwanath Bhadane',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Vidya',d:'2026-06-03',amt:90000,txid:'5718658988',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:69.17,jee:28},
-  {sr:'130',name:'Manasvi Lalit Phegade',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Sayali',d:'2026-06-03',amt:100000,txid:'5718747476',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:79,jee:null},
-  {sr:'131',name:'Shivam Dhananjay Dirange',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Male',category:'OBC',cet:'Appeared',csl:'Nikita',d:'2026-06-03',amt:50000,txid:'5718865038',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:81.5,jee:36},
-  {sr:'132',name:'Harshada Anand Pimpale',ugpg:'UG',program:'Engineering',branch:'No Discipline',gender:'Female',category:'OBC',cet:'Appeared',csl:'Nikita',d:'2026-06-03',amt:50000,txid:'5718878247',mode:'Cashfree',admStatus:'Confirmed',refundStatus:'',hsc:82,jee:50}
-];
+const RAW_TXN = [];
+
+function switchTxnTab(tab) {
+  ["all","branch"].forEach(function(p){
+    document.getElementById("txn-panel-"+p).style.display=(p===tab)?"block":"none";
+    var b=document.getElementById("txn-tab-"+p);
+    if(p===tab){b.style.borderColor="#1b2a5c";b.style.background="#1b2a5c";b.style.color="white";b.style.fontWeight="700";}
+    else{b.style.borderColor="#dde2ef";b.style.background="white";b.style.color="#64748b";b.style.fontWeight="600";}
+  });
+  if (tab==='branch') renderTxnBranchAnalysis();
+}
+
+function renderTxnBranchAnalysis() {
+  var tbody = document.getElementById('txn-branch-tbody');
+  if (!tbody) return;
+  var grouped = {}, order = [];
+  RAW_TXN.forEach(function(r){
+    var b = r.branch || 'Unknown';
+    if (!grouped[b]) { grouped[b] = {confirmed:0, cancelled:0}; order.push(b); }
+    if (r.admStatus === 'Cancelled') grouped[b].cancelled++;
+    else grouped[b].confirmed++;
+  });
+  order.sort();
+  var totConf=0, totCanc=0;
+  var rowsHtml = order.map(function(b,i){
+    var g = grouped[b];
+    var received = g.confirmed + g.cancelled;
+    totConf += g.confirmed; totCanc += g.cancelled;
+    var bg = i%2===1 ? 'background:#f8faff;' : '';
+    return '<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">' +
+      '<td style="padding:10px 14px;font-size:13px;font-weight:600;color:#1b2a5c;">'+b+'</td>' +
+      '<td style="padding:10px 14px;text-align:center;font-size:13px;font-weight:700;color:#1b2a5c;">'+received+'</td>' +
+      '<td style="padding:10px 14px;text-align:center;font-size:13px;font-weight:700;color:'+(g.cancelled>0?'#dc2626':'#9ca3af')+';">'+g.cancelled+'</td>' +
+      '<td style="padding:10px 14px;text-align:center;font-size:13px;font-weight:700;color:#059669;">'+g.confirmed+'</td>' +
+      '</tr>';
+  }).join('');
+  var totReceived = totConf + totCanc;
+  rowsHtml += '<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">' +
+    '<td style="padding:10px 14px;font-size:13px;font-weight:700;color:#1b2a5c;">TOTAL</td>' +
+    '<td style="padding:10px 14px;text-align:center;font-size:14px;font-weight:700;color:#1b2a5c;">'+totReceived+'</td>' +
+    '<td style="padding:10px 14px;text-align:center;font-size:14px;font-weight:700;color:#dc2626;">'+totCanc+'</td>' +
+    '<td style="padding:10px 14px;text-align:center;font-size:14px;font-weight:700;color:#059669;">'+totConf+'</td>' +
+    '</tr>';
+  tbody.innerHTML = rowsHtml;
+}
 
 function renderTransactions() {
   const ugpgF    = (document.getElementById('txn-f-ugpg')    ||{}).value||'';
   const programF = (document.getElementById('txn-f-program') ||{}).value||'';
   const branchF  = (document.getElementById('txn-f-branch')  ||{}).value||'';
   const admF     = (document.getElementById('txn-f-adm')     ||{}).value||'';
-  const refundF  = (document.getElementById('txn-f-refund')  ||{}).value||'';
   const hscF     = (document.getElementById('txn-f-hsc')     ||{}).value||'';
   const jeeF     = (document.getElementById('txn-f-jee')     ||{}).value||'';
 
@@ -6138,72 +4970,32 @@ function renderTransactions() {
            (!programF || r.program === programF) &&
            (!branchF  || r.branch  === branchF)  &&
            (!admF     || r.admStatus === admF)   &&
-           (!refundF  || r.cancelStatus === refundF) &&
            hscMatch(r.hsc, hscF) &&
            jeeMatch(r.jee, jeeF);
   });
 
-  const grossAmt   = data.reduce(function(s,r){return s+r.amt;},0);
-  const cancelAmt  = data.filter(function(r){return r.admStatus==='Cancelled';}).reduce(function(s,r){return s+r.amt;},0);
-  const totalAmt   = grossAmt - cancelAmt;
-  const cfCount    = data.filter(function(r){return r.mode==='Cashfree';}).length;
-  const otherCount = data.length - cfCount;
-
-  function fmtAmt(a){
-    var m={100000:'₹1,00,000',75000:'₹75,000',50000:'₹50,000',25000:'₹25,000'};
-    return m[a]||('₹'+a.toLocaleString('en-IN'));
-  }
-  function fmtIndian(n){
-    var s=String(n),l=s.slice(-3),r=s.slice(0,-3);
-    if(!r)return '₹'+l;
-    var parts=[],rem=r;
-    while(rem.length>2){parts.unshift(rem.slice(-2));rem=rem.slice(0,-2);}
-    if(rem)parts.unshift(rem);
-    return '₹'+parts.join(',')+','+l;
-  }
-  function modeBadge(m){
-    if(m==='Cashfree') return 'background:#f0f9ff;color:#0284c7;';
-    if(m==='Cheque')   return 'background:#fce7f3;color:#be185d;';
-    if(m==='NEFT'||m==='RTGS'||m==='IMPS') return 'background:#fef3c7;color:#b45309;';
-    return 'background:#f1f5f9;color:#64748b;';
-  }
-  function examBadge(cet){
-    if(!cet)return '<span style="background:#f1f5f9;color:#64748b;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;">—</span>';
-    var cfg={CET:['dbeafe','1d4ed8'],JEE:['dcfce7','15803d'],UCEED:['ede9fe','6d28d9'],Appeared:['e0f2fe','0369a1']};
-    var up=cet.toUpperCase();
-    var k=cfg[up]?up:(cet.toLowerCase().includes('appear')?'Appeared':null);
-    var c=cfg[k]||['f1f5f9','64748b'];
-    return '<span style="background:#'+c[0]+';color:#'+c[1]+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;">'+(k||cet)+'</span>';
-  }
-  function admBadge(s){
-    if(s==='Confirmed') return 'background:#d1fae5;color:#065f46;';
-    if(s==='Cancelled') return 'background:#fee2e2;color:#b91c1c;';
-    return 'background:#f1f5f9;color:#64748b;';
-  }
   function markCell(v, decimals) {
     if (v===null||v===undefined) return '<span style="color:#cbd5e1;font-size:11px;">—</span>';
     var formatted = v % 1 === 0 ? v.toFixed(0) : v.toFixed(2);
     return '<span style="font-weight:600;color:#1b2a5c;">'+formatted+'</span>';
   }
+  function admBadge(s){
+    if(s==='Cancelled') return 'background:#fee2e2;color:#b91c1c;';
+    return 'background:#d1fae5;color:#065f46;';
+  }
 
   // Update KPI tiles
   var sEl=document.getElementById('txn-kpi-total-students');
-  var aEl=document.getElementById('txn-kpi-total-amount');
-  var cEl=document.getElementById('txn-kpi-cashfree');
-  var oEl=document.getElementById('txn-kpi-other-payments');
   var confEl=document.getElementById('txn-kpi-confirmed-admissions');
   var cancEl=document.getElementById('txn-kpi-cancelled-admissions');
   if(sEl)    sEl.textContent=data.length;
-  if(aEl)    aEl.textContent=fmtIndian(totalAmt);
-  if(cEl)    cEl.textContent=cfCount;
-  if(oEl)    oEl.textContent=otherCount;
   if(confEl) confEl.textContent=data.filter(function(r){return r.admStatus==='Confirmed';}).length;
   if(cancEl) cancEl.textContent=data.filter(function(r){return r.admStatus==='Cancelled';}).length;
 
   var tbody=document.getElementById('txn-tbody');
   if(!tbody)return;
   if(!data.length){
-    tbody.innerHTML='<tr><td colspan="17" style="text-align:center;padding:40px;color:#9ba4bb;">No records match the selected filters</td></tr>';
+    tbody.innerHTML='<tr><td colspan="13" style="text-align:center;padding:40px;color:#9ba4bb;">No records match the selected filters</td></tr>';
     return;
   }
 
@@ -6221,68 +5013,14 @@ function renderTransactions() {
       '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.cet2)+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+(r.csl||'—')+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;white-space:nowrap;">'+r.d+'</td>' +
-      '<td style="padding:9px 10px;font-size:12px;font-weight:600;color:#059669;text-align:right;">'+fmtAmt(r.amt)+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#4b5568;font-family:monospace;">'+(r.txid||'—')+'</td>' +
-      '<td style="padding:9px 10px;"><span style="'+modeBadge(r.mode)+'font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;">'+r.mode+'</span></td>' +
       '<td style="padding:9px 10px;text-align:center;"><span style="'+admBadge(r.admStatus)+'font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;">'+(r.admStatus||'—')+'</span></td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:'+(r.cancelStatus?'#b91c1c':'#9ba4bb')+';text-align:center;">'+(r.cancelStatus||'—')+'</td>' +
       '</tr>';
   }).join('');
 }
 
 
 
-const RAW_BUDGET = [
-  {sr:1,school:'MITAOE',desc:'Meritto (No Paper Form) - Meritto Engagement & Transaction System',d:'2026-04-01',vendor:'Meritto',head:'Communications',poNum:'225-A/25-26/MKTG',invNum:'NPF 25-26/ST5980',poAmt:236000.0,advance:null,thisExp:236000.0},
-  {sr:2,school:'MITAOE',desc:'Ralecon IT ConsuldtingSEO Activities Monthly',d:'2026-04-02',vendor:'Ralecon',head:'Organic Paid',poNum:'',invNum:'',poAmt:991200.0,advance:null,thisExp:991200.0},
-  {sr:3,school:'MITAOE',desc:'Virallens Advertising -Socail Media Post and Response Management',d:'2026-04-04',vendor:'Ralecon',head:'Paid Social',poNum:'',invNum:'',poAmt:177000.0,advance:null,thisExp:177000.0},
-  {sr:4,school:'MITAOE',desc:'Falcon Enterprises- Soft Board Print',d:'2026-04-07',vendor:'Falcon',head:'Stationary & Printing',poNum:'Open PO',invNum:'199',poAmt:null,advance:2446.0,thisExp:2446.0},
-  {sr:5,school:'MITAOE',desc:'Falcon Enterprises- On campus flex printing and pasting',d:'2026-04-07',vendor:'Falcon',head:'Stationary & Printing',poNum:'Open PO',invNum:'198',poAmt:null,advance:14514.0,thisExp:14514.0},
-  {sr:6,school:'MITAOE',desc:'Falcon Enterprises- Hoarding Banner',d:'2026-04-07',vendor:'Falcon',head:'Stationary & Printing',poNum:'Open PO',invNum:'197',poAmt:null,advance:7434.0,thisExp:7434.0},
-  {sr:7,school:'MITAOE',desc:'Prachity Publicity- HR Recuritment Ad',d:'2026-04-09',vendor:'Prachiti',head:'Hr Recuritment Ad',poNum:'1/26-27/MKTG',invNum:'027/26-27',poAmt:1327133.0,advance:null,thisExp:1327133.0},
-  {sr:8,school:'MITAOE',desc:'Twine Communication- 05 Outdoor Hoardings',d:'2026-04-10',vendor:'Twine Communcation',head:'Branding',poNum:'',invNum:'',poAmt:551100.0,advance:null,thisExp:551100.0},
-  {sr:9,school:'MITAOE',desc:'Google India Pvt. Ltd - New PO for the FY 2026-27',d:'2026-04-10',vendor:'Google India',head:'Paid Google',poNum:'',invNum:'',poAmt:6300000.0,advance:null,thisExp:6300000.0},
-  {sr:10,school:'MITAOE',desc:'Prachity Publicity- HR Recuritment Ad',d:'13-042026',vendor:'Prachiti',head:'Hr Recuritment Ad',poNum:'236-A/25-26/MKTG',invNum:'2021/25-26',poAmt:82215.0,advance:null,thisExp:82215.0},
-  {sr:11,school:'MITAOE',desc:'Meritto (No Paper Form) - Meritto Engagement & Transaction System',d:'13-042026',vendor:'Meritto',head:'Communications',poNum:'225-A/25-26/MKTG',invNum:'NPF26-27/ST00144',poAmt:null,advance:null,thisExp:null},
-  {sr:12,school:'MITAOE',desc:'Prerit Singh - Guest Blogs',d:'2026-04-17',vendor:'Prerit Singh',head:'Organic Paid',poNum:'96-A/25-26/MKTG',invNum:'Invoice No. 11',poAmt:128400.0,advance:null,thisExp:128400.0},
-  {sr:13,school:'MITAOE',desc:'Bembale Enterprises- Drone Arrangement for Hostel Shoot',d:'2026-04-17',vendor:'Bembale Enterprises',head:'Branding',poNum:'Invoice',invNum:'0020/2026',poAmt:null,advance:5000.0,thisExp:5000.0},
-  {sr:14,school:'MITAOE',desc:'Wari Art- Paid Advertising strategy& Planning + Branding',d:'2026-04-20',vendor:'Wari Art',head:'Branding',poNum:'',invNum:'WA/25-26/023 + 028',poAmt:1652000.0,advance:null,thisExp:1652000.0},
-  {sr:15,school:'MITAOE',desc:'Pushpam Consultancy and Solutions Pvt. Ltd',d:'2026-04-13',vendor:'Pushpam Consultancy',head:'Branding',poNum:'4/26-27/MKTG',invNum:'',poAmt:71980.0,advance:null,thisExp:71980.0},
-  {sr:16,school:'MITAOE',desc:'Carvia Pixels- Ganesh Dattatray Ambrale (received from Baner Office for Campus Shoot )',d:'2026-04-27',vendor:'Carvia Pixels',head:'Branding',poNum:'',invNum:'No. 315,316, 307 & 308',poAmt:null,advance:90000.0,thisExp:90000.0},
-  {sr:17,school:'MITAOE',desc:'Ralecon IT ConsuldtingSEO Activities Monthly- Kothrud Office',d:'2026-04-28',vendor:'Ralecon',head:'Organic Paid',poNum:'',invNum:'INV 25-26-006282',poAmt:null,advance:88500.0,thisExp:88500.0},
-  {sr:18,school:'MITAOE',desc:'Meta Account Social Media Campaign - Kothrud Office , PO Awaited',d:'2026-04-29',vendor:'Meta',head:'Social Paid',poNum:'',invNum:'',poAmt:null,advance:226154.0,thisExp:226154.0},
-  {sr:19,school:'MITAOE',desc:'Travel Advance for Education Expo Participation- raised by Dr. Prafulla Hatte Sir',d:'2026-04-30',vendor:'Travel Advance',head:'Travelling Expenses',poNum:'',invNum:'',poAmt:null,advance:50000.0,thisExp:50000.0},
-  {sr:20,school:'MITAOE',desc:'Times Education Expo - Pune',d:'2026-05-07',vendor:'Times Of India',head:'Education Expo',poNum:'',invNum:'',poAmt:401180.0,advance:null,thisExp:401180.0},
-  {sr:21,school:'MITAOE',desc:'Pudhari- Edu Disha Exhibition',d:'2026-05-07',vendor:'Pudhari',head:'Education Expo',poNum:'',invNum:'',poAmt:299250.0,advance:null,thisExp:299250.0},
-  {sr:22,school:'MITAOE',desc:'Falcon Enterprises Stall Set Up for Pune + PCMC',d:'2026-05-07',vendor:'Falcon',head:'Stall Setup',poNum:'',invNum:'',poAmt:47672.0,advance:null,thisExp:47672.0},
-  {sr:23,school:'MITAOE',desc:'Sakal Education Expo- PCMC + Pune',d:'2026-05-07',vendor:'Sakal Media',head:'Education Expo',poNum:'',invNum:'',poAmt:604888.0,advance:null,thisExp:604888.0},
-  {sr:24,school:'MITAOE',desc:'Falcon Enterprises Stall Set Up for Time of India Education Expo',d:'2026-05-07',vendor:'Falcon',head:'Stall Setup',poNum:'',invNum:'',poAmt:19140.0,advance:null,thisExp:19140.0},
-  {sr:25,school:'MITAOE',desc:'Upstreax Media Solutions - Table Top LED Display',d:'2026-05-14',vendor:'Upstreax Media',head:'Stall Setup',poNum:'',invNum:'',poAmt:null,advance:5310.0,thisExp:5310.0},
-  {sr:26,school:'MITAOE',desc:'Wari Art- Paid Advertising strategy& Planning + Branding (Audio Visual Equipment)',d:'2026-05-15',vendor:'Wari Art',head:'Branding',poNum:'',invNum:'WA/25-26/013',poAmt:null,advance:236000.0,thisExp:236000.0},
-  {sr:27,school:'MITAOE',desc:'Meritto (No Paper Form) - Additional User License',d:'2026-05-19',vendor:'Meritto',head:'Counselling',poNum:'168/25-26/MKTG',invNum:'NPF-26-27/ST00333',poAmt:null,advance:28320.0,thisExp:28320.0},
-  {sr:28,school:'MITAOE',desc:'Prerit Singh - Guest Blogs',d:'2026-05-19',vendor:'Prerit Singh',head:'SEO Activities',poNum:'96-A/25-26/MKTG',invNum:'Invoice no. 12',poAmt:null,advance:21400.0,thisExp:21400.0},
-  {sr:29,school:'MITAOE',desc:'Infoedge India Pvt Ltd (Shiksha.com) Engg Campaign',d:'2026-05-19',vendor:'Info Edge',head:'Lead Generation',poNum:'229/25-26/MKTG',invNum:'',poAmt:null,advance:227150.0,thisExp:227150.0},
-  {sr:30,school:'MITAOE',desc:'Pathfinder Publishing Pvt. Ltd',d:'2026-05-19',vendor:'Pathfinder',head:'Lead Generation',poNum:'',invNum:'',poAmt:null,advance:197000.0,thisExp:197000.0},
-  {sr:31,school:'MITAOE',desc:'Travel Advance for Education Expo Participation- raised by Dr. Prafulla Hatte Sir',d:'2026-05-22',vendor:'Travel Advance',head:'Education Expo',poNum:'',invNum:'',poAmt:null,advance:30000.0,thisExp:30000.0},
-  {sr:32,school:'MITAOE',desc:'Wari Art Tax Invoice -Events/Convention Organisation Services',d:'2026-05-25',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/05/26-27/21',poAmt:null,advance:944000.0,thisExp:944000.0},
-  {sr:33,school:'MITAOE',desc:'Ralecon IT ConsuldtingSEO Activities Monthly',d:'2026-05-25',vendor:'Ralecon',head:'SEO Activities',poNum:'238-A/25-26/MKTG',invNum:'INV-26-27-000144',poAmt:null,advance:165200.0,thisExp:165200.0},
-  {sr:34,school:'MITAOE',desc:'Wari Art Tax Invoice -Events/Convention Organisation Services',d:'2026-05-26',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/05/26-27/16',poAmt:null,advance:708000.0,thisExp:708000.0},
-  {sr:35,school:'MITAOE',desc:'Ralecon IT Consulting Services Pvt. Ltd - Kothrud Office',d:'2026-05-27',vendor:'Ralecon',head:'SEO Activities',poNum:'',invNum:'INV-26-27-000064',poAmt:null,advance:88500.0,thisExp:88500.0},
-  {sr:36,school:'MITAOE',desc:'Ralecon IT Consulting Services Pvt. Ltd - Kothrud Office',d:'2026-05-27',vendor:'Ralecon',head:'SEO Activities',poNum:'',invNum:'INV-26-27-000065',poAmt:null,advance:88500.0,thisExp:88500.0},
-  {sr:37,school:'MITAOE',desc:'Wari Art - Seminar Hall Booking + Stage Set Up',d:'2026-05-27',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/25-26/017',poAmt:null,advance:236000.0,thisExp:236000.0},
-  {sr:38,school:'MITAOE',desc:'Wari Art - Seminar Hall Booking + Stage Set Up',d:'2026-05-27',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/25-26/004',poAmt:null,advance:236000.0,thisExp:236000.0},
-  {sr:39,school:'MITAOE',desc:'Wari Art-AV Equipment + Furniture & Seating Arrangements',d:'2026-05-27',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/25-26/008',poAmt:null,advance:236000.0,thisExp:236000.0},
-  {sr:40,school:'MITAOE',desc:'Priya Dilip Jain- Content Work for Hostel Brochure',d:'2026-05-27',vendor:'Priya Jain',head:'Content Work',poNum:'48/25-26/MKTG',invNum:'PO 28-25-26MKTG',poAmt:null,advance:4000.0,thisExp:4000.0},
-  {sr:41,school:'MITAOE',desc:'Wari Art - Seminar Hall Booking + Stage Set Up',d:'2026-05-27',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/25-26/004',poAmt:null,advance:236000.0,thisExp:236000.0},
-  {sr:42,school:'MITAOE',desc:'Wari Art-AV Equipment + Furniture & Seating Arrangements',d:'2026-05-27',vendor:'Wari Art',head:'Events Activities',poNum:'',invNum:'WA/25-26/008',poAmt:null,advance:236000.0,thisExp:236000.0},
-  {sr:43,school:'MITAOE',desc:'Priya Dilip Jain- Content Work for Hostel Brochure',d:'2026-05-27',vendor:'Priya Jain',head:'Content Work',poNum:'48/25-26/MKTG',invNum:'PO 28-25-26MKTG',poAmt:null,advance:4000.0,thisExp:4000.0},
-  {sr:44,school:'MITAOE',desc:'Google India Pvt. Ltd - Engineering',d:'2026-06-02',vendor:'Google Paid',head:'Paid Campaign',poNum:'243-B/25-26/MKTG',invNum:'5594935673',poAmt:null,advance:2791018.29,thisExp:2791018.29},
-  {sr:45,school:'MITAOE',desc:'Google India Pvt. Ltd - Design',d:'2026-06-02',vendor:'Google Paid',head:'Paid Campaign',poNum:'243-B/25-26/MKTG',invNum:'5594448773',poAmt:null,advance:103363.59,thisExp:103363.59},
-  {sr:46,school:'MITAOE',desc:'Google G Suite MIT India - April Month raised by Nitish Chitkara',d:'2026-06-02',vendor:'Google India',head:'G Suite',poNum:'',invNum:'',poAmt:null,advance:12718.0,thisExp:12718.0},
-  {sr:47,school:'MITAOE',desc:'Meta Account Social Media Campaign - raised by Nitish Chitkara',d:'2026-06-02',vendor:'Meta',head:'Meta',poNum:'',invNum:'',poAmt:null,advance:3020.0,thisExp:3020.0}
-];
-
-// RAW_ENG_SCORE declared below in rendering script block
+const RAW_BUDGET = [];
 
 function renderBudget() {
   var from = filters.bgt ? filters.bgt.from : '', to = filters.bgt ? filters.bgt.to : '';
@@ -6340,15 +5078,15 @@ function renderBudget() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  filters.txn = { from: '2026-01-01', to: '2026-06-04' };
-  filters.bgt = { from: '2025-01-01', to: '2026-06-04' };
-  filters.eng.from = '2025-01-01'; filters.eng.to = '2026-06-04';
-  filters.des.from = '2025-01-01'; filters.des.to = '2026-06-04';
-  filters.cum.from = '2025-01-01'; filters.cum.to = '2026-06-04';
-  filters.sm.from = '2025-01-01'; filters.sm.to = '2026-06-04';
-  filters.brd = { from: '2025-01-01', to: '2026-06-04' };
-  filters.csr = { from: '2025-01-01', to: '2026-06-04' };
-  filters.ntc = { from: '2025-01-01', to: '2026-06-04' };
+  filters.txn = { from: '2026-03-15', to: '2026-08-06' };
+  filters.bgt = { from: '2026-03-15', to: '2026-08-06' };
+  filters.eng.from = '2026-03-15'; filters.eng.to = '2026-08-06';
+  filters.des.from = '2026-03-15'; filters.des.to = '2026-08-06';
+  filters.cum.from = '2026-03-15'; filters.cum.to = '2026-08-06';
+  filters.sm.from = '2026-03-15'; filters.sm.to = '2026-08-06';
+  filters.brd = { from: '2026-03-15', to: '2026-08-06' };
+  filters.csr = { from: '2026-03-15', to: '2026-08-06' };
+  filters.ntc = { from: '2026-03-15', to: '2026-08-06' };
 
   // ── Wire GROUP TABS (top-level nav) ─────────────────────
   document.querySelectorAll('.main-tab[data-group]').forEach(btn => {
@@ -6465,8 +5203,57 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   switchGroup('overview');
   renderTransactions();
+  renderTxnBranchAnalysis();
   renderBudget();
 });
+</script>
+<button id="dl-btn" title="Download shareable snapshot" onclick="downloadDash()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+  Download Dashboard
+</button>
+<script>
+function downloadDash(){
+  var btn=document.getElementById('dl-btn');
+  btn.textContent='Preparing...';btn.disabled=true;
+  fetch('/dashboard_share.html?_='+Date.now())
+    .then(function(r){return r.blob();})
+    .then(function(blob){
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='MIT_Admissions_Dashboard_2026-08-06.html';
+      document.body.appendChild(a);a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      btn.innerHTML='&#10003; Downloaded';
+      setTimeout(function(){
+        btn.disabled=false;
+        btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download Dashboard';
+      },2500);
+    })
+    .catch(function(){
+      btn.textContent='Error – try again';btn.disabled=false;
+    });
+}
+</script>
+<script>
+(function(){
+  var _ver=null;
+  function check(){
+    fetch('/version.json?_='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(_ver===null){_ver=d.v;}
+        else if(d.v!==_ver){location.reload();}
+      }).catch(function(){});
+  }
+  setInterval(check,10000);
+  check();
+})();
 </script>
 </body>
 </html>

@@ -22,8 +22,8 @@ if _IN_CLOUD:
 else:
     # Running locally
     EXCEL_FILE    = Path(r"C:\Users\guruv\Dropbox\Admission Dashboard\Masterdata File.xlsx")
-    HTML_TEMPLATE = Path(r"C:\Users\guruv\Desktop\Office\Automate\Complete admissions_dashboard.html")
-    OUTPUT_HTML   = Path(r"C:\Users\guruv\Desktop\Office\Admission Dashboard\dashboard.html")
+    HTML_TEMPLATE = Path(r"C:\Users\guruv\OneDrive\Desktop\Office\Automate\Complete admissions_dashboard.html")
+    OUTPUT_HTML   = Path(r"C:\Users\guruv\OneDrive\Desktop\Office\Admission Dashboard\dashboard.html")
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -365,102 +365,52 @@ def parse_budget(rows, start):
 
 
 def parse_transactions(rows, start):
-    """Transaction updates (updated column layout — 2 new cols inserted at positions 3-4).
-    Excel cols: Sr.No | Name | Branch | Remark | Fees Type | Contact | Parent Contact | Email |
-                Gender | Category | HSC | PCM | JEE | CET 1 | CET 2 |
-                Caution Fees | Counselor | Date | Amount | UTR/UPI | Mode | UG/PG | Program |
-                Checked with Accounts | Admission Status | Refund Status
+    """Transaction updates (column layout as of Sep 2026 — 3rd revision).
+    Amount is back (col 20); UG/PG was replaced by Program (Engineering/Design,
+    col 21) plus a new Campus column (Main/Off, col 22); Remark is blank again,
+    so admission status (Confirmed/Cancelled) can no longer be derived from it —
+    left as "" (unknown) rather than guessed, pending clarification on where that
+    now lives. Sr.No is still not reliably populated, so rows are read until Name
+    is blank, not until Sr.No runs out.
+    Excel cols: Sr.No | Name | Branch | Remark | Fees type | Contact | Parent contact |
+                Email | Gender | Category | HSC | JEE | CET 1 | CET 2 | PCM |
+                EN Number | Highest | Caution | Counselor | Date | Amount | Program | Campus
     """
     data = []
-    for r in rows[start + 2:]:
-        if r[0] is None or not isinstance(r[0], (int, float)):
+    for i, r in enumerate(rows[start + 2:]):
+        if r[1] is None:
             break
-        date_val = r[17]
+        date_val = r[19]
         if isinstance(date_val, datetime):
             ds = fmt_date(date_val)
         else:
             ds = fmt_date(date_val) or safe_str(date_val)
-        fees_type = safe_str(r[4])
-        jee_raw   = r[12]
-        jee_val   = null_or_num(jee_raw)
         data.append({
-            "sr":           safe_str(r[0]),
-            "name":         safe_str(r[1]),
-            "branch":       safe_str(r[2]),
-            "remark":       safe_str(r[3]),
-            "feesType":     fees_type,
-            "gender":       safe_str(r[8]),
-            "category":     safe_str(r[9]),
-            "hsc":          null_or_num(r[10]),
-            "pcm":          null_or_num(r[11]),
-            "jee":          jee_val,
-            "cet1":         null_or_num(r[13]),
-            "cet2":         null_or_num(r[14]),
-            "csl":          safe_str(r[16]),
-            "d":            ds,
-            "amt":          safe_num(r[18]),
-            "txid":         safe_str(r[19]),
-            "mode":         safe_str(r[20]),
-            "ugpg":         safe_str(r[21]),
-            "program":      safe_str(r[22]),
-            "admStatus":    safe_str(r[24]),
-            "refundStatus": safe_str(r[25]) if len(r) > 25 and r[25] else "",
+            "sr":        str(i + 1),
+            "name":      safe_str(r[1]),
+            "branch":    safe_str(r[2]),
+            "remark":    safe_str(r[3]),
+            # As of Sep 2026 the Remark column no longer carries status — every
+            # row currently in the sheet is a confirmed admission; cancellations
+            # will be reintroduced (via Remark or a new column) at a later date.
+            "admStatus": "Confirmed",
+            "feesType":  safe_str(r[4]),
+            "gender":    safe_str(r[8]),
+            "category":  safe_str(r[9]),
+            "hsc":       null_or_num(r[10]),
+            "jee":       null_or_num(r[11]),
+            "cet1":      null_or_num(r[12]),
+            "cet2":      null_or_num(r[13]),
+            "pcm":       null_or_num(r[14]),
+            "enNumber":  safe_str(r[15]),
+            "highest":   null_or_num(r[16]),
+            "caution":   safe_str(r[17]),
+            "csl":       safe_str(r[18]),
+            "d":         ds,
+            "amt":       null_or_num(r[20]),
+            "program":   safe_str(r[21]),
+            "campus":    safe_str(r[22]) if len(r) > 22 else "",
         })
-    return data
-
-
-def parse_mitaoe_admission_status(rows, start):
-    """MITAOE Admission Status section.
-    Excel cols: Branch | IL Intake (A) | ACAP Vacancy prev yr (B) |
-                Vacancy Against Cancellation prev yr (C) | Total (A+B+C) |
-                Admissions as on 25th June | Vacant
-    """
-    data = []
-    for r in rows[start + 2:]:
-        if r[0] is None:
-            break
-        branch = safe_str(r[0]).strip()
-        if not branch:
-            break
-        data.append({
-            "branch":    branch,
-            "ilIntake":  safe_num(r[1]),
-            "capVac":    safe_num(r[2]),
-            "cancVac":   safe_num(r[3]),
-            "total":     safe_num(r[4]),
-            "admitted":  safe_num(r[5]),
-            "vacant":    safe_num(r[6]),
-        })
-    return data
-
-
-def parse_city_breakdown(rows, s_score):
-    """City-wise provisional admissions (Design + Engineering).
-    The city table starts after the score section bands — find the row where col 0 = 'City'.
-    Reads until 'Grand Total' row.
-    Returns list of {city, design, eng, total} dicts, plus a TOTAL entry.
-    """
-    # Find the City header row (col 0 == 'City') within 20 rows of s_score
-    city_header = None
-    for i in range(s_score, s_score + 25):
-        if rows[i][0] is not None and str(rows[i][0]).strip().lower() == "city":
-            city_header = i
-            break
-    if city_header is None:
-        return []
-
-    data = []
-    total = {"city": "Grand Total", "design": 0, "eng": 0, "total": 0}
-    for r in rows[city_header + 1:]:
-        if r[0] is None:
-            break
-        city = safe_str(r[0]).strip()
-        if city.lower() == "grand total":
-            total = {"city": "Grand Total", "design": safe_num(r[1]), "eng": safe_num(r[2]), "total": safe_num(r[3])}
-            break
-        data.append({"city": city, "design": safe_num(r[1]), "eng": safe_num(r[2]), "total": safe_num(r[3])})
-
-    data.append(total)
     return data
 
 
@@ -483,199 +433,6 @@ def parse_leads_vs_prov(rows, start):
             "untouched": safe_num(r[4]) if len(r) > 4 and r[4] is not None else 0,
         })
     return data
-
-
-def parse_eng_score_analysis(rows, s_score):
-    """Score Analysis of Provisional Admissions (B.Tech Engineering).
-    Stored in the SAME rows as Design score analysis but in columns 5-8:
-      col 5 = label (Above 90 / 81-90 / ... / Awaiting Result / Total)
-      col 6 = JEE & CET count        → key 'cu'
-      col 7 = Only JEE count         → key 'uu'
-      col 8 = Awaiting Results count → key 'oc'
-    Up to 8 bands followed by Total Provisional Admissions row.
-    """
-    bands = []
-    # Read up to 10 rows; stop when label is None or contains "total"
-    for r in rows[s_score + 2: s_score + 12]:
-        label = r[5]
-        if label is None:
-            break
-        if "total" in safe_str(label).lower():
-            break
-        cu  = safe_num(r[6]) if isinstance(r[6], (int, float)) else 0
-        uu  = safe_num(r[7]) if isinstance(r[7], (int, float)) else 0
-        oc  = safe_num(r[8]) if isinstance(r[8], (int, float)) else 0
-        bands.append({"label": safe_str(label), "cu": cu, "uu": uu, "oc": oc})
-
-    # Find Total row (first row after bands whose col 5 contains "total")
-    total_row = None
-    for r in rows[s_score + 2: s_score + 15]:
-        if r[5] is not None and "total" in safe_str(r[5]).lower():
-            total_row = r
-            break
-
-    if total_row:
-        kpi_cu = safe_num(total_row[6])
-        kpi_uu = safe_num(total_row[7])
-        kpi_oc = safe_num(total_row[8]) if isinstance(total_row[8], (int, float)) else 0
-    else:
-        kpi_cu = sum(b["cu"] for b in bands)
-        kpi_uu = sum(b["uu"] for b in bands)
-        kpi_oc = sum(b["oc"] for b in bands)
-
-    kpi_total = kpi_cu + kpi_uu + kpi_oc
-    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc, "total": kpi_total})
-    return bands
-
-
-def parse_score_analysis(rows, start):
-    """Score Analysis of Provisional Admissions (Design).
-    Excel layout:
-      start+0 : section header
-      start+1 : col headers  (Scores | CET & UCEED | Only UCEED | Only CET)
-      start+2 : Above 100
-      start+3 : 75-100
-      start+4 : 50-75
-      start+5 : Below 50
-      start+6 : Total Provisional Admissions
-    """
-    band_rows = rows[start + 2 : start + 6]   # 4 score bands
-    total_row = rows[start + 6] if len(rows) > start + 6 else None
-
-    bands = []
-    for r in band_rows:
-        if r[0] is None:
-            break
-        cu  = safe_num(r[1]) if r[1] not in (None, 'NA', 'N/A') else None
-        uu  = safe_num(r[2]) if r[2] not in (None, 'NA', 'N/A') else None
-        oc  = safe_num(r[3]) if r[3] not in (None, 'NA', 'N/A') else None
-        bands.append({"label": safe_str(r[0]), "cu": cu, "uu": uu, "oc": oc})
-
-    if total_row:
-        kpi_cu    = safe_num(total_row[1])
-        kpi_uu    = safe_num(total_row[2])
-        kpi_oc    = safe_num(total_row[3])
-    else:
-        kpi_cu = sum(b["cu"] or 0 for b in bands)
-        kpi_uu = sum(b["uu"] or 0 for b in bands)
-        kpi_oc = sum(b["oc"] or 0 for b in bands)
-
-    kpi_total = kpi_cu + kpi_uu + kpi_oc
-    bands.append({"label": "TOTAL", "cu": kpi_cu, "uu": kpi_uu, "oc": kpi_oc, "total": kpi_total})
-    return bands
-
-
-def patch_score_analysis(html, data):
-    """Replace hardcoded Score Analysis numbers in the static HTML section."""
-    MARKER = "<!-- ============ SCORE ANALYSIS ============ -->"
-    sec_start = html.find(MARKER)
-    if sec_start == -1:
-        print("  [Score Analysis] Section marker not found — skipping patch")
-        return html
-
-    # Find end of section (next HTML comment block or </section>)
-    sec_end = html.find("</section>", sec_start)
-    if sec_end == -1:
-        sec_end = len(html)
-    else:
-        sec_end += len("</section>")
-
-    section = html[sec_start:sec_end]
-    kpi   = data["kpi"]
-    bands = data["bands"]  # [Above100, 75-100, 50-75, Below50]
-
-    # ── KPI cards: each has a unique color on line-height:1; ─────────────────
-    def repl_kpi(color, val, s):
-        pat = rf'(color:{re.escape(color)};line-height:1;">)\d+(<)'
-        return re.sub(pat, lambda m: f"{m.group(1)}{val}{m.group(2)}", s, count=1)
-
-    section = repl_kpi("#1a56db", kpi["cu"],    section)   # CET & UCEED
-    section = repl_kpi("#7c3aed", kpi["uu"],    section)   # Only UCEED
-    section = repl_kpi("#059669", kpi["oc"],    section)   # Only CET
-    section = repl_kpi("#1b2a5c", kpi["total"], section)   # Total
-
-    # ── Table data rows: replace each band in order ──────────────────────────
-    def fmt_val(v):
-        return str(int(v)) if v is not None else "N/A"
-
-    for band in bands:
-        label = band["label"]
-        cu_s  = fmt_val(band["cu"])
-        uu_s  = fmt_val(band["uu"])
-        oc_s  = fmt_val(band["oc"])
-
-        # Find this band's label in the section
-        lbl_idx = section.find(f'>{label}<')
-        if lbl_idx == -1:
-            continue
-
-        # From label position, find the next 3 table cells and replace numbers
-        after = section[lbl_idx:]
-
-        def replace_cell(text, color_hint, new_val, occurrence=1):
-            # Match td with font-size:22px (data cells) or italic N/A cell
-            pat = r'(<td[^>]*>)(<span[^>]*>[^<]*</span>|[^<]+)(</td>)'
-            count = [0]
-            def replacer(m):
-                count[0] += 1
-                if count[0] == occurrence:
-                    inner = m.group(2).strip()
-                    if inner.lstrip('-').isdigit() or inner == 'N/A':
-                        return m.group(1) + new_val + m.group(3)
-                return m.group(0)
-            return re.sub(pat, replacer, text, count=10)
-
-        # Simpler: replace the 3 numeric td's right after the label row
-        # Find the </tr> after the label, then the next <tr>
-        row_end = after.find('</tr>')
-        if row_end == -1:
-            continue
-        next_row_start = after.find('<tr', row_end)
-        if next_row_start == -1:
-            continue
-        next_row_end   = after.find('</tr>', next_row_start) + len('</tr>')
-        row_html = after[next_row_start:next_row_end]
-
-        # Replace values: first numeric td → cu, second → uu, third → oc
-        vals = [cu_s, uu_s, oc_s]
-        val_idx = [0]
-        def cell_replacer(m):
-            inner = m.group(2).strip()
-            if (inner.lstrip('-').isdigit() or inner == 'N/A') and val_idx[0] < 3:
-                new = vals[val_idx[0]]
-                val_idx[0] += 1
-                return m.group(1) + new + m.group(3)
-            return m.group(0)
-
-        new_row = re.sub(r'(<td[^>]*>)([^<]+)(</td>)', cell_replacer, row_html)
-        after = after[:next_row_start] + new_row + after[next_row_end:]
-        section = section[:lbl_idx] + after
-
-    # ── Total row: replace the 3 totals in the last summary row ──────────────
-    total_marker = ">Total Provisional Admissions<"
-    t_idx = section.find(total_marker)
-    if t_idx != -1:
-        after_total = section[t_idx:]
-        t_row_end   = after_total.find('</tr>')
-        if t_row_end != -1:
-            t_next_start = after_total.find('<tr', t_row_end)
-            if t_next_start != -1:
-                t_next_end = after_total.find('</tr>', t_next_start) + len('</tr>')
-                t_row_html = after_total[t_next_start:t_next_end]
-                vals2 = [str(kpi["cu"]), str(kpi["uu"]), str(kpi["oc"])]
-                vi = [0]
-                def total_replacer(m):
-                    inner = m.group(2).strip()
-                    if inner.lstrip('-').isdigit() and vi[0] < 3:
-                        new = vals2[vi[0]]; vi[0] += 1
-                        return m.group(1) + new + m.group(3)
-                    return m.group(0)
-                new_t_row = re.sub(r'(<td[^>]*>)([^<]+)(</td>)', total_replacer, t_row_html)
-                after_total = after_total[:t_next_start] + new_t_row + after_total[t_next_end:]
-                section = section[:t_idx] + after_total
-
-    print(f"  Score Analysis patched — CET+UCEED:{kpi['cu']}  OnlyUCEED:{kpi['uu']}  OnlyCET:{kpi['oc']}  Total:{kpi['total']}")
-    return html[:sec_start] + section + html[sec_end:]
 
 
 # ── inject helpers ────────────────────────────────────────────────────────────
@@ -718,14 +475,11 @@ def generate():
     s_states  = find_section(rows, "State-wise Leads")
     s_budget  = find_section(rows, "Budget Analysis")
     s_txn     = find_section(rows, "Transaction updates")
-    s_score   = find_section(rows, "Score Analysis of Provisional Admissions")
     try:
         s_lvp = find_section(rows, "Leads vs Provisional admissions")
     except ValueError:
         s_lvp = None
         print("  [INFO] 'Leads vs Provisional admissions' section not found — skipping")
-    s_adm_st  = find_section(rows, "MITAOE Admission Status")
-    # Engineering score analysis is in cols 5-7 of the same rows as Design (no separate section header)
 
     print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
     print(f"  DesAds={s_des_ads}  Walkins={s_walkins}  Social={s_social}  Branding={s_branding}")
@@ -746,13 +500,8 @@ def generate():
     states       = parse_states(rows, s_states)
     budget       = parse_budget(rows, s_budget)
     transactions  = parse_transactions(rows, s_txn)
-    score_data    = parse_score_analysis(rows, s_score)
     leads_vs_prov = parse_leads_vs_prov(rows, s_lvp) if s_lvp is not None else []
-    eng_score     = parse_eng_score_analysis(rows, s_score)   # cols 5-7 of same rows as Design
-    adm_status    = parse_mitaoe_admission_status(rows, s_adm_st)
-    city_data     = parse_city_breakdown(rows, s_score)
-    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Eng Score: {len(eng_score)-1} bands  JEE+CET:{eng_score[-1]['cu']}  OnlyJEE:{eng_score[-1]['uu']}  Awaiting:{eng_score[-1]['oc']}  Total:{eng_score[-1]['total']}")
-    print(f"  City breakdown: {len(city_data)-1} cities")
+    print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Transactions: {len(transactions)} rows")
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
     data_latest  = dates[-1] if dates else datetime.today().strftime("%Y-%m-%d")
@@ -784,12 +533,6 @@ def generate():
     html = replace_raw(html, "RAW_BUDGET",     budget)
     html = replace_raw(html, "RAW_TXN",           transactions)
     html = replace_raw(html, "RAW_LEADS_VS_PROV", leads_vs_prov)
-    html = replace_raw(html, "RAW_ENG_SCORE",     eng_score)
-
-    # ── Inject Design Score Analysis (same flat-list format as RAW_ENG_SCORE) ──
-    html = replace_raw(html, "RAW_DESIGN_SCORE", score_data)
-    html = replace_raw(html, "RAW_CITY",         city_data)
-    html = replace_raw(html, "RAW_ADMISSION_STATUS", adm_status)
 
     # Update DATA_LATEST everywhere
     html = re.sub(
