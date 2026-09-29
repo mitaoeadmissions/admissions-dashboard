@@ -1583,8 +1583,8 @@ th.th-num { text-align: right; }
       <!-- Transaction Filters -->
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding:14px 16px;background:#f8faff;border-radius:10px;border:1px solid #e2e8f0;">
         <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#475569;font-weight:600;">&#128269; Filters:</div>
-        <select id="txn-f-ugpg" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
-          <option value="">All UG/PG</option><option value="UG">UG</option><option value="PG">PG</option>
+        <select id="txn-f-campus" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
+          <option value="">All Campus</option><option value="Main">Main</option><option value="Off">Off Campus</option>
         </select>
         <select id="txn-f-program" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
           <option value="">All Programs</option><option value="Engineering">Engineering</option><option value="Design">Design</option>
@@ -1616,14 +1616,14 @@ th.th-num { text-align: right; }
         <select id="txn-f-adm" onchange="renderTransactions()" style="padding:6px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;color:#475569;background:#fff;cursor:pointer;">
           <option value="">All Admission Status</option><option value="Confirmed">Confirmed</option><option value="Cancelled">Cancelled</option>
         </select>
-        <button onclick="document.querySelectorAll('#txn-f-ugpg,#txn-f-program,#txn-f-branch,#txn-f-hsc,#txn-f-jee,#txn-f-adm').forEach(function(s){s.value='';});renderTransactions();" style="padding:6px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:11px;color:#7c3aed;background:#f5f3ff;cursor:pointer;font-weight:600;">&#10005; Clear</button>
+        <button onclick="document.querySelectorAll('#txn-f-campus,#txn-f-program,#txn-f-branch,#txn-f-hsc,#txn-f-jee,#txn-f-adm').forEach(function(s){s.value='';});renderTransactions();" style="padding:6px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:11px;color:#7c3aed;background:#f5f3ff;cursor:pointer;font-weight:600;">&#10005; Clear</button>
       </div>
       <table style="width:100%;border-collapse:collapse;">
             <thead>
               <tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">#</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Name</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">UG/PG</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Campus</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Program</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Branch</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">HSC %</th>
@@ -1633,6 +1633,7 @@ th.th-num { text-align: right; }
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">CET 2</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Counsellor</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;">Date</th>
+                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:right;">Amount</th>
                 <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Status</th>
               </tr>
             </thead>
@@ -5129,7 +5130,7 @@ function renderTxnBranchAnalysis() {
 }
 
 function renderTransactions() {
-  const ugpgF    = (document.getElementById('txn-f-ugpg')    ||{}).value||'';
+  const campusF  = (document.getElementById('txn-f-campus')  ||{}).value||'';
   const programF = (document.getElementById('txn-f-program') ||{}).value||'';
   const branchF  = (document.getElementById('txn-f-branch')  ||{}).value||'';
   const admF     = (document.getElementById('txn-f-adm')     ||{}).value||'';
@@ -5160,7 +5161,7 @@ function renderTransactions() {
   }
 
   const data = RAW_TXN.filter(function(r) {
-    return (!ugpgF    || r.ugpg    === ugpgF)    &&
+    return (!campusF  || r.campus  === campusF)  &&
            (!programF || r.program === programF) &&
            (!branchF  || r.branch  === branchF)  &&
            (!admF     || r.admStatus === admF)   &&
@@ -5177,6 +5178,10 @@ function renderTransactions() {
     if(s==='Cancelled') return 'background:#fee2e2;color:#b91c1c;';
     return 'background:#d1fae5;color:#065f46;';
   }
+  function fmtAmt(a){
+    if (a===null||a===undefined) return '—';
+    return '₹'+a.toLocaleString('en-IN');
+  }
 
   // Update KPI tiles
   var sEl=document.getElementById('txn-kpi-total-students');
@@ -5189,7 +5194,7 @@ function renderTransactions() {
   var tbody=document.getElementById('txn-tbody');
   if(!tbody)return;
   if(!data.length){
-    tbody.innerHTML='<tr><td colspan="13" style="text-align:center;padding:40px;color:#9ba4bb;">No records match the selected filters</td></tr>';
+    tbody.innerHTML='<tr><td colspan="14" style="text-align:center;padding:40px;color:#9ba4bb;">No records match the selected filters</td></tr>';
     return;
   }
 
@@ -5197,7 +5202,7 @@ function renderTransactions() {
     return '<tr style="border-bottom:1px solid #f0f2f8;'+(i%2?'background:#f8faff':'')+'">' +
       '<td style="padding:9px 10px;color:#9ba4bb;font-size:11px;text-align:center;">'+r.sr+'</td>' +
       '<td style="padding:9px 10px;font-size:12px;font-weight:500;color:#111827;">'+r.name+'</td>' +
-      '<td style="padding:9px 10px;text-align:center;"><span style="background:'+(r.ugpg==='UG'?'#dbeafe':'#ede9fe')+';color:'+(r.ugpg==='UG'?'#1d4ed8':'#6d28d9')+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;">'+(r.ugpg||'—')+'</span></td>' +
+      '<td style="padding:9px 10px;text-align:center;"><span style="background:'+(r.campus==='Main'?'#dbeafe':'#fef3c7')+';color:'+(r.campus==='Main'?'#1d4ed8':'#b45309')+';font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;">'+(r.campus||'—')+'</span></td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+r.program+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+r.branch+'</td>' +
       '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.hsc)+'</td>' +
@@ -5207,6 +5212,7 @@ function renderTransactions() {
       '<td style="padding:9px 10px;text-align:right;font-size:11px;">'+markCell(r.cet2)+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;">'+(r.csl||'—')+'</td>' +
       '<td style="padding:9px 10px;font-size:11px;color:#4b5568;white-space:nowrap;">'+r.d+'</td>' +
+      '<td style="padding:9px 10px;font-size:12px;font-weight:600;color:#059669;text-align:right;">'+fmtAmt(r.amt)+'</td>' +
       '<td style="padding:9px 10px;text-align:center;"><span style="'+admBadge(r.admStatus)+'font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;">'+(r.admStatus||'—')+'</span></td>' +
       '</tr>';
   }).join('');
