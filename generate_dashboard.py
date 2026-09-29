@@ -365,16 +365,16 @@ def parse_budget(rows, start):
 
 
 def parse_transactions(rows, start):
-    """Transaction updates (column layout as of Sep 2026 — 3rd revision).
+    """Transaction updates (column layout as of Sep 2026 — 4th revision).
     Amount is back (col 20); UG/PG was replaced by Program (Engineering/Design,
-    col 21) plus a new Campus column (Main/Off, col 22); Remark is blank again,
-    so admission status (Confirmed/Cancelled) can no longer be derived from it —
-    left as "" (unknown) rather than guessed, pending clarification on where that
-    now lives. Sr.No is still not reliably populated, so rows are read until Name
-    is blank, not until Sr.No runs out.
+    col 21) plus a new Campus column (Main/Off, col 22); a proper Admission
+    Status column (Confirmed/Cancelled, col 23) has been added back. Sr.No is
+    still not reliably populated, so rows are read until Name is blank, not
+    until Sr.No runs out.
     Excel cols: Sr.No | Name | Branch | Remark | Fees type | Contact | Parent contact |
                 Email | Gender | Category | HSC | JEE | CET 1 | CET 2 | PCM |
-                EN Number | Highest | Caution | Counselor | Date | Amount | Program | Campus
+                EN Number | Highest | Caution | Counselor | Date | Amount | Program |
+                Campus | Admission Status
     """
     data = []
     for i, r in enumerate(rows[start + 2:]):
@@ -390,10 +390,7 @@ def parse_transactions(rows, start):
             "name":      safe_str(r[1]),
             "branch":    safe_str(r[2]),
             "remark":    safe_str(r[3]),
-            # As of Sep 2026 the Remark column no longer carries status — every
-            # row currently in the sheet is a confirmed admission; cancellations
-            # will be reintroduced (via Remark or a new column) at a later date.
-            "admStatus": "Confirmed",
+            "admStatus": safe_str(r[23]) if len(r) > 23 else "",
             "feesType":  safe_str(r[4]),
             "gender":    safe_str(r[8]),
             "category":  safe_str(r[9]),
@@ -411,6 +408,34 @@ def parse_transactions(rows, start):
             "program":   safe_str(r[21]),
             "campus":    safe_str(r[22]) if len(r) > 22 else "",
         })
+    return data
+
+
+def parse_source_table(rows, start):
+    """Generic Source | Engineering | Design | Total table (used for both
+    Sourcewise Leads and Sourcewise Spend — same shape).
+    Returns list of {source, eng, des, total}, with the sheet's own 'Total' row
+    excluded from the list (it's recomputed on the JS side) but returned
+    separately as the second tuple element for convenience.
+    """
+    data = []
+    total_row = None
+    for r in rows[start + 2:]:
+        if r[0] is None:
+            break
+        label = safe_str(r[0]).strip()
+        if label.lower() == "total":
+            total_row = {"source": "Total", "eng": safe_num(r[1]), "des": safe_num(r[2]), "total": safe_num(r[3])}
+            break
+        data.append({"source": label, "eng": safe_num(r[1]), "des": safe_num(r[2]), "total": safe_num(r[3])})
+    if total_row is None:
+        total_row = {
+            "source": "Total",
+            "eng": sum(d["eng"] for d in data),
+            "des": sum(d["des"] for d in data),
+            "total": sum(d["total"] for d in data),
+        }
+    data.append(total_row)
     return data
 
 
@@ -481,6 +506,19 @@ def generate():
         s_lvp = None
         print("  [INFO] 'Leads vs Provisional admissions' section not found — skipping")
 
+    def find_optional(keyword):
+        try:
+            return find_section(rows, keyword)
+        except ValueError:
+            print(f"  [INFO] '{keyword}' section not found — skipping")
+            return None
+
+    s_src_leads = find_optional("Sourcewise Leads")
+    s_src_spend = find_optional("Sourcewise Spend")
+    s_cap       = find_optional("Students Admitted through CAP")
+    s_acap_il   = find_optional("Students Admitted through ACAP & IL")
+    s_ews_tfws  = find_optional("EWS & TFWS Seat")
+
     print(f"  Main={s_main}  EngSt={s_eng_st}  DesSt={s_des_st}  EngAds={s_eng_ads}")
     print(f"  DesAds={s_des_ads}  Walkins={s_walkins}  Social={s_social}  Branding={s_branding}")
     print(f"  Counselors={s_counsel}  Notices={s_notices}  States={s_states}  Budget={s_budget}  TXN={s_txn}")
@@ -501,6 +539,11 @@ def generate():
     budget       = parse_budget(rows, s_budget)
     transactions  = parse_transactions(rows, s_txn)
     leads_vs_prov = parse_leads_vs_prov(rows, s_lvp) if s_lvp is not None else []
+    source_leads  = parse_source_table(rows, s_src_leads) if s_src_leads is not None else []
+    source_spend  = parse_source_table(rows, s_src_spend) if s_src_spend is not None else []
+    cap_admits    = parse_source_table(rows, s_cap)       if s_cap       is not None else []
+    acap_il       = parse_source_table(rows, s_acap_il)   if s_acap_il   is not None else []
+    ews_tfws      = parse_source_table(rows, s_ews_tfws)  if s_ews_tfws  is not None else []
     print(f"  Leads vs Provisional: {len(leads_vs_prov)} rows | Transactions: {len(transactions)} rows")
 
     dates        = sorted([r["d"] for r in main_data if r["d"]])
@@ -533,6 +576,11 @@ def generate():
     html = replace_raw(html, "RAW_BUDGET",     budget)
     html = replace_raw(html, "RAW_TXN",           transactions)
     html = replace_raw(html, "RAW_LEADS_VS_PROV", leads_vs_prov)
+    html = replace_raw(html, "RAW_SOURCE_LEADS", source_leads)
+    html = replace_raw(html, "RAW_SOURCE_SPEND", source_spend)
+    html = replace_raw(html, "RAW_CAP",          cap_admits)
+    html = replace_raw(html, "RAW_ACAP_IL",      acap_il)
+    html = replace_raw(html, "RAW_EWS_TFWS",     ews_tfws)
 
     # Update DATA_LATEST everywhere
     html = re.sub(

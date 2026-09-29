@@ -124,6 +124,7 @@ button, [data-section], [data-group], [data-pfx], [data-apply], [data-preset], [
 .main-tab.txn.active { border-bottom-color: #0284c7; color: #0284c7; }
 .main-tab.inc.active { border-bottom-color: #db2777; color: #db2777; }
 .main-tab.rec.active { border-bottom-color: #64748b; color: #64748b; }
+.main-tab.cnv.active { border-bottom-color: #ea580c; color: #ea580c; }
 .main-tab.active svg, .main-tab:hover svg { opacity: 1; }
 .main-tab.eng.active svg { stroke: var(--accent-eng); }
 .main-tab.des.active svg { stroke: var(--accent-des); }
@@ -136,6 +137,7 @@ button, [data-section], [data-group], [data-pfx], [data-apply], [data-preset], [
 .main-tab.txn.active svg { stroke: #0284c7; }
 .main-tab.inc.active svg { stroke: #db2777; }
 .main-tab.rec.active svg { stroke: #64748b; }
+.main-tab.cnv.active svg { stroke: #ea580c; }
 
 /* ── PAGE BODY ───────────────────────────── */
 .page-body { max-width: 1600px; margin: 0 auto; padding: 32px 40px; }
@@ -619,6 +621,9 @@ th.th-num { text-align: right; }
     <button class="main-tab ntc" data-group="notices">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Notices / Circulars
     </button>
+    <button class="main-tab cnv" data-group="conversion">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><path d="M22 12h-6l-2 9L9 3l-2 9H2"/><path d="M18 3l2 2-2 2"/></svg> Conversion &amp; Analysis
+    </button>
   </div>
 </nav>
 
@@ -694,6 +699,8 @@ th.th-num { text-align: right; }
 </nav>
 
 <nav class="sect-nav-bar" id="grpnav-notices" style="display:none"></nav>
+
+<nav class="sect-nav-bar" id="grpnav-conversion" style="display:none"></nav>
 
 <!-- BODY -->
 <main class="page-body">
@@ -2926,6 +2933,191 @@ th.th-num { text-align: right; }
 
   </script>
 
+  <!-- ============ CONVERSION & ANALYSIS ============ -->
+  <section class="tab-section" id="sec-conversion">
+    <div style="max-width:1400px;margin:0 auto;padding:32px 20px 40px;">
+
+      <div style="margin-bottom:20px;">
+        <h2 style="font-size:20px;font-weight:700;color:#1b2a5c;margin:0 0 4px;">Conversion &amp; Analysis</h2>
+        <div style="font-size:13px;color:#64748b;">Funnel conversion rates, source-wise lead performance, and special-category admissions</div>
+      </div>
+
+      <div id="cnv-kpi" class="kpi-grid" style="margin-bottom:28px;"></div>
+
+      <!-- Source-wise Performance -->
+      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;margin-bottom:24px;">
+        <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
+          <div style="font-size:14px;font-weight:700;color:#1b2a5c;">Source-wise Lead Performance</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:2px;">Leads, spend, and cost per lead by acquisition source</div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;min-width:700px;">
+            <thead>
+              <tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
+                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">Source</th>
+                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1a56db;text-align:center;">Engineering Leads</th>
+                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#7c3aed;text-align:center;">Design Leads</th>
+                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Total Leads</th>
+                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#b45309;text-align:right;">Total Spend</th>
+                <th style="padding:10px 14px;font-size:11px;font-weight:700;color:#059669;text-align:right;">Cost / Lead</th>
+              </tr>
+            </thead>
+            <tbody id="cnv-source-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:24px;">
+        <!-- CAP-wise Admissions -->
+        <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
+          <div style="padding:14px 18px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
+            <div style="font-size:13px;font-weight:700;color:#1b2a5c;">Students Admitted through CAP</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr style="background:#f8faff;border-bottom:1px solid #e2e8f0;">
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">CAP Round</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1a56db;text-align:center;">Engineering</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#7c3aed;text-align:center;">Design</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Total</th>
+            </tr></thead>
+            <tbody id="cnv-cap-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- ACAP & IL Admissions -->
+        <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
+          <div style="padding:14px 18px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
+            <div style="font-size:13px;font-weight:700;color:#1b2a5c;">Students Admitted through ACAP &amp; IL</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr style="background:#f8faff;border-bottom:1px solid #e2e8f0;">
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">Seat Type</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1a56db;text-align:center;">Engineering</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#7c3aed;text-align:center;">Design</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Total</th>
+            </tr></thead>
+            <tbody id="cnv-acapil-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- EWS & TFWS Seats -->
+        <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
+          <div style="padding:14px 18px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);">
+            <div style="font-size:13px;font-weight:700;color:#1b2a5c;">EWS &amp; TFWS Seats</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr style="background:#f8faff;border-bottom:1px solid #e2e8f0;">
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:left;">Seat Type</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1a56db;text-align:center;">Engineering</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#7c3aed;text-align:center;">Design</th>
+              <th style="padding:9px 14px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;">Total</th>
+            </tr></thead>
+            <tbody id="cnv-ewstfws-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+  function renderConversion() {
+    var mainD = typeof RAW_MAIN !== 'undefined' ? RAW_MAIN : [];
+    var txnD  = typeof RAW_TXN  !== 'undefined' ? RAW_TXN  : [];
+    var srcLeads = typeof RAW_SOURCE_LEADS !== 'undefined' ? RAW_SOURCE_LEADS : [];
+    var srcSpend = typeof RAW_SOURCE_SPEND !== 'undefined' ? RAW_SOURCE_SPEND : [];
+
+    var totLeads = mainD.reduce(function(s,r){return s+r.eLeads+r.dLeads;},0);
+    var totPaid  = mainD.reduce(function(s,r){return s+r.ePaid+r.dPaid;},0);
+    var totProv  = mainD.reduce(function(s,r){return s+r.eProv+r.dProv;},0);
+    var confirmed = txnD.filter(function(r){return r.admStatus==='Confirmed';}).length;
+    var cancelled = txnD.filter(function(r){return r.admStatus==='Cancelled';}).length;
+
+    var leadsGrand = srcLeads.find(function(r){return r.source==='Total';}) || {total:0};
+    var spendGrand = srcSpend.find(function(r){return r.source==='Total';}) || {total:0};
+    var totSpend = spendGrand.total || 0;
+    var costPerLead = leadsGrand.total > 0 ? totSpend / leadsGrand.total : 0;
+    var costPerAdm  = confirmed > 0 ? totSpend / confirmed : 0;
+
+    function pct(n, d) { return d > 0 ? ((n/d)*100).toFixed(2)+'%' : '—'; }
+    function inr(n) {
+      if (!n) return '₹0';
+      return '₹' + Math.round(n).toLocaleString('en-IN');
+    }
+
+    kpiCards('cnv-kpi', [
+      {label:'Total Leads', value: fmt(totLeads)},
+      {label:'Total Paid Applications', value: fmt(totPaid)},
+      {label:'Total Provisional Admissions', value: fmt(totProv)},
+      {label:'Confirmed Admissions', value: fmt(confirmed), sub: cancelled+' cancelled'},
+      {label:'Lead → Paid App Conversion', value: pct(totPaid, totLeads)},
+      {label:'Paid App → Provisional Conversion', value: pct(totProv, totPaid)},
+      {label:'Overall Lead → Admission Conversion', value: pct(confirmed, totLeads)},
+      {label:'Total Marketing Spend', value: inr(totSpend)},
+      {label:'Cost per Lead', value: inr(costPerLead)},
+      {label:'Cost per Confirmed Admission', value: inr(costPerAdm)}
+    ], '#ea580c');
+
+    // Source-wise performance: merge leads + spend by source name
+    var byName = {};
+    srcLeads.forEach(function(r){
+      if (r.source === 'Total') return;
+      byName[r.source] = byName[r.source] || {source:r.source, eng:0, des:0, total:0, spend:0};
+      byName[r.source].eng = r.eng; byName[r.source].des = r.des; byName[r.source].total = r.total;
+    });
+    srcSpend.forEach(function(r){
+      if (r.source === 'Total') return;
+      byName[r.source] = byName[r.source] || {source:r.source, eng:0, des:0, total:0, spend:0};
+      byName[r.source].spend = r.total;
+    });
+    var srcRows = Object.values(byName).sort(function(a,b){return b.total-a.total;});
+    var srcTb = document.getElementById('cnv-source-tbody');
+    if (srcTb) {
+      var html = srcRows.map(function(r,i){
+        var cpl = r.total > 0 ? r.spend / r.total : 0;
+        var bg = i%2===1 ? 'background:#f8faff;' : '';
+        return '<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
+          '<td style="padding:9px 14px;font-size:12px;font-weight:600;color:#1b2a5c;">'+r.source+'</td>'+
+          '<td style="padding:9px 14px;text-align:center;font-size:12px;color:#4b5568;">'+fmt(r.eng)+'</td>'+
+          '<td style="padding:9px 14px;text-align:center;font-size:12px;color:#4b5568;">'+fmt(r.des)+'</td>'+
+          '<td style="padding:9px 14px;text-align:center;font-size:13px;font-weight:700;color:#1b2a5c;">'+fmt(r.total)+'</td>'+
+          '<td style="padding:9px 14px;text-align:right;font-size:12px;color:#b45309;">'+inr(r.spend)+'</td>'+
+          '<td style="padding:9px 14px;text-align:right;font-size:12px;font-weight:600;color:#059669;">'+(r.total>0?inr(cpl):'—')+'</td>'+
+          '</tr>';
+      }).join('');
+      html += '<tr style="background:#eef1f9;border-top:2px solid #1b2a5c;">'+
+        '<td style="padding:10px 14px;font-size:12px;font-weight:700;color:#1b2a5c;">Total</td>'+
+        '<td style="padding:10px 14px;text-align:center;font-size:12px;font-weight:700;color:#1b2a5c;">'+fmt(leadsGrand.eng||0)+'</td>'+
+        '<td style="padding:10px 14px;text-align:center;font-size:12px;font-weight:700;color:#1b2a5c;">'+fmt(leadsGrand.des||0)+'</td>'+
+        '<td style="padding:10px 14px;text-align:center;font-size:13px;font-weight:700;color:#1b2a5c;">'+fmt(leadsGrand.total||0)+'</td>'+
+        '<td style="padding:10px 14px;text-align:right;font-size:12px;font-weight:700;color:#b45309;">'+inr(totSpend)+'</td>'+
+        '<td style="padding:10px 14px;text-align:right;font-size:12px;font-weight:700;color:#059669;">'+inr(costPerLead)+'</td>'+
+        '</tr>';
+      srcTb.innerHTML = html;
+    }
+
+    function renderSeatTable(tbodyId, rawArr) {
+      var tb = document.getElementById(tbodyId);
+      if (!tb) return;
+      if (!rawArr.length) { tb.innerHTML = '<tr><td colspan="4" style="padding:20px;text-align:center;color:#9ca3af;font-size:12px;">No data available</td></tr>'; return; }
+      tb.innerHTML = rawArr.map(function(r,i){
+        var isTotal = r.source === 'Total';
+        var bg = isTotal ? 'background:#eef1f9;border-top:2px solid #1b2a5c;' : (i%2===1 ? 'background:#f8faff;' : '');
+        var fw = isTotal ? '700' : '600';
+        return '<tr style="border-bottom:1px solid #f0f2f8;'+bg+'">'+
+          '<td style="padding:9px 14px;font-size:12px;font-weight:'+fw+';color:#1b2a5c;">'+r.source+'</td>'+
+          '<td style="padding:9px 14px;text-align:center;font-size:12px;font-weight:'+fw+';color:#1a56db;">'+fmt(r.eng)+'</td>'+
+          '<td style="padding:9px 14px;text-align:center;font-size:12px;font-weight:'+fw+';color:#7c3aed;">'+fmt(r.des)+'</td>'+
+          '<td style="padding:9px 14px;text-align:center;font-size:12px;font-weight:'+fw+';color:#1b2a5c;">'+fmt(r.total)+'</td>'+
+          '</tr>';
+      }).join('');
+    }
+    renderSeatTable('cnv-cap-tbody',     typeof RAW_CAP      !== 'undefined' ? RAW_CAP      : []);
+    renderSeatTable('cnv-acapil-tbody',  typeof RAW_ACAP_IL  !== 'undefined' ? RAW_ACAP_IL  : []);
+    renderSeatTable('cnv-ewstfws-tbody', typeof RAW_EWS_TFWS !== 'undefined' ? RAW_EWS_TFWS : []);
+  }
+  </script>
+
   <!-- ============ VENDORS ============ -->
 </div><!-- end dept-admissions -->
 
@@ -3680,6 +3872,7 @@ function switchMain(section) {
   else if (section==='google-leads') renderGLeads();
   else if (section==='eng-gleads') renderEngGLeads();
   else if (section==='des-gleads') renderDesGLeads();
+  else if (section==='conversion') renderConversion();
 }
 
 // Group → first-section mapping
@@ -3690,7 +3883,8 @@ const GROUP_SECTIONS = {
   finbudget:     'budget',
   counselorperf: 'counselor',
   averages:     'averages',
-  notices:       'notices'
+  notices:       'notices',
+  conversion:    'conversion'
 };
 
 function switchGroup(groupId) {
@@ -5021,6 +5215,11 @@ function renderTransactions() {
 
 
 const RAW_BUDGET = [];
+const RAW_SOURCE_LEADS = [];
+const RAW_SOURCE_SPEND = [];
+const RAW_CAP = [];
+const RAW_ACAP_IL = [];
+const RAW_EWS_TFWS = [];
 
 function renderBudget() {
   var from = filters.bgt ? filters.bgt.from : '', to = filters.bgt ? filters.bgt.to : '';
@@ -5205,6 +5404,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTransactions();
   renderTxnBranchAnalysis();
   renderBudget();
+  renderConversion();
 });
 </script>
 <button id="dl-btn" title="Download shareable snapshot" onclick="downloadDash()">
