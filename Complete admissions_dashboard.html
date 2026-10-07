@@ -1606,34 +1606,64 @@ th.th-num { text-align: right; }
   <section class="tab-section" id="sec-budget">
     <div style="max-width:1400px;margin:0 auto;padding:32px 20px 40px;">
 
-      <!-- Budget KPI Cards (rendered by JS) -->
-      <div id="bgt-kpi-wrap" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px;"></div>
+      <!-- KPI cards (rendered by JS from live data) -->
+      <div id="bgt-kpi-wrap" class="kpi-grid" style="margin-bottom:18px;"></div>
+
+      <!-- Utilisation bar -->
+      <div class="chart-card" style="margin-bottom:20px;padding:18px 24px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <div class="chart-title" style="margin:0;">Budget Utilisation — FY 2026-27</div>
+          <div id="bgt-util-label" style="font-size:12px;color:var(--text-muted);"></div>
+        </div>
+        <div style="height:16px;background:#eef1f9;border-radius:10px;overflow:hidden;">
+          <div id="bgt-util-bar" style="height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,#1a56db,#7e3af2);transition:width 1s ease;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px;"><span>₹0</span><span id="bgt-util-max"></span></div>
+      </div>
+
+      <!-- Charts -->
+      <div class="chart-row">
+        <div class="chart-card">
+          <div class="chart-title">Spend by Budget Head</div>
+          <div class="chart-subtitle">Top heads by total expenditure</div>
+          <div class="chart-wrap tall"><canvas id="bgt-head-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Monthly Spend &amp; Balance</div>
+          <div class="chart-subtitle">Expenditure per month (bars) and remaining balance at month-end (line)</div>
+          <div class="chart-wrap tall"><canvas id="bgt-month-chart"></canvas></div>
+        </div>
+      </div>
 
       <!-- Budget Register Table -->
-      <div style="background:white;border:1px solid #dde2ef;border-radius:12px;box-shadow:0 1px 4px rgba(27,42,92,0.07);overflow:hidden;">
-        <div style="padding:16px 22px;border-bottom:1px solid #dde2ef;background:linear-gradient(90deg,#eef1f9 0%,#fff 60%);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div class="table-card">
+        <div class="table-header" style="flex-wrap:wrap;gap:10px;">
           <div>
-            <div style="font-size:14px;font-weight:700;color:#1b2a5c;">Budget Register — FY 2026-27</div>
-            <div style="font-size:12px;color:#9ca3af;margin-top:2px;">Budget Allocated: ₹3,00,00,000.00</div>
+            <div class="table-title">Budget Register — FY 2026-27</div>
+            <div class="table-meta" id="bgt-sub"></div>
           </div>
-          <div id="bgt-count-label" style="font-size:12px;color:#9ca3af;"></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <select id="bgt-head-filter" style="padding:6px 10px;border-radius:14px;border:1px solid var(--border);font-size:12px;background:#fff;"><option value="">All budget heads</option></select>
+            <input id="bgt-search" placeholder="Search particulars, vendor, PO…" autocomplete="off" style="padding:6px 14px;border-radius:16px;border:1px solid var(--border);font-size:12px;min-width:220px;outline:none;">
+            <span id="bgt-count-label" class="table-meta"></span>
+          </div>
         </div>
-        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-          <table id="bgt-table" style="width:100%;border-collapse:collapse;min-width:1100px;">
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;max-height:640px;overflow-y:auto;">
+          <table id="bgt-table" style="width:100%;border-collapse:collapse;min-width:1250px;">
             <thead>
               <tr style="background:#eef1f9;border-bottom:2px solid #1b2a5c;">
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;white-space:nowrap;">#</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;white-space:nowrap;">School</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;min-width:220px;">Particulars</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;white-space:nowrap;">Date</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;white-space:nowrap;">Vendor</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;white-space:nowrap;">Budget Head</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;white-space:nowrap;">PO No.</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;white-space:nowrap;">Invoice No.</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1a56db;text-align:right;white-space:nowrap;">PO Amount</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#b45309;text-align:right;white-space:nowrap;">Advance</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#7c3aed;text-align:right;white-space:nowrap;">Total (PO+Adv)</th>
-                <th style="padding:10px 10px;font-size:11px;font-weight:700;color:#1b2a5c;text-align:center;white-space:nowrap;">Status</th>
+                <th data-bs="sr" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;text-align:center;">#</th>
+                <th data-bs="d" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;">Date</th>
+                <th data-bs="desc" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;min-width:240px;">Particulars</th>
+                <th data-bs="vendor" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;">Vendor</th>
+                <th data-bs="head" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;">Budget Head</th>
+                <th style="position:sticky;top:0;background:#eef1f9;">PO No.</th>
+                <th style="position:sticky;top:0;background:#eef1f9;">Invoice No.</th>
+                <th data-bs="poAmt" class="th-num" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;color:#1a56db;">PO Amount</th>
+                <th data-bs="advance" class="th-num" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;color:#b45309;">Advance</th>
+                <th data-bs="thisExp" class="th-num" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;color:#7c3aed;">Expenditure</th>
+                <th data-bs="spent" class="th-num" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;">Spent to Date</th>
+                <th data-bs="balance" class="th-num" style="cursor:pointer;position:sticky;top:0;background:#eef1f9;color:#059669;">Balance</th>
               </tr>
             </thead>
             <tbody id="bgt-tbody"></tbody>
@@ -5662,59 +5692,126 @@ const RAW_CAP = [];
 const RAW_ACAP_IL = [];
 const RAW_EWS_TFWS = [];
 
+var _bgtSort = { k: 'sr', dir: 1 };
 function renderBudget() {
-  var from = filters.bgt ? filters.bgt.from : '', to = filters.bgt ? filters.bgt.to : '';
-  var data = RAW_BUDGET.filter(function(r){ return (!from || r.d >= from) && (!to || r.d <= to); });
-  function fmtN(n) {
-    if (!n || n === 0) return '₹0';
-    var s = String(n), last3 = s.slice(-3), rest = s.slice(0,-3);
-    if (!rest) return '₹' + last3 + '.00';
-    var parts = [], rem = rest;
-    while (rem.length > 2) { parts.unshift(rem.slice(-2)); rem = rem.slice(0,-2); }
-    if (rem) parts.unshift(rem);
-    return '₹' + parts.join(',') + ',' + last3 + '.00';
+  var all = (typeof RAW_BUDGET !== 'undefined' ? RAW_BUDGET : []).slice();
+  var q = ((document.getElementById('bgt-search') || {}).value || '').toLowerCase().trim();
+  var headF = (document.getElementById('bgt-head-filter') || {}).value || '';
+  function inr(n, dec) { return '₹' + (n || 0).toLocaleString('en-IN', { minimumFractionDigits: dec || 0, maximumFractionDigits: dec || 0 }); }
+  function crl(n) { return n >= 1e7 ? '₹' + (n / 1e7).toFixed(2) + ' Cr' : '₹' + (n / 1e5).toFixed(2) + ' L'; }
+  function num(v) { return typeof v === 'number' ? v : 0; }
+
+  // ── totals (whole register, not filtered) ──
+  var alloc = 0;
+  all.forEach(function (r) { if (num(r.alloc) > alloc) alloc = r.alloc; });
+  var poSum = all.reduce(function (s, r) { return s + num(r.poAmt); }, 0);
+  var advSum = all.reduce(function (s, r) { return s + num(r.advance); }, 0);
+  var spent = all.reduce(function (s, r) { return s + num(r.thisExp); }, 0);
+  var lastRow = all.slice().sort(function (a, b) { return a.sr - b.sr; }).pop() || {};
+  if (typeof lastRow.spent === 'number') spent = lastRow.spent;
+  var balance = typeof lastRow.balance === 'number' ? lastRow.balance : alloc - spent;
+  var pctUsed = alloc > 0 ? spent / alloc * 100 : 0;
+  var dates = all.map(function (r) { return r.d; }).filter(Boolean).sort();
+  var span = dates.length ? dates[0] + ' to ' + dates[dates.length - 1] : '';
+
+  kpiCards('bgt-kpi-wrap', [
+    { label: 'Budget Allocated', value: crl(alloc), sub: inr(alloc) },
+    { label: 'Total Spent', value: crl(spent), sub: pctUsed.toFixed(1) + '% of budget used' },
+    { label: 'Balance Budget', value: crl(balance), sub: (100 - pctUsed).toFixed(1) + '% remaining' },
+    { label: 'PO Amount', value: crl(poSum), sub: all.filter(function (r) { return num(r.poAmt) > 0; }).length + ' purchase orders' },
+    { label: 'Advances Paid', value: crl(advSum), sub: all.filter(function (r) { return num(r.advance) > 0; }).length + ' advance payments' },
+    { label: 'Register Entries', value: String(all.length), sub: span }
+  ], '#059669');
+
+  var bar = document.getElementById('bgt-util-bar');
+  if (bar) {
+    bar.style.width = Math.min(100, pctUsed).toFixed(1) + '%';
+    bar.style.background = pctUsed > 90 ? 'linear-gradient(90deg,#d97706,#dc2626)' : pctUsed > 70 ? 'linear-gradient(90deg,#1a56db,#d97706)' : 'linear-gradient(90deg,#1a56db,#7e3af2)';
   }
-  function fmtNz(n) { return n > 0 ? fmtN(n) : '—'; }
-  var budgetAlloc = 30000000;
-  var kpiDefs = [
-    {label:'Budget Allocated',         val:'₹3,00,00,000.00',  color:'#1a56db', bg:'#dbeafe'},
-    {label:'PO Amount',                val:'₹54,20,958.00',    color:'#065f46', bg:'#d1fae5'},
-    {label:'Advance',                  val:'₹1,12,58,528.23',  color:'#b45309', bg:'#fef3c7'},
-    {label:'Total (PO Amount + Adv.)', val:'₹1,66,79,486.23',  color:'#7c3aed', bg:'#ede9fe'},
-    {label:'Balance Budget',           val:'₹1,33,20,513.77',  color:'#059669', bg:'#d1fae5'},
-  ];
-  var kpiWrap = document.getElementById('bgt-kpi-wrap');
-  if (kpiWrap) {
-    kpiWrap.innerHTML = kpiDefs.map(function(k){
-      return '<div style="background:'+k.bg+';border-radius:12px;padding:16px 20px;min-width:168px;flex:1;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">' +
-        '<div style="font-size:10.5px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">'+k.label+'</div>' +
-        '<div style="font-size:18px;font-weight:700;color:'+k.color+';line-height:1.3;word-break:break-all;">'+k.val+'</div>' +
-        '</div>';
-    }).join('');
+  var ul = document.getElementById('bgt-util-label'); if (ul) ul.textContent = inr(spent) + ' spent of ' + inr(alloc) + '  ·  ' + pctUsed.toFixed(1) + '% utilised';
+  var um = document.getElementById('bgt-util-max'); if (um) um.textContent = inr(alloc);
+  var sub = document.getElementById('bgt-sub'); if (sub) sub.textContent = 'Budget received ' + inr(alloc) + (span ? '  ·  ' + span : '');
+
+  // ── charts ──
+  var byHead = {};
+  all.forEach(function (r) { var h = r.head || 'Other'; byHead[h] = (byHead[h] || 0) + num(r.thisExp); });
+  var heads = Object.keys(byHead).sort(function (a, b) { return byHead[b] - byHead[a]; }).slice(0, 10);
+  makeChart('bgt-head-chart', 'bar', heads, [{ label: 'Expenditure (₹)', data: heads.map(function (h) { return byHead[h]; }), backgroundColor: 'rgba(5,150,105,0.75)', borderColor: '#059669', borderWidth: 1, borderRadius: 4 }],
+    { extra: { indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return ' ' + inr(c.parsed.x); } } } } } });
+  var byMonth = {}, balMonth = {};
+  all.slice().sort(function (a, b) { return a.sr - b.sr; }).forEach(function (r) {
+    var m = (r.d || '').slice(0, 7); if (!m) return;
+    byMonth[m] = (byMonth[m] || 0) + num(r.thisExp);
+    if (typeof r.balance === 'number') balMonth[m] = r.balance;
+  });
+  var months = Object.keys(byMonth).sort();
+  var MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  makeChart('bgt-month-chart', 'bar', months.map(function (m) { return MN[+m.slice(5) - 1] + ' ' + m.slice(2, 4); }), [
+    { label: 'Spend (₹)', data: months.map(function (m) { return byMonth[m]; }), backgroundColor: 'rgba(26,86,219,0.7)', borderColor: '#1a56db', borderWidth: 1, borderRadius: 4, order: 2 },
+    { label: 'Balance at month-end (₹)', type: 'line', data: months.map(function (m) { return balMonth[m] === undefined ? null : balMonth[m]; }), borderColor: '#059669', backgroundColor: '#059669', tension: 0.3, pointRadius: 4, order: 1 }
+  ], { yFormat: function (v) { return '₹' + (v / 1e5).toFixed(0) + 'L'; } });
+
+  // ── head filter options (built once) ──
+  var hf = document.getElementById('bgt-head-filter');
+  if (hf && hf.options.length <= 1) {
+    Object.keys(byHead).sort().forEach(function (h) { var o = document.createElement('option'); o.value = h; o.textContent = h; hf.appendChild(o); });
   }
+
+  // ── table ──
+  var data = all.filter(function (r) {
+    if (headF && r.head !== headF) return false;
+    if (q && (r.desc + ' ' + r.vendor + ' ' + r.head + ' ' + r.poNum + ' ' + r.invNum).toLowerCase().indexOf(q) < 0) return false;
+    return true;
+  });
+  var k = _bgtSort.k, d = _bgtSort.dir;
+  data.sort(function (a, b) {
+    var x = a[k], y = b[k];
+    if (x === null || x === undefined || x === '') return 1;
+    if (y === null || y === undefined || y === '') return -1;
+    return (typeof x === 'number' && typeof y === 'number' ? x - y : String(x).localeCompare(String(y))) * d;
+  });
   var tbody = document.getElementById('bgt-tbody');
   if (!tbody) return;
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:40px;color:#9ba4bb;">No data</td></tr>'; return; }
-  var ss2 = function(s){return s==='Paid'?'background:#d1fae5;color:#065f46;':s==='Pending'?'background:#fef3c7;color:#b45309;':'background:#e0f2fe;color:#0369a1;';};
-  tbody.innerHTML = data.map(function(r,i){
-    return '<tr style="border-bottom:1px solid #f0f2f8;'+(i%2?'background:#f8faff':'')+'">' +
-      '<td style="padding:9px 10px;color:#9ba4bb;font-size:12px;text-align:center;">'+r.sr+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#64748b;white-space:nowrap;">'+r.school+'</td>' +
-      '<td style="padding:9px 10px;font-size:12px;color:#111827;font-weight:500;">'+r.particulars+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">'+r.d+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">'+r.vendor+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">'+r.head+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">'+(r.poNum||'—')+'</td>' +
-      '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">'+(r.invNum||'—')+'</td>' +
-      '<td style="padding:9px 10px;font-size:12px;font-weight:600;color:#1a56db;text-align:right;white-space:nowrap;">'+fmtNz(r.poAmt)+'</td>' +
-      '<td style="padding:9px 10px;font-size:12px;font-weight:600;color:#b45309;text-align:right;white-space:nowrap;">'+fmtNz(r.advance)+'</td>' +
-      '<td style="padding:9px 10px;font-size:12px;font-weight:700;color:#7c3aed;text-align:right;white-space:nowrap;">'+fmtNz(r.exp)+'</td>' +
-      '<td style="padding:9px 10px;text-align:center;"><span style="'+ss2(r.status)+'font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;">'+r.status+'</span></td>' +
-      '</tr>';
-  }).join('');
+  function nz(n, col) { return n > 0 ? '<span style="font-weight:600;color:' + col + ';">' + inr(n, 2) + '</span>' : '<span style="color:#cbd5e1;">—</span>'; }
+  function esc(t) { return String(t === null || t === undefined ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  if (!data.length) { tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:40px;color:#9ba4bb;">No entries match</td></tr>'; }
+  else {
+    tbody.innerHTML = data.map(function (r, i) {
+      var low = typeof r.balance === 'number' && alloc > 0 && r.balance / alloc < 0.1;
+      return '<tr style="border-bottom:1px solid #f0f2f8;' + (i % 2 ? 'background:#f8faff' : '') + '">' +
+        '<td style="padding:9px 10px;color:#9ba4bb;font-size:12px;text-align:center;">' + r.sr + '</td>' +
+        '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">' + esc(r.d) + '</td>' +
+        '<td style="padding:9px 10px;font-size:12px;color:#111827;font-weight:500;">' + esc(r.desc) + '</td>' +
+        '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">' + esc(r.vendor) + '</td>' +
+        '<td style="padding:9px 10px;font-size:11px;white-space:nowrap;"><span style="background:#eef1f9;color:#1b2a5c;padding:2px 9px;border-radius:10px;font-weight:600;">' + esc(r.head) + '</span></td>' +
+        '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">' + esc(r.poNum || '—') + '</td>' +
+        '<td style="padding:9px 10px;font-size:11px;color:#475569;white-space:nowrap;">' + esc(r.invNum || '—') + '</td>' +
+        '<td style="padding:9px 10px;font-size:12px;text-align:right;white-space:nowrap;">' + nz(num(r.poAmt), '#1a56db') + '</td>' +
+        '<td style="padding:9px 10px;font-size:12px;text-align:right;white-space:nowrap;">' + nz(num(r.advance), '#b45309') + '</td>' +
+        '<td style="padding:9px 10px;font-size:12px;font-weight:700;color:#7c3aed;text-align:right;white-space:nowrap;">' + inr(num(r.thisExp), 2) + '</td>' +
+        '<td style="padding:9px 10px;font-size:12px;color:#475569;text-align:right;white-space:nowrap;">' + (typeof r.spent === 'number' ? inr(r.spent, 2) : '—') + '</td>' +
+        '<td style="padding:9px 10px;font-size:12px;font-weight:700;text-align:right;white-space:nowrap;color:' + (low ? '#dc2626' : '#059669') + ';">' + (typeof r.balance === 'number' ? inr(r.balance, 2) : '—') + '</td>' +
+        '</tr>';
+    }).join('');
+  }
   var lbl = document.getElementById('bgt-count-label');
-  if (lbl) lbl.textContent = data.length + ' line items';
+  if (lbl) lbl.textContent = data.length + ' of ' + all.length + ' entries' + (data.length ? ' · ' + inr(data.reduce(function (s, r) { return s + num(r.thisExp); }, 0)) : '');
 }
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    var si = document.getElementById('bgt-search'), hf = document.getElementById('bgt-head-filter'), t;
+    if (si) si.addEventListener('input', function () { clearTimeout(t); t = setTimeout(renderBudget, 150); });
+    if (hf) hf.addEventListener('change', renderBudget);
+    document.querySelectorAll('#bgt-table th[data-bs]').forEach(function (th) {
+      th.addEventListener('click', function () {
+        var k = th.getAttribute('data-bs');
+        var asc = (k === 'desc' || k === 'vendor' || k === 'head' || k === 'd' || k === 'sr');
+        _bgtSort = { k: k, dir: _bgtSort.k === k ? -_bgtSort.dir : (asc ? 1 : -1) };
+        renderBudget();
+      });
+    });
+  });
+})();
 
 
 document.addEventListener('DOMContentLoaded', () => {

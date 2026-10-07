@@ -348,7 +348,8 @@ def parse_states(rows, start):
 def parse_budget(rows, start):
     """Budget analysis. Extra blank row after header so data starts at start+4.
     Excel cols: Sr | School | Particulars | Date | Vendor | Budget Head |
-                PO Number | Invoice Number | PO Amount | Advance | This Expenditure | ...
+                PO Number | Invoice Number | PO Amount | Advance | This Expenditure |
+                Budget Allocated | Budget Already Spent | Balance Budget (running)
     Template fields: sr, school, desc, d, vendor, head, poNum, invNum, poAmt, advance, thisExp
     """
     data = []
@@ -360,6 +361,9 @@ def parse_budget(rows, start):
             ds = fmt_date(date_val)
         else:
             ds = fmt_date(date_val) or safe_str(date_val)
+            m = re.match(r"^(\d{1,2})\D*(\d{2})\D*(\d{4})$", ds)      # typos such as "13-042026"
+            if m:
+                ds = f"{m.group(3)}-{m.group(2)}-{int(m.group(1)):02d}"
         data.append({
             "sr":      int(safe_num(r[0])),
             "school":  safe_str(r[1], "MITAOE"),
@@ -372,6 +376,9 @@ def parse_budget(rows, start):
             "poAmt":   null_or_num(r[8]),
             "advance": null_or_num(r[9]),
             "thisExp": null_or_num(r[10]),
+            "alloc":   null_or_num(r[11]) if len(r) > 11 else None,
+            "spent":   null_or_num(r[12]) if len(r) > 12 else None,
+            "balance": null_or_num(r[13]) if len(r) > 13 else None,
         })
     return data
 
