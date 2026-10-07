@@ -12,6 +12,9 @@ from pathlib import Path
 from datetime import datetime
 
 import os as _os
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+import sheet_blocks
 _IN_CLOUD = _os.environ.get("GITHUB_ACTIONS") == "true"
 
 if _IN_CLOUD:
@@ -81,19 +84,28 @@ def title_from_url(url):
 def to_js(obj):
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
 
-def read_rows():
-    """Copy Excel to temp, read all rows, delete temp. Keeps Excel unlocked."""
+MAIN_SHEET_NAMES = ("CRM", "Sheet1")
+
+def read_workbook():
+    """Copy Excel to temp, read every sheet, delete temp. Keeps Excel unlocked.
+    Returns (main_rows, extra_sheets) where extra_sheets is an ordered list of
+    (sheet_name, rows) for every non-main, non-empty sheet."""
     tmp = Path(tempfile.mktemp(suffix=".xlsx"))
     try:
         shutil.copy2(str(EXCEL_FILE), str(tmp))
         wb = openpyxl.load_workbook(str(tmp), read_only=True, data_only=True)
-        ws = wb["Sheet1"]
-        rows = list(ws.iter_rows(values_only=True))
+        sheets = [(ws.title, [tuple(r) for r in ws.iter_rows(values_only=True)]) for ws in wb.worksheets]
         wb.close()
     finally:
         if tmp.exists():
             tmp.unlink()
-    return rows
+    main_name = next((n for n, _ in sheets if n in MAIN_SHEET_NAMES), sheets[0][0])
+    main_rows = next(r for n, r in sheets if n == main_name)
+    extra = [(n, r) for n, r in sheets if n != main_name and any(any(v is not None for v in row) for row in r)]
+    return main_rows, extra
+
+def read_rows():
+    return read_workbook()[0]
 
 def find_section(rows, keyword):
     kw = keyword.lower().strip()
@@ -473,7 +485,8 @@ def js_array(name, records):
 def replace_raw(html, name, records):
     new_block = js_array(name, records)
     pattern   = rf"const {re.escape(name)}\s*=\s*\[.*?\];"
-    result, n = re.subn(pattern, new_block, html, count=1, flags=re.DOTALL)
+    safe_block = new_block.replace("</", r"<\/")
+    result, n = re.subn(pattern, lambda m: safe_block, html, count=1, flags=re.DOTALL)
     status = f"{len(records)} rows" if n else "NOT FOUND IN TEMPLATE"
     print(f"  {name:<22} {status}")
     return result
@@ -483,7 +496,9 @@ def replace_raw(html, name, records):
 
 def generate():
     print(f"Reading {EXCEL_FILE.name} (via temp copy)...")
-    rows = read_rows()
+    rows, extra_sheets = read_workbook()
+    sheets_data = sheet_blocks.parse_extra_sheets(extra_sheets)
+    print(f"  Extra sheets -> tabs: {[x['name'] for x in sheets_data]}")
 
     # ── find section boundaries dynamically ──────────────────────────────────
     print("Locating section boundaries...")
@@ -581,6 +596,7 @@ def generate():
     html = replace_raw(html, "RAW_CAP",          cap_admits)
     html = replace_raw(html, "RAW_ACAP_IL",      acap_il)
     html = replace_raw(html, "RAW_EWS_TFWS",     ews_tfws)
+    html = replace_raw(html, "RAW_SHEETS",       sheets_data)
 
     # Update DATA_LATEST everywhere
     html = re.sub(
